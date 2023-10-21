@@ -16,7 +16,7 @@ class MenuSeeder extends Seeder
     {
         $role1 = Role::select('id')->where('slug','super-usuario')->first();
 
-        $menu1 = Menu::firstOrCreate(['nombre' => 'Dashboard','slug' => 'principal',
+        $menu1 = Menu::firstOrCreate(['nombre' => 'Dashboard','slug' => 'dashboard',
                                     'icono' => 'fas fa-tachometer-alt fa-fw', 'padre_id' => null,'orden' => 0
                                     ]);
 

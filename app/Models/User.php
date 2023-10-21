@@ -4,7 +4,10 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Traits\HasMenusTrait;
 use App\Traits\HasRolesTrait;
+use App\Traits\LoginTrait;
+use App\Traits\UserTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -16,7 +19,8 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
-    use HasRolesTrait;
+    use HasRolesTrait, HasMenusTrait;
+    use LoginTrait, UserTrait;
 
     /**
      * The attributes that are mass assignable.

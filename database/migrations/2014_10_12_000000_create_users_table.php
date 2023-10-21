@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('foto')->default('foto.png');
             $table->unsignedTinyInteger('es_activo')->default(1);
+            $table->datetime('last_login')->nullable();
+            $table->string('last_ip')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

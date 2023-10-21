@@ -112,4 +112,6 @@ return [
 
     'password_timeout' => 10800,
 
+    'auth_secret_key' => env("VITE_SECRET_KEY"),
+
 ];
