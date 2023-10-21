@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Traits\HasPermisosTrait;
 use App\Traits\HasMenusTrait;
 use App\Traits\HasRolesTrait;
 use App\Traits\LoginTrait;
@@ -19,7 +20,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
-    use HasRolesTrait, HasMenusTrait;
+    use HasRolesTrait, HasMenusTrait, HasPermisosTrait;
     use LoginTrait, UserTrait;
 
     /**

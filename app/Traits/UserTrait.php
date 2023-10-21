@@ -1,6 +1,7 @@
 <?php
 namespace App\Traits;
 
+use App\Models\Role;
 use App\Models\User;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
@@ -42,6 +43,7 @@ trait UserTrait
         $menus = [];
 
         $menus = User::obtenerMenus($usuario->roles[0]->id)->toArray();
+        $permisos =  User::obtenerPermisos($usuario->roles[0]->id)->toArray();
 
         $url_foto = ($usuario->foto == 'foto.png') ?
             Storage::url('usuarios/foto.png') : Storage::url('usuarios/'.$usuario->foto)
