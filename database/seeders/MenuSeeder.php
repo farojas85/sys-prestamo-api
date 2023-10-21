@@ -30,17 +30,17 @@ class MenuSeeder extends Seeder
         ])
         ;
 
-        $menu3 = Menu::firstOrCreate(['nombre' => 'Personal','slug' => 'personal',
+        $menu4 = Menu::firstOrCreate(['nombre' => 'Personal','slug' => 'personal',
                                     'icono' => 'fas fa-users-line fa-fw', 'padre_id' => null,'orden' => 3
         ])
         ;
 
-        $menu4 = Menu::firstOrCreate(['nombre' => 'Préstamo','slug' => 'prestamo',
+        $menu5 = Menu::firstOrCreate(['nombre' => 'Préstamo','slug' => 'prestamo',
                 'icono' => 'fas fa-money-bill-alt fa-fw', 'padre_id' => null,'orden' => 4
         ])
         ;
 
 
-        $role1->menus()->sync([$menu1->id,$menu2->id,$menu3->id,$menu4->id]);
+        $role1->menus()->sync([$menu1->id,$menu2->id,$menu3->id,$menu4->id, $menu5->id]);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\TipoAccesoController;
 use App\Http\Controllers\Api\UserController;
@@ -33,6 +34,21 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('{id}',[RoleController::class,'show']);
         Route::put('{id}/disable',[RoleController::class,'inhabilitar']);
         Route::put('{id}/enable',[RoleController::class,'habilitar']);
+    });
+
+    //MENÚS
+    Route::group(['prefix' => 'menus'], function(){
+        Route::get('/',[MenuController::class,'index']);
+        Route::get('deleted',[MenuController::class,'obtenerEliminados']);
+        Route::get('all',[MenuController::class,'obtenerTodos']);
+        Route::get('actives',[MenuController::class,'obtenerActivos']);
+        Route::get('inactives',[MenuController::class,'obtenerInactivos']);
+        Route::get('parents',[MenuController::class,'obtenerPadres']);
+        Route::post('/',[MenuController::class,'store']);
+        Route::put('{id}',[MenuController::class,'update']);
+        Route::get('{id}',[MenuController::class,'show']);
+        Route::put('{id}/disable',[MenuController::class,'inhabilitar']);
+        Route::put('{id}/enable',[MenuController::class,'habilitar']);
     });
 
     //USUARIOS
