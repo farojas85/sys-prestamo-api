@@ -85,6 +85,15 @@ class TipoAccesoController extends Controller
 
         return response()->json($success,200);
     }
+
+    public function obtenerLista()
+    {
+        $tipo_accesos = TipoAcceso::getList();
+
+        $success = JWT::encode(['tipo_accesos'=> $tipo_accesos],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success,200);
+    }
     /**
      * Store a newly created resource in storage.
      */

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\TipoAcceso;
+namespace App\Http\Requests\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTipoAccesoRequest extends FormRequest
+class StoreRoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,8 @@ class StoreTipoAccesoRequest extends FormRequest
     {
         return [
             'nombre' => 'required|unique:tipo_accesos,nombre',
-            'slug' => 'required|unique:tipo_accesos,slug'
+            'slug' => 'required|unique:tipo_accesos,slug',
+            'tipo_acceso_id' => 'required'
         ];
     }
 

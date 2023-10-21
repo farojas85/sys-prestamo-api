@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Traits\HasPermisosTrait;
+use App\Traits\RoleTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, RoleTrait;
 
     protected $fillable = [
         'nombre', 'slug', 'tipo_acceso_id', 'es_activo'

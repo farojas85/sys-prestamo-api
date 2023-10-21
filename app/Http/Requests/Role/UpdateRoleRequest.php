@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\TipoAcceso;
+namespace App\Http\Requests\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTipoAccesoRequest extends FormRequest
+class UpdateRoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +22,20 @@ class StoreTipoAccesoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|unique:tipo_accesos,nombre',
-            'slug' => 'required|unique:tipo_accesos,slug'
+            'nombre' => 'required|unique:tipo_accesos,nombre,'.$this->id,
+            'slug' => 'required|unique:tipo_accesos,slug,'.$this->id,
+            'tipo_acceso_id' => 'required'
         ];
     }
 
+    /**
+     * @return array
+     */
     public function messages(): array
     {
         return [
             'required' => '* Campo obligatorio',
-            'unique' => 'Ya existe el nombre'
+            'unique' => 'Ya existe el nombre de seguro'
         ];
     }
 }

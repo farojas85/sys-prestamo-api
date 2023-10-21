@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * Tipo Acceso Trait
  */
-trait TipoAccesoTrait
+trait RoleTrait
 {
     /**
      * To get enableds pagination listing
@@ -18,10 +18,16 @@ trait TipoAccesoTrait
      */
     public static function getEnableds(Request $request) {
         $buscar = mb_strtoupper($request->buscar);
-        return Self::select('id','nombre','slug','es_activo')
+        return Self::join('tipo_accesos as ta','ta.id','=','roles.tipo_acceso_id')
+                    ->select(
+                        'roles.id','roles.nombre','roles.slug',
+                        'roles.es_activo','ta.slug as tipo_acceso'
+                    )
                     ->where(function($query) use($buscar){
-                        $query->where(DB::Raw("upper(nombre)"),'like','%'.$buscar.'%')
-                            ->orWhere(DB::Raw("upper(slug)"),'like','%'.$buscar.'%');
+                        $query->where(DB::Raw("upper(roles.nombre)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(roles.slug)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(ta.nombre)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(ta.slug)"),'like','%'.$buscar.'%');
                     })
                     ->orderBy('es_activo','desc')
                     ->paginate($request->paginacion)
@@ -36,10 +42,16 @@ trait TipoAccesoTrait
      */
     public static function getDeletes(Request $request) {
         $buscar = mb_strtoupper($request->buscar);
-        return Self::select('id','nombre','slug','es_activo')
+        return Self::join('tipo_accesos as ta','ta.id','=','roles.tipo_acceso_id')
+                    ->select(
+                        'roles.id','roles.nombre','roles.slug',
+                        'roles.es_activo','ta.slug as tipo_acceso'
+                    )
                     ->where(function($query) use($buscar){
-                        $query->where(DB::Raw("upper(nombre)"),'like','%'.$buscar.'%')
-                            ->orWhere(DB::Raw("upper(slug)"),'like','%'.$buscar.'%');
+                        $query->where(DB::Raw("upper(roles.nombre)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(roles.slug)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(ta.nombre)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(ta.slug)"),'like','%'.$buscar.'%');
                     })
                     ->onlyTrashed()
                     ->orderBy('es_activo','desc')
@@ -55,10 +67,16 @@ trait TipoAccesoTrait
      */
     public static function getAll(Request $request) {
         $buscar = mb_strtoupper($request->buscar);
-        return Self::select('id','nombre','slug','es_activo')
+        return Self::join('tipo_accesos as ta','ta.id','=','roles.tipo_acceso_id')
+                    ->select(
+                        'roles.id','roles.nombre','roles.slug',
+                        'roles.es_activo','ta.slug as tipo_acceso'
+                    )
                     ->where(function($query) use($buscar){
-                        $query->where(DB::Raw("upper(nombre)"),'like','%'.$buscar.'%')
-                            ->orWhere(DB::Raw("upper(slug)"),'like','%'.$buscar.'%');
+                        $query->where(DB::Raw("upper(roles.nombre)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(roles.slug)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(ta.nombre)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(ta.slug)"),'like','%'.$buscar.'%');
                     })
                     ->withTrashed()
                     ->orderBy('es_activo','desc')
@@ -74,10 +92,16 @@ trait TipoAccesoTrait
      */
     public static function getActives(Request $request) {
         $buscar = mb_strtoupper($request->buscar);
-        return Self::select('id','nombre','slug','es_activo')
+        return Self::join('tipo_accesos as ta','ta.id','=','roles.tipo_acceso_id')
+                    ->select(
+                        'roles.id','roles.nombre','roles.slug',
+                        'roles.es_activo','ta.slug as tipo_acceso'
+                    )
                     ->where(function($query) use($buscar){
-                        $query->where(DB::Raw("upper(nombre)"),'like','%'.$buscar.'%')
-                            ->orWhere(DB::Raw("upper(slug)"),'like','%'.$buscar.'%');
+                        $query->where(DB::Raw("upper(roles.nombre)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(roles.slug)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(ta.nombre)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(ta.slug)"),'like','%'.$buscar.'%');
                     })
                     ->where('es_activo',1)
                     ->paginate($request->paginacion)
@@ -92,24 +116,20 @@ trait TipoAccesoTrait
      */
     public static function getInactives(Request $request) {
         $buscar = mb_strtoupper($request->buscar);
-        return Self::select('id','nombre','slug','es_activo')
+        return Self::join('tipo_accesos as ta','ta.id','=','roles.tipo_acceso_id')
+                    ->select(
+                        'roles.id','roles.nombre','roles.slug',
+                        'roles.es_activo','ta.slug as tipo_acceso'
+                    )
                     ->where(function($query) use($buscar){
-                        $query->where(DB::Raw("upper(nombre)"),'like','%'.$buscar.'%')
-                            ->orWhere(DB::Raw("upper(slug)"),'like','%'.$buscar.'%');
+                        $query->where(DB::Raw("upper(roles.nombre)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(roles.slug)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(ta.nombre)"),'like','%'.$buscar.'%')
+                            ->orWhere(DB::Raw("upper(ta.slug)"),'like','%'.$buscar.'%');
                     })
                     ->where('es_activo',0)
                     ->paginate($request->paginacion)
         ;
-    }
-
-
-    /**
-     * get listing for selects
-     * @return [type]
-     */
-    public static function getList()
-    {
-        return self::select('id','nombre')->where('es_activo',1)->orderBy('id','asc')->get();
     }
 
     /**
@@ -123,12 +143,13 @@ trait TipoAccesoTrait
         try {
             $tipo_acceso = Self::create([
                 'nombre' => $request->nombre,
-                'slug' => $request->slug
+                'slug' => $request->slug,
+                'tipo_acceso_id' => $request->tipo_acceso_id
             ]);
 
             return array(
                 'ok' => 1,
-                'mensaje' => 'El tipo de acceso '.$request->nombre." ha sido registrado satisfactoriamente",
+                'mensaje' => 'El rol '.$request->nombre." ha sido registrado satisfactoriamente",
                 'data' => $tipo_acceso
             );
         } catch (Exception $ex) {
@@ -158,7 +179,7 @@ trait TipoAccesoTrait
 
             return array(
                 'ok' => 1,
-                'mensaje' => 'El tipo de acceso '.$request->nombre." ha sido modificado satisfactoriamente",
+                'mensaje' => 'El rol '.$request->nombre." ha sido modificado satisfactoriamente",
                 'data' => $tipo_acceso
             );
         } catch (Exception $ex) {
@@ -185,7 +206,7 @@ trait TipoAccesoTrait
             ;
             return array(
                 'ok' => 1,
-                'mensaje' => 'El tipo de acceso ha sido inhabilitado satisfactoriamente',
+                'mensaje' => 'El rol ha sido inhabilitado satisfactoriamente',
                 'data' => $tipo_acceso
             );
         } catch (Exception $ex) {
@@ -211,7 +232,7 @@ trait TipoAccesoTrait
             ;
             return array(
                 'ok' => 1,
-                'mensaje' => 'El tipo de acceso ha sido habilitado satisfactoriamente',
+                'mensaje' => 'El rol ha sido habilitado satisfactoriamente',
                 'data' => $tipo_acceso
             );
         } catch (Exception $ex) {
