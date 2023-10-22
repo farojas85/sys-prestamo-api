@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             MenuSeeder::class,
             PermisoSeeder::class,
-            EmpleadoSeeder::class
+            EmpleadoSeeder::class,
+            FrecuenciaPagoSeeder::class,
         ]);
     }
 }

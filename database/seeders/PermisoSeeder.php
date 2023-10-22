@@ -139,10 +139,33 @@ class PermisoSeeder extends Seeder
         ])
         ;
 
+        //Permiso
+        $permiso30 = Permiso::firstOrCreate([
+            'nombre' => 'Vista Frecuencia Pago','slug' => 'frecuencia-pagos.inicio'
+        ])
+        ;
+        $permiso31 = Permiso::firstOrCreate([
+            'nombre' => 'Crear Frecuencia Pago','slug' => 'frecuencia-pagos.crear'
+        ])
+        ;
+        $permiso32 = Permiso::firstOrCreate([
+            'nombre' => 'Editar Frecuencia Pago','slug' => 'frecuencia-pagos.editar'
+        ])
+        ;
+        $permiso33 = Permiso::firstOrCreate([
+            'nombre' => 'Eliminar Frecuencia Pago','slug' => 'frecuencia-pagos.eliminar'
+        ])
+        ;
+        $permiso34 = Permiso::firstOrCreate([
+            'nombre' => 'Restaurar Frecuencia Pago','slug' => 'frecuencia-pagos.restaurar'
+        ])
+        ;
+
         $role1->permisos()->sync([
             $permiso1->id, $permiso2->id,$permiso3->id,$permiso4->id,$permiso5->id,$permiso6->id,$permiso7->id,$permiso8->id,$permiso9->id,$permiso10->id,
             $permiso11->id, $permiso12->id,$permiso13->id,$permiso14->id,$permiso15->id,$permiso16->id,$permiso17->id,$permiso18->id,$permiso19->id,$permiso20->id,
-            $permiso21->id, $permiso22->id,$permiso23->id,$permiso24->id,$permiso25->id,$permiso26->id,$permiso27->id,$permiso28->id,$permiso29->id
+            $permiso21->id, $permiso22->id,$permiso23->id,$permiso24->id,$permiso25->id,$permiso26->id,$permiso27->id,$permiso28->id,$permiso29->id,$permiso30->id,
+            $permiso31->id, $permiso32->id,$permiso33->id,$permiso34->id
         ]);
     }
 }
