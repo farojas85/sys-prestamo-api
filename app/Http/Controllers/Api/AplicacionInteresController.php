@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FrecuenciaPago\StoreFrecuenciaPagoRequest;
-use App\Http\Requests\FrecuenciaPago\UpdateFrecuenciaPagoRequest;
-use App\Models\FrecuenciaPago;
+use App\Http\Requests\AplicacionInteres\StoreAplicacionInteresRequest;
+use App\Http\Requests\AplicacionInteres\UpdateAplicacionInteresRequest;
+use App\Models\AplicacionInteres;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 
-class FrecuenciaPagoController extends Controller
+class AplicacionInteresController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +19,9 @@ class FrecuenciaPagoController extends Controller
      */
     public function index(Request $request)
     {
-        $frecuencia_pagos = FrecuenciaPago::getAll($request);
+        $aplicacion_intereses = AplicacionInteres::getAll($request);
 
-        $success = JWT::encode(['frecuencia_pagos'=> $frecuencia_pagos],env('VITE_SECRET_KEY'),'HS512');
+        $success = JWT::encode(['aplicacion_intereses'=> $aplicacion_intereses],env('VITE_SECRET_KEY'),'HS512');
 
         return response()->json($success,200);
     }
@@ -34,9 +34,9 @@ class FrecuenciaPagoController extends Controller
      */
     public function obtenerActivos(Request $request)
     {
-        $frecuencia_pagos = FrecuenciaPago::getActives($request);
+        $aplicacion_intereses = AplicacionInteres::getActives($request);
 
-        $success = JWT::encode(['frecuencia_pagos'=> $frecuencia_pagos],env('VITE_SECRET_KEY'),'HS512');
+        $success = JWT::encode(['aplicacion_intereses'=> $aplicacion_intereses],env('VITE_SECRET_KEY'),'HS512');
 
         return response()->json($success,200);
     }
@@ -49,31 +49,31 @@ class FrecuenciaPagoController extends Controller
      */
     public function obtenerInactivos(Request $request)
     {
-        $frecuencia_pagos = FrecuenciaPago::getInactives($request);
+        $aplicacion_intereses = AplicacionInteres::getInactives($request);
 
-        $success = JWT::encode(['frecuencia_pagos'=> $frecuencia_pagos],env('VITE_SECRET_KEY'),'HS512');
+        $success = JWT::encode(['aplicacion_intereses'=> $aplicacion_intereses],env('VITE_SECRET_KEY'),'HS512');
 
         return response()->json($success,200);
     }
 
     public function obtenerLista()
     {
-        $frecuencia_pagos = FrecuenciaPago::getList();
+        $aplicacion_intereses = AplicacionInteres::getList();
 
-        $success = JWT::encode(['frecuencia_pagos'=> $frecuencia_pagos],env('VITE_SECRET_KEY'),'HS512');
+        $success = JWT::encode(['aplicacion_intereses'=> $aplicacion_intereses],env('VITE_SECRET_KEY'),'HS512');
 
         return response()->json($success,200);
     }
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreFrecuenciaPagoRequest $request)
+    public function store(StoreAplicacionInteresRequest $request)
     {
         $request->validated();
 
-        $frecuencia_pago = FrecuenciaPago::storeData($request);
+        $aplicacion_interes = AplicacionInteres::storeData($request);
 
-        $success = JWT::encode($frecuencia_pago,env('VITE_SECRET_KEY'),'HS512');
+        $success = JWT::encode($aplicacion_interes,env('VITE_SECRET_KEY'),'HS512');
         return response()->json($success,201);
     }
 
@@ -82,29 +82,29 @@ class FrecuenciaPagoController extends Controller
      */
     public function show(int $id)
     {
-        $frecuencia_pago = FrecuenciaPago::find($id);
+        $aplicacion_interes = AplicacionInteres::find($id);
 
-        $success = JWT::encode(['frecuencia_pago'=>$frecuencia_pago],env('VITE_SECRET_KEY'),'HS512');
+        $success = JWT::encode(['aplicacion_interes'=>$aplicacion_interes],env('VITE_SECRET_KEY'),'HS512');
         return response()->json($success,200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateFrecuenciaPagoRequest $request, int $id)
+    public function update(UpdateAplicacionInteresRequest $request, int $id)
     {
         $request->validated();
 
-        $frecuencia_pago = FrecuenciaPago::updateData($request,$id);
+        $aplicacion_interes = AplicacionInteres::updateData($request,$id);
 
-        $success = JWT::encode($frecuencia_pago,env('VITE_SECRET_KEY'),'HS512');
+        $success = JWT::encode($aplicacion_interes,env('VITE_SECRET_KEY'),'HS512');
         return response()->json($success,200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FrecuenciaPago $FrecuenciaPago)
+    public function destroy(AplicacionInteres $AplicacionInteres)
     {
         //
     }
@@ -117,9 +117,9 @@ class FrecuenciaPagoController extends Controller
      */
     public function inhabilitar(int $id)
     {
-        $frecuencia_pago = FrecuenciaPago::disableRecord($id);
+        $aplicacion_interes = AplicacionInteres::disableRecord($id);
 
-        $success = JWT::encode($frecuencia_pago,env('VITE_SECRET_KEY'),'HS512');
+        $success = JWT::encode($aplicacion_interes,env('VITE_SECRET_KEY'),'HS512');
         return response()->json($success,200);
     }
 
@@ -131,9 +131,9 @@ class FrecuenciaPagoController extends Controller
      */
     public function habilitar(int $id)
     {
-        $frecuencia_pago = FrecuenciaPago::enableRecord($id);
+        $aplicacion_interes = AplicacionInteres::enableRecord($id);
 
-        $success = JWT::encode($frecuencia_pago,env('VITE_SECRET_KEY'),'HS512');
+        $success = JWT::encode($aplicacion_interes,env('VITE_SECRET_KEY'),'HS512');
         return response()->json($success,200);
     }
 }

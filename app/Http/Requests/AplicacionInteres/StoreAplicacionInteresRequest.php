@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\FrecuenciaPago;
+namespace App\Http\Requests\AplicacionInteres;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreFrecuenciaPagoRequest extends FormRequest
+class StoreAplicacionInteresRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,7 @@ class StoreFrecuenciaPagoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|unique:frecuencia_pagos,nombre',
-            'dias' => 'required|numeric'
+            'nombre' => 'required|unique:aplicacion_intereses,nombre'
         ];
     }
 
@@ -31,7 +30,6 @@ class StoreFrecuenciaPagoRequest extends FormRequest
     {
         return [
             'required' => '* Campo obligatorio',
-            'numeric' => 'Solo números',
             'unique' => 'El nombre ya existe'
         ];
     }

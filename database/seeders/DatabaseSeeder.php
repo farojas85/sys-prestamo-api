@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             PermisoSeeder::class,
             EmpleadoSeeder::class,
             FrecuenciaPagoSeeder::class,
+            AplicacionInteresSeeder::class
         ]);
     }
 }
