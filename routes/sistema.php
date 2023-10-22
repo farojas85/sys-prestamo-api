@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\MenuController;
+use App\Http\Controllers\Api\PermisoController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\TipoAccesoController;
 use App\Http\Controllers\Api\UserController;
@@ -49,6 +50,20 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('{id}',[MenuController::class,'show']);
         Route::put('{id}/disable',[MenuController::class,'inhabilitar']);
         Route::put('{id}/enable',[MenuController::class,'habilitar']);
+    });
+
+    //PERMISOS
+    Route::group(['prefix' => 'permisos'], function(){
+        Route::get('/',[PermisoController::class,'index']);
+        Route::get('deleted',[PermisoController::class,'obtenerEliminados']);
+        Route::get('all',[PermisoController::class,'obtenerTodos']);
+        Route::get('actives',[PermisoController::class,'obtenerActivos']);
+        Route::get('inactives',[PermisoController::class,'obtenerInactivos']);
+        Route::post('/',[PermisoController::class,'store']);
+        Route::put('{id}',[PermisoController::class,'update']);
+        Route::get('{id}',[PermisoController::class,'show']);
+        Route::put('{id}/disable',[PermisoController::class,'inhabilitar']);
+        Route::put('{id}/enable',[PermisoController::class,'habilitar']);
     });
 
     //USUARIOS

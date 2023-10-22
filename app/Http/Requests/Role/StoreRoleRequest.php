@@ -22,8 +22,8 @@ class StoreRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|unique:tipo_accesos,nombre',
-            'slug' => 'required|unique:tipo_accesos,slug',
+            'nombre' => 'required|unique:roles,nombre',
+            'slug' => 'required|unique:roles,slug',
             'tipo_acceso_id' => 'required'
         ];
     }

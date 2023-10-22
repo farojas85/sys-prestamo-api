@@ -31,7 +31,7 @@ trait MenuTrait
         return ($maxOrden == null || $maxOrden == '') ? 0 : ($maxOrden + 1);
     }
 
-     /**
+    /**
      * To get enableds pagination listing
      * @param Request $request
      *
