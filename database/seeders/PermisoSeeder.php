@@ -139,7 +139,7 @@ class PermisoSeeder extends Seeder
         ])
         ;
 
-        //Permiso
+        //Aplicación Interés
         $permiso30 = Permiso::firstOrCreate([
             'nombre' => 'Vista Frecuencia Pago','slug' => 'frecuencia-pagos.inicio'
         ])
@@ -161,11 +161,56 @@ class PermisoSeeder extends Seeder
         ])
         ;
 
+        //Aplicación Interés
+        $permiso35 = Permiso::firstOrCreate([
+            'nombre' => 'Vista Aplicación Interés','slug' => 'aplicacion-intereses.inicio'
+        ])
+        ;
+        $permiso36 = Permiso::firstOrCreate([
+            'nombre' => 'Crear Aplicación Interés','slug' => 'aplicacion-intereses.crear'
+        ])
+        ;
+        $permiso37 = Permiso::firstOrCreate([
+            'nombre' => 'Editar Aplicación Interés','slug' => 'aplicacion-intereses.editar'
+        ])
+        ;
+        $permiso38 = Permiso::firstOrCreate([
+            'nombre' => 'Eliminar Aplicación Interés','slug' => 'aplicacion-intereses.eliminar'
+        ])
+        ;
+        $permiso39 = Permiso::firstOrCreate([
+            'nombre' => 'Restaurar Aplicación Interés','slug' => 'aplicacion-intereses.restaurar'
+        ])
+        ;
+
+        //Aplicación Mora
+        $permiso40 = Permiso::firstOrCreate([
+            'nombre' => 'Vista Aplicación Mora','slug' => 'aplicacion-moras.inicio'
+        ])
+        ;
+        $permiso41 = Permiso::firstOrCreate([
+            'nombre' => 'Crear Aplicación Mora','slug' => 'aplicacion-moras.crear'
+        ])
+        ;
+        $permiso42 = Permiso::firstOrCreate([
+            'nombre' => 'Editar Aplicación Mora','slug' => 'aplicacion-moras.editar'
+        ])
+        ;
+        $permiso43 = Permiso::firstOrCreate([
+            'nombre' => 'Eliminar Aplicación Mora','slug' => 'aplicacion-moras.eliminar'
+        ])
+        ;
+        $permiso44 = Permiso::firstOrCreate([
+            'nombre' => 'Restaurar Aplicación Mora','slug' => 'aplicacion-moras.restaurar'
+        ])
+        ;
+
         $role1->permisos()->sync([
             $permiso1->id, $permiso2->id,$permiso3->id,$permiso4->id,$permiso5->id,$permiso6->id,$permiso7->id,$permiso8->id,$permiso9->id,$permiso10->id,
             $permiso11->id, $permiso12->id,$permiso13->id,$permiso14->id,$permiso15->id,$permiso16->id,$permiso17->id,$permiso18->id,$permiso19->id,$permiso20->id,
             $permiso21->id, $permiso22->id,$permiso23->id,$permiso24->id,$permiso25->id,$permiso26->id,$permiso27->id,$permiso28->id,$permiso29->id,$permiso30->id,
-            $permiso31->id, $permiso32->id,$permiso33->id,$permiso34->id
+            $permiso31->id, $permiso32->id,$permiso33->id,$permiso34->id,$permiso35->id,$permiso36->id,$permiso37->id,$permiso38->id,$permiso39->id,$permiso40->id,
+            $permiso41->id, $permiso42->id,$permiso43->id,$permiso44->id
         ]);
     }
 }

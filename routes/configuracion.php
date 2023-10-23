@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\FrecuenciaPagoController;
 use App\Http\Controllers\Api\AplicacionInteresController;
+use App\Http\Controllers\Api\AplicacionMoraController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' > ['auth:sanctum']],function(){
@@ -29,5 +30,18 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::put('{id}/disable',[AplicacionInteresController::class,'inhabilitar']);
         Route::put('{id}/enable',[AplicacionInteresController::class,'habilitar']);
         Route::get('list',[AplicacionInteresController::class,'obtenerLista']);
+    });
+
+    //APLICACIÓN MORAS
+    Route::group(['prefix' => 'aplicacion-moras'], function(){
+        Route::get('/',[AplicacionMoraController::class,'index']);
+        Route::get('actives',[AplicacionMoraController::class,'obtenerActivos']);
+        Route::get('inactives',[AplicacionMoraController::class,'obtenerInactivos']);
+        Route::post('/',[AplicacionMoraController::class,'store']);
+        Route::put('{id}',[AplicacionMoraController::class,'update']);
+        Route::get('{id}',[AplicacionMoraController::class,'show']);
+        Route::put('{id}/disable',[AplicacionMoraController::class,'inhabilitar']);
+        Route::put('{id}/enable',[AplicacionMoraController::class,'habilitar']);
+        Route::get('list',[AplicacionMoraController::class,'obtenerLista']);
     });
 });
