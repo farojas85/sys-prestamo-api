@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             FrecuenciaPagoSeeder::class,
             AplicacionInteresSeeder::class,
             AplicacionMoraSeeder::class,
+            MonedaSeeder::class,
         ]);
     }
 }

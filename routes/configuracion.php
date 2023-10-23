@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\FrecuenciaPagoController;
 use App\Http\Controllers\Api\AplicacionInteresController;
 use App\Http\Controllers\Api\AplicacionMoraController;
+use App\Http\Controllers\Api\MonedaController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' > ['auth:sanctum']],function(){
@@ -43,5 +44,18 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::put('{id}/disable',[AplicacionMoraController::class,'inhabilitar']);
         Route::put('{id}/enable',[AplicacionMoraController::class,'habilitar']);
         Route::get('list',[AplicacionMoraController::class,'obtenerLista']);
+    });
+
+    //MONEDAS
+    Route::group(['prefix' => 'monedas'], function(){
+        Route::get('/',[MonedaController::class,'index']);
+        Route::get('actives',[MonedaController::class,'obtenerActivos']);
+        Route::get('inactives',[MonedaController::class,'obtenerInactivos']);
+        Route::post('/',[MonedaController::class,'store']);
+        Route::put('{id}',[MonedaController::class,'update']);
+        Route::get('{id}',[MonedaController::class,'show']);
+        Route::put('{id}/disable',[MonedaController::class,'inhabilitar']);
+        Route::put('{id}/enable',[MonedaController::class,'habilitar']);
+        Route::get('list',[MonedaController::class,'obtenerLista']);
     });
 });
