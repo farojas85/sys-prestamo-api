@@ -101,7 +101,7 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show($id)
     {
         $role = Role::find($id);
 
@@ -155,6 +155,19 @@ class RoleController extends Controller
         $role = Role::enableRecord($id);
 
         $success = JWT::encode($role,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
+    }
+
+    /**
+     * obtener Lista
+     * @return [type]
+     */
+    public function obtenerLista()
+    {
+        $roles = Role::getList();
+
+        $success = JWT::encode(['roles'=> $roles],env('VITE_SECRET_KEY'),'HS512');
+
         return response()->json($success,200);
     }
 }

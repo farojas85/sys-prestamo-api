@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Sexo;
+use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 
 class SexoController extends Controller
@@ -46,5 +47,18 @@ class SexoController extends Controller
     public function destroy(Sexo $sexo)
     {
         //
+    }
+
+    /**
+     * obtener Lista
+     * @return [type]
+     */
+    public function obtenerLista()
+    {
+        $sexos = Sexo::getList();
+
+        $success = JWT::encode(['sexos'=> $sexos],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success,200);
     }
 }

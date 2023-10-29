@@ -1,6 +1,7 @@
 <?php
 namespace App\Traits;
 
+use App\Models\Menu;
 use App\Models\Role;
 use App\Models\User;
 use Firebase\JWT\JWT;
@@ -42,7 +43,7 @@ trait UserTrait
         $permisos = [];
         $menus = [];
 
-        $menus = User::obtenerMenus($usuario->roles[0]->id)->toArray();
+        $menus = Menu::getMenus($usuario->id,true);
         $permisos =  User::obtenerPermisos($usuario->roles[0]->id)->toArray();
 
         $url_foto = ($usuario->foto == 'foto.png') ?

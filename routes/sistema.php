@@ -30,9 +30,10 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('all',[RoleController::class,'obtenerTodos']);
         Route::get('actives',[RoleController::class,'obtenerActivos']);
         Route::get('inactives',[RoleController::class,'obtenerInactivos']);
+        Route::get('list',[RoleController::class,'obtenerLista']);
         Route::post('/',[RoleController::class,'store']);
         Route::put('{id}',[RoleController::class,'update']);
-        Route::get('{id}',[RoleController::class,'show']);
+        Route::get('{id}/show',[RoleController::class,'show']);
         Route::put('{id}/disable',[RoleController::class,'inhabilitar']);
         Route::put('{id}/enable',[RoleController::class,'habilitar']);
     });

@@ -4,6 +4,8 @@ use App\Http\Controllers\Api\FrecuenciaPagoController;
 use App\Http\Controllers\Api\AplicacionInteresController;
 use App\Http\Controllers\Api\AplicacionMoraController;
 use App\Http\Controllers\Api\MonedaController;
+use App\Http\Controllers\Api\SexoController;
+use App\Http\Controllers\Api\TipoDocumentoController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' > ['auth:sanctum']],function(){
@@ -57,5 +59,31 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::put('{id}/disable',[MonedaController::class,'inhabilitar']);
         Route::put('{id}/enable',[MonedaController::class,'habilitar']);
         Route::get('list',[MonedaController::class,'obtenerLista']);
+    });
+
+    //TIPO DOCUMENTOS
+    Route::group(['prefix' => 'tipo-documentos'], function(){
+        // Route::get('/',[TipoDocumentoController::class,'index']);
+        // Route::get('actives',[TipoDocumentoController::class,'obtenerActivos']);
+        // Route::get('inactives',[TipoDocumentoController::class,'obtenerInactivos']);
+        // Route::post('/',[TipoDocumentoController::class,'store']);
+        // Route::put('{id}',[TipoDocumentoController::class,'update']);
+        // Route::get('{id}',[TipoDocumentoController::class,'show']);
+        // Route::put('{id}/disable',[TipoDocumentoController::class,'inhabilitar']);
+        // Route::put('{id}/enable',[TipoDocumentoController::class,'habilitar']);
+        Route::get('list',[TipoDocumentoController::class,'obtenerLista']);
+    });
+
+    //SEXOS
+    Route::group(['prefix' => 'sexos'], function(){
+        // Route::get('/',[TipoDocumentoController::class,'index']);
+        // Route::get('actives',[TipoDocumentoController::class,'obtenerActivos']);
+        // Route::get('inactives',[TipoDocumentoController::class,'obtenerInactivos']);
+        // Route::post('/',[TipoDocumentoController::class,'store']);
+        // Route::put('{id}',[TipoDocumentoController::class,'update']);
+        // Route::get('{id}',[TipoDocumentoController::class,'show']);
+        // Route::put('{id}/disable',[TipoDocumentoController::class,'inhabilitar']);
+        // Route::put('{id}/enable',[TipoDocumentoController::class,'habilitar']);
+        Route::get('list',[SexoController::class,'obtenerLista']);
     });
 });

@@ -11,6 +11,15 @@ use Illuminate\Support\Facades\DB;
 trait RoleTrait
 {
     /**
+     * get listing sexos
+     * @return [type]
+     */
+    public static function getList()
+    {
+        return Self::select('id','nombre','slug')->get();
+    }
+
+    /**
      * To get enableds pagination listing
      * @param Request $request
      *

@@ -16,31 +16,53 @@ class MenuSeeder extends Seeder
     {
         $role1 = Role::select('id')->where('slug','super-usuario')->first();
 
-        $menu1 = Menu::firstOrCreate(['nombre' => 'Dashboard','slug' => 'dashboard',
+        $menu1 = Menu::firstOrCreate(['nombre' => 'Dashboard','slug' => null,
                                     'icono' => 'fas fa-tachometer-alt fa-fw', 'padre_id' => null,'orden' => 0
                                     ]);
+        $menu2 = Menu::firstOrCreate([
+            'nombre' => 'Dashboard Admin', 'slug' => 'dashboard', 'padre_id' => $menu1->id,
+            'orden' => 0
+        ]);
 
-        $menu2 = Menu::firstOrCreate(['nombre' => 'Sistema','slug' => 'sistema',
+        $menu3 = Menu::firstOrCreate([
+            'nombre' => 'Dashboard Gerente', 'slug' => 'dashboard-gerente', 'padre_id' => $menu1->id,
+            'orden' => 1
+        ]);
+
+        $menu4 = Menu::firstOrCreate([
+            'nombre' => 'Dashboard Lider-Superior', 'slug' => 'dashboard-lider-super', 'padre_id' => $menu1->id,
+            'orden' => 2
+        ]);
+
+        $menu5 = Menu::firstOrCreate([
+            'nombre' => 'Dashboard Lider', 'slug' => 'dashboard-lider', 'padre_id' => $menu1->id,
+            'orden' => 3
+        ]);
+
+
+        $menu6 = Menu::firstOrCreate(['nombre' => 'Sistema','slug' => 'sistema',
                                     'icono' => 'fab fa-windows fa-fw', 'padre_id' => null,'orden' => 1
                                     ])
         ;
 
-        $menu3 = Menu::firstOrCreate(['nombre' => 'Configuraciones','slug' => 'configuracion',
+        $menu7 = Menu::firstOrCreate(['nombre' => 'Configuraciones','slug' => 'configuracion',
                                     'icono' => 'fas fa-gears fa-fw', 'padre_id' => null,'orden' => 2
         ])
         ;
 
-        $menu4 = Menu::firstOrCreate(['nombre' => 'Personal','slug' => 'personal',
+        $menu8 = Menu::firstOrCreate(['nombre' => 'Empleado','slug' => 'empleado',
                                     'icono' => 'fas fa-users-line fa-fw', 'padre_id' => null,'orden' => 3
         ])
         ;
 
-        $menu5 = Menu::firstOrCreate(['nombre' => 'Préstamo','slug' => 'prestamo',
+        $menu9 = Menu::firstOrCreate(['nombre' => 'Préstamo','slug' => 'prestamo',
                 'icono' => 'fas fa-money-bill-alt fa-fw', 'padre_id' => null,'orden' => 4
         ])
         ;
 
-
-        $role1->menus()->sync([$menu1->id,$menu2->id,$menu3->id,$menu4->id, $menu5->id]);
+        $role1->menus()->sync([
+            $menu1->id,$menu2->id,$menu6->id, $menu7->id, $menu8->id, $menu9->id
+        ]);
     }
 }
+

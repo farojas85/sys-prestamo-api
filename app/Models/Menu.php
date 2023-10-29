@@ -47,4 +47,49 @@ class Menu extends Model
     {
         return $this->hasMany(Menu::class,'padre_id','id');
     }
+
+    /**
+     * getMenus Padres
+     * @param mixed $front
+     *
+     * @return [type]
+     */
+    public function menusPadres($user_id,$front){
+        //Obtenemos el Id del Rol del usuario Autenticado
+        $roles = User::find($user_id)->roles()
+                    ->select('roles.id','roles.nombre','roles.slug')->first()
+        ;
+
+        if($front) {
+            return Menu::whereHas('roles', function ($query) use($roles) {
+                $query->where('role_id',$roles->id)->orderby('padre_id');
+            })->where('es_activo',1)->whereNull('padre_id')->orderby('orden')->get()->toArray();
+        } else {
+            return Menu::orderby('padre_id')->orderby('orden')->get()->toArray();
+        }
+    }
+
+    /**
+     * get menus hijos
+     * @param mixed $padres
+     *
+     * @return [type]
+     */
+    public function menusHijos($user_id,$padres)
+    {
+        $roles = User::find($user_id)->roles()
+                    ->select('roles.id','roles.nombre','roles.slug')->first()
+        ;
+
+        $children = [];
+        foreach ($padres as $line1) {
+            $hijos = Menu::whereHas('roles', function ($query) use($roles) {
+                        $query->where('role_id',$roles->id)->orderby('padre_id');
+                    })->where('es_activo',1)->where('padre_id',$line1['id'])
+                        ->orderby('orden')->get()->toArray();
+
+            $children = array_merge($children, [array_merge($line1, ['submenu' => $hijos ])]);
+        }
+        return $children;
+    }
 }

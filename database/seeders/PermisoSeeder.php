@@ -205,12 +205,57 @@ class PermisoSeeder extends Seeder
         ])
         ;
 
+        //Moneda
+        $permiso45 = Permiso::firstOrCreate([
+            'nombre' => 'Vista Moneda','slug' => 'monedas.inicio'
+        ])
+        ;
+        $permiso46 = Permiso::firstOrCreate([
+            'nombre' => 'Crear Moneda','slug' => 'monedas.crear'
+        ])
+        ;
+        $permiso47 = Permiso::firstOrCreate([
+            'nombre' => 'Editar Moneda','slug' => 'monedas.editar'
+        ])
+        ;
+        $permiso48 = Permiso::firstOrCreate([
+            'nombre' => 'Eliminar Moneda','slug' => 'monedas.eliminar'
+        ])
+        ;
+        $permiso49 = Permiso::firstOrCreate([
+            'nombre' => 'Restaurar Moneda','slug' => 'monedas.restaurar'
+        ])
+        ;
+
+        //Empleados
+        $permiso50 = Permiso::firstOrCreate([
+            'nombre' => 'Vista Empleado','slug' => 'empleados.inicio'
+        ])
+        ;
+        $permiso51 = Permiso::firstOrCreate([
+            'nombre' => 'Crear Empleado','slug' => 'empleados.crear'
+        ])
+        ;
+        $permiso52 = Permiso::firstOrCreate([
+            'nombre' => 'Editar Empleado','slug' => 'empleados.editar'
+        ])
+        ;
+        $permiso53 = Permiso::firstOrCreate([
+            'nombre' => 'Eliminar Empleado','slug' => 'empleados.eliminar'
+        ])
+        ;
+        $permiso54 = Permiso::firstOrCreate([
+            'nombre' => 'Restaurar Empleado','slug' => 'empleados.restaurar'
+        ])
+        ;
+
         $role1->permisos()->sync([
             $permiso1->id, $permiso2->id,$permiso3->id,$permiso4->id,$permiso5->id,$permiso6->id,$permiso7->id,$permiso8->id,$permiso9->id,$permiso10->id,
             $permiso11->id, $permiso12->id,$permiso13->id,$permiso14->id,$permiso15->id,$permiso16->id,$permiso17->id,$permiso18->id,$permiso19->id,$permiso20->id,
             $permiso21->id, $permiso22->id,$permiso23->id,$permiso24->id,$permiso25->id,$permiso26->id,$permiso27->id,$permiso28->id,$permiso29->id,$permiso30->id,
             $permiso31->id, $permiso32->id,$permiso33->id,$permiso34->id,$permiso35->id,$permiso36->id,$permiso37->id,$permiso38->id,$permiso39->id,$permiso40->id,
-            $permiso41->id, $permiso42->id,$permiso43->id,$permiso44->id
+            $permiso41->id, $permiso42->id,$permiso43->id,$permiso44->id,$permiso45->id,$permiso46->id,$permiso47->id,$permiso48->id,$permiso49->id,$permiso50->id,
+            $permiso51->id, $permiso52->id,$permiso53->id,$permiso54->id,
         ]);
     }
 }

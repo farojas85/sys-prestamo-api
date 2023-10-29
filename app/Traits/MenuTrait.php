@@ -2,8 +2,10 @@
 namespace App\Traits;
 
 use App\Models\Menu;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 trait MenuTrait
@@ -31,6 +33,12 @@ trait MenuTrait
         return ($maxOrden == null || $maxOrden == '') ? 0 : ($maxOrden + 1);
     }
 
+    public static function getMenus(int $user_id,bool $front = false)
+    {
+        $menus = new Menu();
+        $padres = $menus->menusPadres($user_id,$front);
+        return $menus->menusHijos($user_id,$padres);
+    }
     /**
      * To get enableds pagination listing
      * @param Request $request

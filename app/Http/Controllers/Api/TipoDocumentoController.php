@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\TipoDocumento;
+use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 
 class TipoDocumentoController extends Controller
@@ -46,5 +47,18 @@ class TipoDocumentoController extends Controller
     public function destroy(TipoDocumento $tipoDocumento)
     {
         //
+    }
+
+    /**
+     * obtener Lista
+     * @return [type]
+     */
+    public function obtenerLista()
+    {
+        $tipo_documentos = TipoDocumento::getList();
+
+        $success = JWT::encode(['tipo_documentos'=> $tipo_documentos],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success,200);
     }
 }
