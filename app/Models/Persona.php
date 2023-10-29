@@ -48,4 +48,13 @@ class Persona extends Model
         return $this->hasOne(Personal::class);
     }
 
+    /**
+     * Get the cliente associated with the Persona
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function cliente(): HasOne
+    {
+        return $this->hasOne(Cliente::class);
+    }
 }

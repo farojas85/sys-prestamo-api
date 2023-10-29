@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Empleado;
+namespace App\Http\Requests\Cliente;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreEmpleadoRequest extends FormRequest
+class UpdateClienteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class StoreEmpleadoRequest extends FormRequest
         return true;
     }
 
-    /**
+     /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -23,15 +23,11 @@ class StoreEmpleadoRequest extends FormRequest
     {
         return [
             'tipo_documento_id' => 'required',
-            'numero_documento' => 'required|unique:personas,numero_documento',
+            'numero_documento' => 'required|unique:personas,numero_documento,'.$this->persona()->id,
             'nombres' => 'required|string|max:191',
             'apellido_paterno' => 'required|string|max:191',
             'apellido_materno' => 'required|string|max:191',
-            'sexo_id' => 'required',
-            'name' => 'required|string|max:191|unique:users,name',
-            'email' => 'email:filter|unique:users,email',
-            'role_id' => 'required',
-            'password' => 'required'
+            'sexo_id' => 'required'
         ];
     }
 

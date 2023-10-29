@@ -2,13 +2,12 @@
 namespace App\Traits;
 
 use App\Models\Persona;
-use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-trait EmpleadoTrait
+trait ClienteTrait
 {
     /**
      * get all data Empleado
@@ -26,18 +25,14 @@ trait EmpleadoTrait
 
         $sexo = $persona->sexo()->select('id','nombre')->first();
 
-        $usuario =$this->user()->select(
-            'id','name','email','foto','es_activo'
-        )->first();
-
         return (object) array(
-            'empleado' => $this,
+            'cliente' => $this,
             'persona' => $persona,
             'tipo_documento' => $tipo_documento,
-            'sexo' => $sexo,
-            'usuario' => $usuario
+            'sexo' => $sexo
         );
     }
+
     /**
      * To get enableds pagination listing
      * @param Request $request
@@ -46,22 +41,19 @@ trait EmpleadoTrait
      */
     public static function getEnableds(Request $request) {
         $buscar = mb_strtoupper($request->buscar);
-        return Self::join('personas as pe','pe.id','=','empleados.persona_id')
-                    ->leftJoin('users as usu','usu.id','=','empleados.user_id')
+        return Self::join('personas as pe','pe.id','=','clientes.persona_id')
                     ->select(
-                        'empleados.id','pe.numero_documento',
+                        'clientes.id','pe.numero_documento',
                         DB::Raw("upper(concat(pe.apellido_paterno,' ',pe.apellido_materno,', ',pe.nombres)) as apellidos_nombres"),
-                        'pe.telefono','empleados.es_activo'
+                        'pe.telefono','clientes.es_activo'
                     )
                     ->where(function($query) use($buscar){
                         $query->where(DB::Raw("upper(pe.numero_documento)"),'like','%'.$buscar.'%')
                             ->orWhere(DB::Raw("upper(pe.nombres)"),'like','%'.$buscar.'%')
-                            ->orWhere(DB::Raw("upper(concat(pe.apellido_paterno,' ',pe.apellido_materno))"),'like','%'.$buscar.'%')
-                            ->orWhere(DB::Raw("upper(usu.name)"),'like','%'.$buscar.'%')
-                            ->orWhere(DB::Raw("upper(usu.email)"),'like','%'.$buscar.'%');
+                            ->orWhere(DB::Raw("upper(concat(pe.apellido_paterno,' ',pe.apellido_materno))"),'like','%'.$buscar.'%');
                     })
-                    ->orderBy('empleados.es_activo','desc')
-                    ->orderBy('empleados.id','asc')
+                    ->orderBy('clientes.es_activo','desc')
+                    ->orderBy('clientes.id','asc')
                     ->paginate($request->paginacion)
         ;
     }
@@ -91,33 +83,19 @@ trait EmpleadoTrait
                 ]);
             }
 
-            $user = User::where('name',$request->name)->first();
+            $cliente = Self::where('persona_id',$persona->id)->first();
 
-            if(!$user)
+            if(!$cliente)
             {
-                $user = User::create([
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'password' =>Hash::make($request->password)
-                ]);
-            }
-
-            $user->roles()->sync($request->role_id);
-
-            $empleado = Self::where('persona_id',$persona->id)->first();
-
-            if(!$empleado)
-            {
-                $empleado = Self::create([
-                    'persona_id' => $persona->id,
-                    'user_id' => $user->id
+                $cliente = Self::create([
+                    'persona_id' => $persona->id
                 ]);
             }
 
             return array(
                 'ok' => 1,
-                'mensaje' => 'Empleado '.$request->nombres." ha sido registrado satisfactoriamente",
-                'data' => $empleado
+                'mensaje' => 'El cliente '.$request->nombres." ha sido registrado satisfactoriamente",
+                'data' => $cliente
             );
         } catch (Exception $ex) {
             return array(
@@ -139,9 +117,9 @@ trait EmpleadoTrait
     {
         try {
 
-            $empleado = self::find($request->id);
+            $cliente = self::find($request->id);
 
-            $persona = Persona::find($empleado->persona_id);
+            $persona = Persona::find($cliente->persona_id);
 
             if(!$persona) {
                 $persona =
@@ -170,46 +148,16 @@ trait EmpleadoTrait
                 $persona->save();
             }
 
-            $user = User::find($empleado->user_id);
-
-            if(!$user) {
-                $user =
-                User::create([
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'password' =>Hash::make($request->password)
-                ]);
-            }
-
-            if($user)
+            if($persona->id != $cliente->persona_id)
             {
-                $user->name = $request->name;
-                $user->email = $request->email;
-                $user->save();
-            }
-
-            $contar_editar = 0;
-            if($persona->id != $empleado->persona_id)
-            {
-                $empleado->persona_id = $persona->id;
-                $contar_editar +=1;
-            }
-
-            if($user->id != $empleado->user_id)
-            {
-                $empleado->user_id = $user->id;
-                $contar_editar+=1;
-            }
-
-            if($contar_editar >= 1)
-            {
-                $empleado->save();
+                $cliente->persona_id = $persona->id;
+                $cliente->save();
             }
 
             return array(
                 'ok' => 1,
-                'mensaje' => 'El empleado '.$request->nombres." ha sido modificada satisfactoriamente",
-                'data' => $empleado
+                'mensaje' => 'El cliente '.$request->nombres." ha sido modificada satisfactoriamente",
+                'data' => $cliente
             );
         } catch (Exception $ex) {
             return array(
@@ -219,5 +167,4 @@ trait EmpleadoTrait
             );
         }
     }
-
 }

@@ -249,13 +249,35 @@ class PermisoSeeder extends Seeder
         ])
         ;
 
+        //Clientes
+        $permiso55 = Permiso::firstOrCreate([
+            'nombre' => 'Vista Cliente','slug' => 'clientes.inicio'
+        ])
+        ;
+        $permiso56 = Permiso::firstOrCreate([
+            'nombre' => 'Crear Cliente','slug' => 'clientes.crear'
+        ])
+        ;
+        $permiso57 = Permiso::firstOrCreate([
+            'nombre' => 'Editar Cliente','slug' => 'clientes.editar'
+        ])
+        ;
+        $permiso58 = Permiso::firstOrCreate([
+            'nombre' => 'Eliminar Cliente','slug' => 'clientes.eliminar'
+        ])
+        ;
+        $permiso59 = Permiso::firstOrCreate([
+            'nombre' => 'Restaurar Cliente','slug' => 'clientes.restaurar'
+        ])
+        ;
+
         $role1->permisos()->sync([
             $permiso1->id, $permiso2->id,$permiso3->id,$permiso4->id,$permiso5->id,$permiso6->id,$permiso7->id,$permiso8->id,$permiso9->id,$permiso10->id,
             $permiso11->id, $permiso12->id,$permiso13->id,$permiso14->id,$permiso15->id,$permiso16->id,$permiso17->id,$permiso18->id,$permiso19->id,$permiso20->id,
             $permiso21->id, $permiso22->id,$permiso23->id,$permiso24->id,$permiso25->id,$permiso26->id,$permiso27->id,$permiso28->id,$permiso29->id,$permiso30->id,
             $permiso31->id, $permiso32->id,$permiso33->id,$permiso34->id,$permiso35->id,$permiso36->id,$permiso37->id,$permiso38->id,$permiso39->id,$permiso40->id,
             $permiso41->id, $permiso42->id,$permiso43->id,$permiso44->id,$permiso45->id,$permiso46->id,$permiso47->id,$permiso48->id,$permiso49->id,$permiso50->id,
-            $permiso51->id, $permiso52->id,$permiso53->id,$permiso54->id,
+            $permiso51->id, $permiso52->id,$permiso53->id,$permiso54->id,$permiso55->id,$permiso56->id,$permiso57->id,$permiso58->id,$permiso59->id
         ]);
     }
 }
