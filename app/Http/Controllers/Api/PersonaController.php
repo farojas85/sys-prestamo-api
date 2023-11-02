@@ -17,7 +17,7 @@ class PersonaController extends Controller
     {
         $request->validated();
 
-        $personaDni = Persona::getDataByNumeroDocumento($numeroDocumento);
+        $personaDni = Persona::buscarPersonaDni($numeroDocumento);
 
         // return $personaDni = Persona::buscarPersonaDni($numeroDocumento);
 
@@ -26,7 +26,7 @@ class PersonaController extends Controller
         //     $personaDni = Persona::getDataByNumeroDocumento($numeroDocumento);
         // }
 
-        $success = JWT::encode(['personaDni'=>$personaDni],env('VITE_SECRET_KEY'),'HS512');
-        return response()->json($success,200);
+        //$success = JWT::encode(['personaDni'=>$personaDni],env('VITE_SECRET_KEY'),'HS512');
+        return response()->json(['personaDni'=>$personaDni],200);
     }
 }

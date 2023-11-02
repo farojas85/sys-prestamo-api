@@ -16,7 +16,7 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('inactives',[FrecuenciaPagoController::class,'obtenerInactivos']);
         Route::post('/',[FrecuenciaPagoController::class,'store']);
         Route::put('{id}',[FrecuenciaPagoController::class,'update']);
-        Route::get('{id}',[FrecuenciaPagoController::class,'show']);
+        Route::get('{id}/show',[FrecuenciaPagoController::class,'show']);
         Route::put('{id}/disable',[FrecuenciaPagoController::class,'inhabilitar']);
         Route::put('{id}/enable',[FrecuenciaPagoController::class,'habilitar']);
         Route::get('list',[FrecuenciaPagoController::class,'obtenerLista']);
@@ -29,7 +29,7 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('inactives',[AplicacionInteresController::class,'obtenerInactivos']);
         Route::post('/',[AplicacionInteresController::class,'store']);
         Route::put('{id}',[AplicacionInteresController::class,'update']);
-        Route::get('{id}',[AplicacionInteresController::class,'show']);
+        Route::get('{id}/show',[AplicacionInteresController::class,'show']);
         Route::put('{id}/disable',[AplicacionInteresController::class,'inhabilitar']);
         Route::put('{id}/enable',[AplicacionInteresController::class,'habilitar']);
         Route::get('list',[AplicacionInteresController::class,'obtenerLista']);
@@ -42,7 +42,7 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('inactives',[AplicacionMoraController::class,'obtenerInactivos']);
         Route::post('/',[AplicacionMoraController::class,'store']);
         Route::put('{id}',[AplicacionMoraController::class,'update']);
-        Route::get('{id}',[AplicacionMoraController::class,'show']);
+        Route::get('{id}/show',[AplicacionMoraController::class,'show']);
         Route::put('{id}/disable',[AplicacionMoraController::class,'inhabilitar']);
         Route::put('{id}/enable',[AplicacionMoraController::class,'habilitar']);
         Route::get('list',[AplicacionMoraController::class,'obtenerLista']);

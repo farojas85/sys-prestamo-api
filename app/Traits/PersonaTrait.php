@@ -20,10 +20,17 @@ trait PersonaTrait
      */
     public static function buscarPersonaDni(string $numero_documento)
     {
-        $apiDniRuc = new ApiDniRuc();
-        $persona = new Persona();
-        $persona->numero_documento = $numero_documento;
+        $personaData = Persona::getDataByNumeroDocumento($numero_documento);
 
-        return $apiDniRuc->buscar('dni',$persona);
+        if(!$personaData)
+        {
+            $apiDniRuc = new ApiDniRuc();
+            $persona = new Persona();
+            $persona->numero_documento = $numero_documento;
+
+            $personaData = $apiDniRuc->buscar('dni',$persona);
+        }
+
+        return $personaData;
     }
 }

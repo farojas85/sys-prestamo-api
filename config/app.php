@@ -126,6 +126,9 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'url_apis_net' => env('URL_APIS_NET'),
+    'token_apis_net' => env('TOKEN_APIS_NET'),
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver

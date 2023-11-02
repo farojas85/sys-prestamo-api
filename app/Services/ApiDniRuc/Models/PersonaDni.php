@@ -6,6 +6,7 @@ namespace App\Services\ApiDniRuc\Models;
 class PersonaDni
 {
     public function __construct(
+        public int $tipoDocumento=1,
         public string $dni ="",
         public string $nombres ="",
         public string $apellidoPaterno="",

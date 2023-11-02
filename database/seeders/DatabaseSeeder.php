@@ -30,6 +30,9 @@ class DatabaseSeeder extends Seeder
             AplicacionInteresSeeder::class,
             AplicacionMoraSeeder::class,
             MonedaSeeder::class,
+            TipoCondfiguracionSeeder::class,
+            ConfiguracionSeeder::class,
+            ConfiguracionPrestamoSeeder::class
         ]);
     }
 }
