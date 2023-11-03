@@ -32,7 +32,8 @@ class DatabaseSeeder extends Seeder
             MonedaSeeder::class,
             TipoCondfiguracionSeeder::class,
             ConfiguracionSeeder::class,
-            ConfiguracionPrestamoSeeder::class
+            ConfiguracionPrestamoSeeder::class,
+            ConfiguracionEmpresaSeeder::class
         ]);
     }
 }

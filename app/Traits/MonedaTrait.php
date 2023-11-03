@@ -29,6 +29,16 @@ trait MonedaTrait
     }
 
     /**
+     * get Moneda by codigo
+     * @param string $codigo
+     *
+     * @return [type]
+     */
+    public static function getByCodigo(string $codigo) {
+        return Self::where('codigo',$codigo)->first();
+    }
+
+    /**
      * To get actives pagination listing
      * @param Request $request
      *

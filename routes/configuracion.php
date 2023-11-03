@@ -55,7 +55,7 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('inactives',[MonedaController::class,'obtenerInactivos']);
         Route::post('/',[MonedaController::class,'store']);
         Route::put('{id}',[MonedaController::class,'update']);
-        Route::get('{id}',[MonedaController::class,'show']);
+        Route::get('{id}/show',[MonedaController::class,'show']);
         Route::put('{id}/disable',[MonedaController::class,'inhabilitar']);
         Route::put('{id}/enable',[MonedaController::class,'habilitar']);
         Route::get('list',[MonedaController::class,'obtenerLista']);
