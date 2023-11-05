@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' > ['auth:sanctum']],function(){
     //PERSONAS
     Route::group(['prefix' => 'personas'], function(){
-        Route::get('/dni/{numeroDocumento}',[PersonaController::class,'buscarDatosDni']);
+        Route::get('/dni',[PersonaController::class,'buscarDatosDni']);
     });
 
     //EMPLEADOS

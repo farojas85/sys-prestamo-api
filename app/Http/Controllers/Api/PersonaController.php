@@ -13,11 +13,11 @@ use function PHPUnit\Framework\isEmpty;
 
 class PersonaController extends Controller
 {
-    public function buscarDatosDni(TipoDocumentoPersonaRequest $request, $numeroDocumento)
+    public function buscarDatosDni(TipoDocumentoPersonaRequest $request)
     {
         $request->validated();
 
-        $personaDni = Persona::buscarPersonaDni($numeroDocumento);
+        $personaDni = Persona::buscarPersonaDni($request->numero_documento);
 
         // return $personaDni = Persona::buscarPersonaDni($numeroDocumento);
 
