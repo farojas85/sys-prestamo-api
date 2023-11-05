@@ -22,6 +22,10 @@ trait PersonaTrait
     {
         $personaData = Persona::getDataByNumeroDocumento($numero_documento);
 
+        if($personaData) {
+            return json_encode($personaData);
+
+        }
         if(!$personaData)
         {
             $apiDniRuc = new ApiDniRuc();
@@ -29,8 +33,8 @@ trait PersonaTrait
             $persona->numero_documento = $numero_documento;
 
             $personaData = $apiDniRuc->buscar('dni',$persona);
+            return $personaData;
         }
 
-        return $personaData;
     }
 }

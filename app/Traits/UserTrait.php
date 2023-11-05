@@ -22,8 +22,8 @@ trait UserTrait
         return self::where('name',$name)->first();
     }
 
-    public static function getDataById(int $id) {
-        $usuario = User::with(['roles' => function($query) {
+    public function getDataById() {
+        $usuario = $this->with(['roles' => function($query) {
                         $query->select('roles.id','roles.nombre','roles.slug');
                     }])
                     ->join('empleados as emp','emp.user_id','=','users.id')
@@ -36,7 +36,7 @@ trait UserTrait
                         'pe.telefono','pe.direccion','tipo_documento_id','numero_documento',
                         'tp.nombre_corto as tipo_documento','sexo_id','se.nombre as sexo'
                     )
-                    ->where('users.id',$id)
+                    //->where('users.id',$id)
                     ->first()
         ;
 
@@ -55,9 +55,11 @@ trait UserTrait
         $usuario->permisos = $permisos;
         $usuario->foto = $url_foto;
 
-        $secret = env('VITE_SECRET_KEY');
-        $data = ['usuario' => $usuario];
-        $jwt = JWT::encode($data,$secret,'HS512');
-        return response()->json($jwt,200);
+        // $secret = env('VITE_SECRET_KEY');
+        // $data = ['usuario' => $usuario];
+        // $jwt = JWT::encode($data,$secret,'HS512');
+        // return response()->json($jwt,200);
+
+        return $usuario;
     }
 }

@@ -14,7 +14,9 @@ return new class extends Migration
     {
         Schema::create('configuracion_prestamos', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Configuracion::class)->nullable();
+            $table->foreignIdFor(Configuracion::class)->nullable()
+                ->constrained('configuraciones','id')
+                ->onDelete('restrict')->onUpdate('cascade');
             $table->unsignedTinyInteger('estado')->nullable();
             $table->unsignedFloat('valor')->nullable();
             $table->timestamps();

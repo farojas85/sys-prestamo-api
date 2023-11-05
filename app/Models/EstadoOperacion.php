@@ -2,21 +2,20 @@
 
 namespace App\Models;
 
-use App\Traits\AplicacionInteresTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class AplicacionInteres extends Model
+class EstadoOperacion extends Model
 {
-    use HasFactory, AplicacionInteresTrait;
+    use HasFactory;
 
-    protected $table = "aplicacion_intereses";
+    protected $table = "estado_operaciones";
 
-    protected $fillable = ['nombre','es_activo'];
+    protected $fillable = [ 'nombre', 'clase' ];
 
     /**
-     * Get all of the prestamos for the AplicacionInteres
+     * Get all of the prestamos for the EstadoOperacion
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

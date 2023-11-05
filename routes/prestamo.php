@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ClienteController;
+use App\Http\Controllers\Api\PrestamoController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' > ['auth:sanctum']],function(){
@@ -15,5 +16,18 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('{id}/show',[ClienteController::class,'show']);
         Route::put('{id}/disable',[ClienteController::class,'inhabilitar']);
         Route::put('{id}/enable',[ClienteController::class,'habilitar']);
+    });
+
+    //PRESTAMOS
+    Route::group(['prefix' => 'prestamos'], function(){
+        Route::get('/',[PrestamoController::class,'index']);
+        Route::get('all',[PrestamoController::class,'todos']);
+        Route::get('deletes',[PrestamoController::class,'eliminados']);
+        Route::get('list',[PrestamoController::class,'obtenerLista']);
+        Route::post('/',[PrestamoController::class,'store']);
+        Route::put('{id}',[PrestamoController::class,'update']);
+        Route::get('{id}/show',[PrestamoController::class,'show']);
+        Route::put('{id}/disable',[PrestamoController::class,'inhabilitar']);
+        Route::put('{id}/enable',[PrestamoController::class,'habilitar']);
     });
 });

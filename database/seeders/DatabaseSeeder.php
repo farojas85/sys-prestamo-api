@@ -33,7 +33,9 @@ class DatabaseSeeder extends Seeder
             TipoCondfiguracionSeeder::class,
             ConfiguracionSeeder::class,
             ConfiguracionPrestamoSeeder::class,
-            ConfiguracionEmpresaSeeder::class
+            ConfiguracionEmpresaSeeder::class,
+            EstadoOperacionSeeder::class,
+            EstadoHistorialSeeder::class
         ]);
     }
 }

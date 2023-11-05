@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('direccion')->nullable();
             $table->string('telefono')->nullable();
             $table->string('correo_corporativo')->nullable();
-            $table->foreignIdFor(Moneda::class);
+            $table->foreignIdFor(Moneda::class)->nullable()
+                ->constrained('monedas','id')
+                ->onDelete('restrict')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -79,7 +79,8 @@ trait ClienteTrait
                     'apellido_materno' => $request->apellido_materno,
                     'sexo_id' => $request->sexo_id,
                     'telefono' => $request->telefono,
-                    'direccion' => $request->direccion
+                    'direccion' => $request->direccion,
+                    'correo_personal' => $request->correo_personal
                 ]);
             }
 

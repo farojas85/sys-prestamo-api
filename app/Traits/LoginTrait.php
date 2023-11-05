@@ -52,7 +52,7 @@ trait LoginTrait
             $user->save();
 
             $success['token'] = $user->createToken('token-api')->plainTextToken;
-            $success['user'] = $user->id;
+            $success['user'] = User::find($user->id)->getDataById();
 
             $success = JWT::encode($success,env('VITE_SECRET_KEY'),'HS512');
 

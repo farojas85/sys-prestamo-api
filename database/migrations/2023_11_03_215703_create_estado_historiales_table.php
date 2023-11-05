@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\TipoConfiguracion;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('configuraciones', function (Blueprint $table) {
+        Schema::create('estado_historiales', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(TipoConfiguracion::class)->nullable()
-                ->constrained('tipo_configuraciones','id')
-                ->onDelete('restrict')->onUpdate('cascade');
             $table->string('nombre');
-            $table->string('descripcion',255)->nullable();
-            $table->text('observacion',500)->nullable();
+            $table->string('clase');
             $table->timestamps();
         });
     }
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('configuraciones');
+        Schema::dropIfExists('estado_historiales');
     }
 };

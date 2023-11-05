@@ -12,7 +12,7 @@ class ApisNet
     public function __construct()
     {
         $this->client = new Client(['base_uri' => config("app.url_apis_net"), 'verify' => false]);
-        $this->token = config('app.url_apis_net');
+        $this->token = config('app.token_apis_net');
     }
 
     public function setParameters(string $numeroDocumento)
@@ -38,7 +38,7 @@ class ApisNet
         $consulta = $this->client->request('GET','/v2/reniec/dni',$this->parameters);
         $respuesta = $consulta->getBody()->getContents();
 
-        return json_encode($respuesta,true);
+        return $respuesta;
     }
 
     public function consultaRuc(string $numeroDocumento)
