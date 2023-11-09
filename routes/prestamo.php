@@ -8,6 +8,7 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
     //CLIENTES
     Route::group(['prefix' => 'clientes'], function(){
         Route::get('/',[ClienteController::class,'index']);
+        Route::get('exist',[ClienteController::class,'buscarPorNumeroDocumento']);
         Route::get('actives',[ClienteController::class,'obtenerActivos']);
         Route::get('inactives',[ClienteController::class,'obtenerInactivos']);
         Route::get('list',[ClienteController::class,'obtenerLista']);

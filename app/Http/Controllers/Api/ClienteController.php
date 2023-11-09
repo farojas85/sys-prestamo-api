@@ -58,4 +58,13 @@ class ClienteController extends Controller
     {
         //
     }
+
+    public function buscarPorNumeroDocumento(Request $request)
+    {
+        $cliente = Cliente::getByNumeroDocumento($request->numero_documento);
+
+        $success = JWT::encode(['cliente' => $cliente] ,env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success,201);
+    }
 }

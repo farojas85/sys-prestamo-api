@@ -44,7 +44,7 @@ trait LoginTrait
 
         $credenciales = ['name' => $request->name, 'password' => $request->password, 'es_activo' => 1];
 
-        $user = self::getByName($request->name);
+        $user = User::getByName($request->name);
 
         if($user && Hash::check($request->password,$user->password) && auth()->attempt($credenciales) ) {
 
@@ -52,7 +52,7 @@ trait LoginTrait
             $user->save();
 
             $success['token'] = $user->createToken('token-api')->plainTextToken;
-            $success['user'] = User::find($user->id)->getDataById();
+            $success['user'] = User::getDataById($user->id);
 
             $success = JWT::encode($success,env('VITE_SECRET_KEY'),'HS512');
 

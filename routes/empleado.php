@@ -8,6 +8,7 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
     //PERSONAS
     Route::group(['prefix' => 'personas'], function(){
         Route::get('/dni',[PersonaController::class,'buscarDatosDni']);
+        Route::get('/existe',[PersonaController::class,'buscarPersonaExiste']);
     });
 
     //EMPLEADOS

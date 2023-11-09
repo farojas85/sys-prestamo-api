@@ -168,4 +168,17 @@ trait ClienteTrait
             );
         }
     }
+
+    public static function getByNumeroDocumento(string $numero_documento)
+    {
+        return self::join('personas as per','per.id','=','clientes.persona_id')
+                ->select(
+                    'clientes.id','per.tipo_documento_id','per.numero_documento','per.nombres',
+                    'per.apellido_paterno', 'per.apellido_materno', 'per.telefono','per.direccion',
+                    'per.correo_personal'
+                )
+                ->where('per.numero_documento',$numero_documento)
+                ->first();
+
+    }
 }

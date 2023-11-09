@@ -29,4 +29,12 @@ class PersonaController extends Controller
         $success = JWT::encode(['personaDni'=>$personaDni],env('VITE_SECRET_KEY'),'HS512');
         return response()->json($success,200);
     }
+
+    public function buscarPersonaExiste(Request $request)
+    {
+        $personaDni = Persona::getDataByNumeroDocumento($request->numero_documento);
+
+        $success = JWT::encode(['personaDni'=>$personaDni],env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
+    }
 }
