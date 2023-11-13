@@ -28,7 +28,7 @@ class UpdateEmpleadoRequest extends FormRequest
             'apellido_paterno' => 'required|string|max:191',
             'apellido_materno' => 'required|string|max:191',
             'sexo_id' => 'required',
-            'name' => 'required|string|max:191|unique:users,name,'.$this->user()->id,
+            'name' => 'unique:users,name,'.$this->user()->id,
             'email' => 'email:filter|unique:users,email',
             'role_id' => 'required',
             'password' => 'required'

@@ -49,7 +49,7 @@ trait EmpleadoTrait
         return Self::join('personas as pe','pe.id','=','empleados.persona_id')
                     ->leftJoin('users as usu','usu.id','=','empleados.user_id')
                     ->select(
-                        'empleados.id','pe.numero_documento',
+                        'empleados.id','pe.numero_documento','usu.name',
                         DB::Raw("upper(concat(pe.apellido_paterno,' ',pe.apellido_materno,', ',pe.nombres)) as apellidos_nombres"),
                         'pe.telefono','empleados.es_activo'
                     )
@@ -93,12 +93,13 @@ trait EmpleadoTrait
 
             $user = User::where('name',$request->name)->first();
 
+            $user_name = self::generarUsuario($request);
             if(!$user)
             {
                 $user = User::create([
-                    'name' => $request->name,
+                    'name' => $user_name,
                     'email' => $request->email,
-                    'password' =>Hash::make($request->password)
+                    'password' =>Hash::make($request->numero_documento)
                 ]);
             }
 
@@ -110,7 +111,8 @@ trait EmpleadoTrait
             {
                 $empleado = Self::create([
                     'persona_id' => $persona->id,
-                    'user_id' => $user->id
+                    'user_id' => $user->id,
+                    'distrito_id' => $request->distrito_id
                 ]);
             }
 
@@ -201,6 +203,8 @@ trait EmpleadoTrait
                 $contar_editar+=1;
             }
 
+            $empleado->distrito_id = $request->distrito_id;
+
             if($contar_editar >= 1)
             {
                 $empleado->save();
@@ -218,6 +222,32 @@ trait EmpleadoTrait
                 'data' => null
             );
         }
+    }
+
+    public static function generarUsuario(Request $request)
+    {
+        $nombres = explode(" ",mb_strtolower($request->nombres));
+
+        $name = "";
+        foreach($nombres as $nombre)
+        {
+            $name .= $nombre[0];
+        }
+
+        $ap_paterno = str_replace( " ", "" ,mb_strtolower($request->apellido_paterno));
+
+        $ap_materno = str_replace( " ", "" ,mb_strtolower($request->apellido_materno));
+
+        $usuario = $name.$ap_paterno.$ap_materno[0];
+
+        $x=1;
+        do {
+            $usuario = $name.$ap_paterno.substr($ap_materno,0,1);
+            $x+=1;
+        } while(User::getByName($usuario));
+
+        return $usuario;
+
     }
 
 }

@@ -89,7 +89,8 @@ trait ClienteTrait
             if(!$cliente)
             {
                 $cliente = Self::create([
-                    'persona_id' => $persona->id
+                    'persona_id' => $persona->id,
+                    'distrito_id' => $request->distrito_id
                 ]);
             }
 
@@ -132,7 +133,7 @@ trait ClienteTrait
                     'apellido_materno' => $request->apellido_materno,
                     'sexo_id' => $request->sexo_id,
                     'telefono' => $request->telefono,
-                    'direccion' => $request->direccion
+                    'direccion' => $request->direccion,
                 ]);
 
             }
@@ -152,6 +153,7 @@ trait ClienteTrait
             if($persona->id != $cliente->persona_id)
             {
                 $cliente->persona_id = $persona->id;
+                $cliente->distrito_id = $request->distrito_id;
                 $cliente->save();
             }
 

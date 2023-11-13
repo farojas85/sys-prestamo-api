@@ -28,7 +28,7 @@ class StoreEmpleadoRequest extends FormRequest
             'apellido_paterno' => 'required|string|max:191',
             'apellido_materno' => 'required|string|max:191',
             'sexo_id' => 'required',
-            'name' => 'required|string|max:191|unique:users,name',
+            'name' => 'unique:users,name',
             'email' => 'email:filter|unique:users,email',
             'role_id' => 'required',
             'password' => 'required'

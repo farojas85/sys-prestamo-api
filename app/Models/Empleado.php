@@ -13,7 +13,7 @@ class Empleado extends Model
     use HasFactory, SoftDeletes, EmpleadoTrait;
 
     protected $fillable = [
-        'persona_id', 'user_id', 'es_activo'
+        'persona_id', 'user_id', 'es_activo', 'distrito_id'
     ];
 
     /**
@@ -34,5 +34,15 @@ class Empleado extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the distrito that owns the Empleado
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function distrito(): BelongsTo
+    {
+        return $this->belongsTo(Distrito::class);
     }
 }

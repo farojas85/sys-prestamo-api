@@ -3,7 +3,10 @@
 use App\Http\Controllers\Api\FrecuenciaPagoController;
 use App\Http\Controllers\Api\AplicacionInteresController;
 use App\Http\Controllers\Api\AplicacionMoraController;
+use App\Http\Controllers\Api\DepartamentoController;
+use App\Http\Controllers\Api\DistritoController;
 use App\Http\Controllers\Api\MonedaController;
+use App\Http\Controllers\Api\ProvinciaController;
 use App\Http\Controllers\Api\SexoController;
 use App\Http\Controllers\Api\TipoDocumentoController;
 use Illuminate\Support\Facades\Route;
@@ -85,5 +88,46 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         // Route::put('{id}/disable',[TipoDocumentoController::class,'inhabilitar']);
         // Route::put('{id}/enable',[TipoDocumentoController::class,'habilitar']);
         Route::get('list',[SexoController::class,'obtenerLista']);
+    });
+
+    //DEPARTAMENTOS
+    Route::group(['prefix' => 'departamentos'], function(){
+        // Route::get('/',[TipoDocumentoController::class,'index']);
+        // Route::get('actives',[TipoDocumentoController::class,'obtenerActivos']);
+        // Route::get('inactives',[TipoDocumentoController::class,'obtenerInactivos']);
+        // Route::post('/',[TipoDocumentoController::class,'store']);
+        // Route::put('{id}',[TipoDocumentoController::class,'update']);
+        // Route::get('{id}',[TipoDocumentoController::class,'show']);
+        // Route::put('{id}/disable',[TipoDocumentoController::class,'inhabilitar']);
+        // Route::put('{id}/enable',[TipoDocumentoController::class,'habilitar']);
+        Route::get('list',[DepartamentoController::class,'obtenerLista']);
+    });
+
+    //PROVINCIAS
+    Route::group(['prefix' => 'provincias'], function(){
+        // Route::get('/',[TipoDocumentoController::class,'index']);
+        // Route::get('actives',[TipoDocumentoController::class,'obtenerActivos']);
+        // Route::get('inactives',[TipoDocumentoController::class,'obtenerInactivos']);
+        // Route::post('/',[TipoDocumentoController::class,'store']);
+        // Route::put('{id}',[TipoDocumentoController::class,'update']);
+        // Route::get('{id}',[TipoDocumentoController::class,'show']);
+        // Route::put('{id}/disable',[TipoDocumentoController::class,'inhabilitar']);
+        // Route::put('{id}/enable',[TipoDocumentoController::class,'habilitar']);
+        Route::get('list',[ProvinciaController::class,'obtenerLista']);
+        Route::get('por-departamento',[ProvinciaController::class,'obtenerListaPorDepartamento']);
+    });
+
+    //DISTRITOS
+    Route::group(['prefix' => 'distritos'], function(){
+        // Route::get('/',[TipoDocumentoController::class,'index']);
+        // Route::get('actives',[TipoDocumentoController::class,'obtenerActivos']);
+        // Route::get('inactives',[TipoDocumentoController::class,'obtenerInactivos']);
+        // Route::post('/',[TipoDocumentoController::class,'store']);
+        // Route::put('{id}',[TipoDocumentoController::class,'update']);
+        // Route::get('{id}',[TipoDocumentoController::class,'show']);
+        // Route::put('{id}/disable',[TipoDocumentoController::class,'inhabilitar']);
+        // Route::put('{id}/enable',[TipoDocumentoController::class,'habilitar']);
+        Route::get('list',[DistritoController::class,'obtenerLista']);
+        Route::get('por-provincia',[DistritoController::class,'obtenerListaPorProvincia']);
     });
 });

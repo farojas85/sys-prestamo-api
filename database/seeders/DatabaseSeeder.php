@@ -30,12 +30,13 @@ class DatabaseSeeder extends Seeder
             AplicacionInteresSeeder::class,
             AplicacionMoraSeeder::class,
             MonedaSeeder::class,
-            TipoCondfiguracionSeeder::class,
+            TipoConfiguracionSeeder::class,
             ConfiguracionSeeder::class,
             ConfiguracionPrestamoSeeder::class,
             ConfiguracionEmpresaSeeder::class,
             EstadoOperacionSeeder::class,
-            EstadoHistorialSeeder::class
+            EstadoHistorialSeeder::class,
+            UbigeoSeeder::class,
         ]);
     }
 }

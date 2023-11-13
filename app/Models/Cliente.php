@@ -13,7 +13,7 @@ class Cliente extends Model
 {
     use HasFactory, SoftDeletes, ClienteTrait;
 
-    protected $fillable = [ 'persona_id' ];
+    protected $fillable = [ 'persona_id', 'distrito_id' ];
 
     /**
      * Get the persona that owns the Cliente
@@ -33,5 +33,15 @@ class Cliente extends Model
     public function prestamos(): HasMany
     {
         return $this->hasMany(Prestamo::class);
+    }
+
+    /**
+     * Get the distrito that owns the Cliente
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function distrito(): BelongsTo
+    {
+        return $this->belongsTo(Distrito::class);
     }
 }
