@@ -46,8 +46,8 @@ class PrestamoController extends Controller
     {
         $prestamo = Prestamo::storeData($request);
 
-        $success = JWT::encode($prestamo,env('VITE_SECRET_KEY'),'HS512');
-        return response()->json($success,201);
+        //$success = JWT::encode($prestamo,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($prestamo,200);
     }
 
     /**

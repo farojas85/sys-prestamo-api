@@ -23,15 +23,14 @@ class UpdateEmpleadoRequest extends FormRequest
     {
         return [
             'tipo_documento_id' => 'required',
-            'numero_documento' => 'required|unique:personas,numero_documento,'.$this->persona()->id,
+            'numero_documento' => 'required',
             'nombres' => 'required|string|max:191',
             'apellido_paterno' => 'required|string|max:191',
             'apellido_materno' => 'required|string|max:191',
             'sexo_id' => 'required',
-            'name' => 'unique:users,name,'.$this->user()->id,
-            'email' => 'email:filter|unique:users,email',
-            'role_id' => 'required',
-            'password' => 'required'
+            'name' => 'required',
+            'email' => 'email:filter',
+            'role_id' => 'required'
         ];
     }
 
@@ -43,7 +42,7 @@ class UpdateEmpleadoRequest extends FormRequest
     {
         return [
             'required' => '* Campo obligatorio',
-            'uniqque' => 'Ya existe',
+            'unique' => 'Ya existe',
             'string' => 'Ingrese caracteres alfanuméricos',
             'max' => 'Ingrese máximo :max carateres',
             'email' => 'Email no válido'

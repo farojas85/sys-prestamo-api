@@ -1,7 +1,11 @@
 <?php
 namespace App\Traits;
 
+use App\Models\Departamento;
+use App\Models\Distrito;
 use App\Models\Persona;
+use App\Models\Provincia;
+use App\Models\Role;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -17,8 +21,10 @@ trait EmpleadoTrait
     public function getAllData(): object
     {
 
+        $empleado = $this;
+
         $persona = $this->persona()->select(
-            'tipo_documento_id','numero_documento','nombres','apellido_paterno','apellido_materno',
+            'id','tipo_documento_id','numero_documento','nombres','apellido_paterno','apellido_materno',
             'sexo_id','direccion','telefono'
         )->first();
 
@@ -30,13 +36,45 @@ trait EmpleadoTrait
             'id','name','email','foto','es_activo'
         )->first();
 
+        $roles = $usuario->roles()->select('roles.id','nombre','slug','tipo_acceso_id','roles.es_activo')->get()[0];
+
+        $distrito = $this->distrito()->first();
+
+        $provincia = null;
+        $departamento = null;
+        $provincias = [];
+        $distritos = [];
+
+        if($distrito)
+        {
+            $provincia = $distrito->provincia()->select('id','codigo','nombre','departamento_id')->first();
+
+            $departamento = $provincia->departamento()->select('id','codigo','nombre')->first() ;
+
+            $provincias = Provincia::select('id','codigo','nombre')->where('departamento_id',$departamento->id)->get();
+
+            $distritos = Distrito::select('id','codigo','nombre')->where('provincia_id',$provincia->id)->get();
+        }
+
+        $departamentos = Departamento::select('id','codigo','nombre')->get();
+
         return (object) array(
-            'empleado' => $this,
+            'empleado' => $this->select('empleados.id','persona_id','user_id','superior_id','distrito_id','es_activo')->first(),
             'persona' => $persona,
             'tipo_documento' => $tipo_documento,
             'sexo' => $sexo,
-            'usuario' => $usuario
+            'usuario' => $usuario,
+            'role' => $roles,
+            'distrito' =>  $distrito,
+            'provincia' => $provincia,
+            'departamento' => $departamento,
+            'distritos' => $distritos,
+            'provincias' => $provincias,
+            'departamentos' => $departamentos
         );
+    }
+
+    public static function getData() {
     }
     /**
      * To get enableds pagination listing
@@ -64,6 +102,51 @@ trait EmpleadoTrait
                     ->orderBy('empleados.id','asc')
                     ->paginate($request->paginacion)
         ;
+    }
+
+    public function getSuperior() {
+        return $this->superior()->persona()->select('nombres','apellido_paterno','apellido_materno')->first();
+    }
+
+    public function getSubOrdinados() {
+        return $this->subordinados();
+    }
+
+    public static function getSuperioresByRole(int $role)
+    {
+        $role = Role::select('slug')->where('id',$role)->first();
+
+        if($role->slug == 'gerente')
+        {
+            return null;
+        }
+        if($role->slug  == 'lider-superior')
+        {
+            return DB::table('role_user as ru')->join('roles as r','r.id','=','ru.role_id')
+                        ->join('empleados as emp','emp.user_id','=','ru.user_id')
+                        ->join('personas as pe','pe.id','=','emp.persona_id')
+                        ->select(
+                            'emp.id',
+                            DB::Raw("upper(concat(pe.nombres,' ',pe.apellido_paterno,' ',pe.apellido_materno)) as nombres_apellidos")
+                        )
+                        ->where('r.slug','gerente')
+                        ->get();
+        }
+
+        if($role->slug  == 'lider')
+        {
+            return DB::table('role_user as ru')->join('roles as r','r.id','=','ru.role_id')
+            ->join('empleados as emp','emp.user_id','=','ru.user_id')
+            ->join('personas as pe','pe.id','=','emp.persona_id')
+            ->select(
+                'emp.id',
+                DB::Raw("upper(concat(pe.nombres,' ',pe.apellido_paterno,' ',pe.apellido_materno)) as nombres_apellidos")
+            )
+            ->where('r.slug','lider-superior')
+            ->get();
+        }
+
+        return null;
     }
 
     /**
@@ -141,7 +224,7 @@ trait EmpleadoTrait
     {
         try {
 
-            $empleado = self::find($request->id);
+            $empleado = Self::find($id);
 
             $persona = Persona::find($empleado->persona_id);
 
@@ -174,12 +257,14 @@ trait EmpleadoTrait
 
             $user = User::find($empleado->user_id);
 
+            $user_name = self::generarUsuario($request);
+
             if(!$user) {
                 $user =
                 User::create([
-                    'name' => $request->name,
+                    'name' => $request->user_name,
                     'email' => $request->email,
-                    'password' =>Hash::make($request->password)
+                    //'password' =>Hash::make($request->numero_documento)
                 ]);
             }
 
@@ -191,6 +276,7 @@ trait EmpleadoTrait
             }
 
             $contar_editar = 0;
+
             if($persona->id != $empleado->persona_id)
             {
                 $empleado->persona_id = $persona->id;
@@ -200,10 +286,19 @@ trait EmpleadoTrait
             if($user->id != $empleado->user_id)
             {
                 $empleado->user_id = $user->id;
+            }
+
+            if($empleado->distrito_id != $request->distrito_id)
+            {
+                $empleado->distrito_id = $request->distrito_id;
                 $contar_editar+=1;
             }
 
-            $empleado->distrito_id = $request->distrito_id;
+            if($empleado->superior_id != $request->superior_id)
+            {
+                $empleado->superior_id = $request->superior_id;
+                $contar_editar +=1;
+            }
 
             if($contar_editar >= 1)
             {
@@ -213,6 +308,68 @@ trait EmpleadoTrait
             return array(
                 'ok' => 1,
                 'mensaje' => 'El empleado '.$request->nombres." ha sido modificada satisfactoriamente",
+                'data' => $empleado
+            );
+        } catch (Exception $ex) {
+            return array(
+                'ok' => $ex->getCode(),
+                'mensaje' => $ex->getMessage(),
+                'data' => null
+            );
+        }
+    }
+
+    /**
+     * To disable record
+     * @param int $id
+     *
+     * @return [type]
+     */
+    public static function disableRecord(int $id) {
+        try {
+            $empleado = Self::where('id',$id)->first();
+            $empleado->es_activo = 0;
+            $empleado->save();
+
+            if($empleado->user_id)
+            {
+                $user = User::where('id',$empleado->user_id)->update(['es_activo',0]);
+
+            }
+
+            return array(
+                'ok' => 1,
+                'mensaje' => 'El empleado ha sido inhabilitada satisfactoriamente',
+                'data' => $empleado
+            );
+        } catch (Exception $ex) {
+            return array(
+                'ok' => $ex->getCode(),
+                'mensaje' => $ex->getMessage(),
+                'data' => null
+            );
+        }
+    }
+    /**
+     * To enable record
+     * @param int $id
+     *
+     * @return [type]
+     */
+    public static function enableRecord(int $id) {
+        try {
+            $empleado = Self::where('id',$id)->first();
+            $empleado->es_activo = 1;
+            $empleado->save();
+
+            if($empleado->user_id)
+            {
+                $user = User::where('id',$empleado->user_id)->update(['es_activo',1]);
+
+            }
+            return array(
+                'ok' => 1,
+                'mensaje' => 'El empleado ha sido habilitada satisfactoriamente',
                 'data' => $empleado
             );
         } catch (Exception $ex) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Empleado\StoreEmpleadoRequest;
+use App\Http\Requests\Empleado\UpdateEmpleadoRequest;
 use App\Models\Empleado;
 use App\Models\Persona;
 use App\Models\TipoDocumento;
@@ -40,17 +41,25 @@ class EmpleadoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Empleado $empleado)
+    public function show(Request $request)
     {
-        //
+        $empleado = Empleado::find($request->id)->getAllData();
+
+        $success = JWT::encode(['empleado'=>$empleado],env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Empleado $empleado)
+    public function update(UpdateEmpleadoRequest $request, int $id)
     {
-        //
+        $request->validated();
+
+        $empleado = Empleado::updateData($request,$id);
+
+        $success = JWT::encode($empleado,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
     }
 
     /**
@@ -60,4 +69,41 @@ class EmpleadoController extends Controller
     {
         //
     }
+
+    /**
+     * Disable the specified resource in storage
+     * @param int $id
+     *
+     * @return [type]
+     */
+    public function inhabilitar(int $id)
+    {
+        $empleado = Empleado::disableRecord($id);
+
+        $success = JWT::encode($empleado,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
+    }
+
+    /**
+     * enable the specified resource in storage
+     * @param int $id
+     *
+     * @return [type]
+     */
+    public function habilitar(int $id)
+    {
+        $empleado = Empleado::enableRecord($id);
+
+        $success = JWT::encode($empleado,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
+    }
+
+    public function listarSuperioresPorRole(Request $request)
+    {
+        $superiores = Empleado::getSuperioresByRole($request->role);
+
+        $success = JWT::encode(['superiores' => $superiores],env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
+    }
+
 }

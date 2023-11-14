@@ -23,7 +23,7 @@ class Distrito extends Model
      */
     public function provincia(): BelongsTo
     {
-        return $this->belongsTo(Provincia::class);
+        return $this->belongsTo(Provincia::class,'provincia_id','id');
     }
     /**
      * Get all of the comments for the Distrito
@@ -35,5 +35,14 @@ class Distrito extends Model
         return $this->hasMany(Cliente::class);
     }
 
+    /**
+     * Get all of the empleados for the Distrito
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function empleados(): HasMany
+    {
+        return $this->hasMany(Empleado::class);
+    }
 
 }

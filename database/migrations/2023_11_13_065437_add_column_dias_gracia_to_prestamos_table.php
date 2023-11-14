@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('prestamos', function (Blueprint $table) {
-            $table->unsignedTinyInteger('dias_gracias')->default(0);
+            $table->unsignedTinyInteger('dias_gracia')->default(0);
         });
     }
 

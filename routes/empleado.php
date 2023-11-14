@@ -19,8 +19,9 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('list',[EmpleadoController::class,'obtenerLista']);
         Route::post('/',[EmpleadoController::class,'store']);
         Route::put('{id}',[EmpleadoController::class,'update']);
-        Route::get('{id}/show',[EmpleadoController::class,'show']);
+        Route::get('show',[EmpleadoController::class,'show']);
         Route::put('{id}/disable',[EmpleadoController::class,'inhabilitar']);
         Route::put('{id}/enable',[EmpleadoController::class,'habilitar']);
+        Route::get('superiores-por-role',[EmpleadoController::class,'listarSuperioresPorRole']);
     });
 });

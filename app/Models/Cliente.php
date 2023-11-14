@@ -22,7 +22,7 @@ class Cliente extends Model
      */
     public function persona(): BelongsTo
     {
-        return $this->belongsTo(Persona::class);
+        return $this->belongsTo(Persona::class,'persona_id','id');
     }
 
     /**
@@ -42,6 +42,6 @@ class Cliente extends Model
      */
     public function distrito(): BelongsTo
     {
-        return $this->belongsTo(Distrito::class);
+        return $this->belongsTo(Distrito::class,'distrito_id','id');
     }
 }

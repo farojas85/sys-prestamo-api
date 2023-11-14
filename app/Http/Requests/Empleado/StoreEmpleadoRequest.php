@@ -30,8 +30,7 @@ class StoreEmpleadoRequest extends FormRequest
             'sexo_id' => 'required',
             'name' => 'unique:users,name',
             'email' => 'email:filter|unique:users,email',
-            'role_id' => 'required',
-            'password' => 'required'
+            'role_id' => 'required'
         ];
     }
 
