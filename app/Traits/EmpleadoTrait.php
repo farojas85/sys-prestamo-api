@@ -10,7 +10,9 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 trait EmpleadoTrait
 {
@@ -89,7 +91,7 @@ trait EmpleadoTrait
                     ->select(
                         'empleados.id','pe.numero_documento','usu.name',
                         DB::Raw("upper(concat(pe.apellido_paterno,' ',pe.apellido_materno,', ',pe.nombres)) as apellidos_nombres"),
-                        'pe.telefono','empleados.es_activo'
+                        'pe.telefono','empleados.es_activo','empleados.superior_id','empleados.contrato_pdf'
                     )
                     ->where(function($query) use($buscar){
                         $query->where(DB::Raw("upper(pe.numero_documento)"),'like','%'.$buscar.'%')
@@ -405,6 +407,42 @@ trait EmpleadoTrait
 
         return $usuario;
 
+    }
+
+    /**
+     * subir contrato pdf
+     * @param Request $request
+     *
+     * @return [type]
+     */
+    public static function  uploadContrato(Request $request)
+    {
+        try {
+            $empleado  = Self::find($request->empleado_id);
+
+            $persona_dni = Persona::where('id',$empleado->persona_id)->first()->numero_documento;
+
+            $file = $request->file('contrato');
+            $nombre_archivo = "CONTRATO_".date('Y').".".$file->extension();
+
+            Storage::disk('empleados')->put($persona_dni."/".$nombre_archivo,File::get($file));
+
+            $empleado->contrato_pdf = $nombre_archivo;
+            $empleado->save();
+
+            return [
+                'ok' => 1,
+                'mensaje' => 'Contrato del Empleadoha fue subido satisfactoriamente',
+                'data' => $nombre_archivo
+            ];
+
+        } catch (Exception $ex) {
+            return [
+                'ok' => $ex->getCode(),
+                'mensaje' => $ex->getMessage(),
+                'data' => null
+            ];
+        }
     }
 
 }

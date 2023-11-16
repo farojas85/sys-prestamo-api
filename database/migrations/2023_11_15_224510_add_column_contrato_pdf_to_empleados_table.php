@@ -12,10 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('empleados', function (Blueprint $table) {
-            $table->foreignId('superior_id')->nullable()->after('distrito_id')
-                    ->constrained('empleados','id')->onDelete('cascade')
-                    ->onUpdate('cascade')
-            ;
+            $table->string('contrato_pdf',255)->nullable()->after('superior_id');
         });
     }
 
@@ -25,8 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('empleados', function (Blueprint $table) {
-            $table->dropForeign('empleados_superior_id_foreign');
-            $table->dropColumn('superior_id');
+            $table->dropColumn('contrato_pdf');
         });
     }
 };

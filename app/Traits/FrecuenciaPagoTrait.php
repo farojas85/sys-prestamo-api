@@ -18,7 +18,7 @@ trait FrecuenciaPagoTrait
      */
     public static function getAll(Request $request) {
         $buscar = mb_strtoupper($request->buscar);
-        return Self::select('id','nombre','dias','es_activo')
+        return Self::select('id','nombre','dias','valor_interes','es_activo')
                     ->where(function($query) use($buscar){
                         $query->where(DB::Raw("upper(nombre)"),'like','%'.$buscar.'%')
                             ->orWhere(DB::Raw("upper(dias)"),'like','%'.$buscar.'%');
@@ -37,7 +37,7 @@ trait FrecuenciaPagoTrait
      */
     public static function getActives(Request $request) {
         $buscar = mb_strtoupper($request->buscar);
-        return Self::select('id','nombre','dias','es_activo')
+        return Self::select('id','nombre','dias','valor_interes','es_activo')
                     ->where(function($query) use($buscar){
                         $query->where(DB::Raw("upper(nombre)"),'like','%'.$buscar.'%')
                             ->orWhere(DB::Raw("upper(dias)"),'like','%'.$buscar.'%');
@@ -55,7 +55,7 @@ trait FrecuenciaPagoTrait
      */
     public static function getInactives(Request $request) {
         $buscar = mb_strtoupper($request->buscar);
-        return Self::select('id','nombre','dias','es_activo')
+        return Self::select('id','nombre','dias','valor_interes','es_activo')
                     ->where(function($query) use($buscar){
                         $query->where(DB::Raw("upper(nombre)"),'like','%'.$buscar.'%')
                             ->orWhere(DB::Raw("upper(dias)"),'like','%'.$buscar.'%');
@@ -72,7 +72,7 @@ trait FrecuenciaPagoTrait
      */
     public static function getList()
     {
-        return self::select('id','nombre','dias')->where('es_activo',1)->orderBy('id','asc')->get();
+        return self::select('id','nombre','dias','valor_interes')->where('es_activo',1)->orderBy('id','asc')->get();
     }
 
     /**
@@ -86,7 +86,8 @@ trait FrecuenciaPagoTrait
         try {
             $tipo_acceso = Self::create([
                 'nombre' => $request->nombre,
-                'dias' => $request->dias
+                'dias' => $request->dias,
+                'valor_interes' => $request->valor_interes
             ]);
 
             return array(
@@ -116,7 +117,8 @@ trait FrecuenciaPagoTrait
             $tipo_acceso = Self::where('id', $id)
                 ->update([
                 'nombre' => $request->nombre,
-                'dias' => $request->dias
+                'dias' => $request->dias,
+                'valor_interes' => $request->valor_interes
             ]);
 
             return array(

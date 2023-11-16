@@ -23,4 +23,14 @@ class EstadoOperacion extends Model
     {
         return $this->hasMany(Prestamo::class);
     }
+
+    /**
+     * Get all of the cuotas for the EstadoOperacion
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cuotas(): HasMany
+    {
+        return $this->hasMany(Cuota::class);
+    }
 }

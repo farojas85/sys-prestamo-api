@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 trait PrestamoTrait
 {
@@ -16,18 +17,32 @@ trait PrestamoTrait
     {
         $buscar = mb_strtoupper($request->buscar);
 
-        $user = ($request->role == 'lider-superior' ||  $request->role == 'lider' ) ? $request->user : '%';
+        $user = ($request->role == 'lider' ) ? $request->user : '%';
 
-        return Self::where('prestamos.user_id','like',$user)
-                ->orderBy('prestamos.fecha_prestamo','desc')
-                ->paginate($request->paginacion);
+        return Self::join('clientes as cli','cli.id','=','prestamos.cliente_id')
+            ->join('personas as per','per.id','=','cli.persona_id')
+        ->select(
+            'prestamos.id',
+            DB::Raw("date_format(convert(fecha_prestamo,date),'%d/%m/%Y') as fecha_prestamo"),
+            DB::Raw("concat(per.nombres,' ',per.apellido_paterno,' ',per.apellido_materno) as cliente"),
+            'prestamos.capital_inicial','prestamos.total','prestamos.interes',
+            'prestamos.estado_operacion_id as estado'
+        )
+        ->where(function($query) use($request) {
+            if($request->role =='lider')
+            {
+                $query->where('prestamos.user_id',$request->user);
+            }
+        })
+        ->orderBy('prestamos.fecha_prestamo','desc')
+        ->paginate($request->paginacion);
     }
 
     public static function getAll(Request $request)
     {
         $buscar = mb_strtoupper($request->buscar);
 
-        $user = ($request->role == 'lider-superior' ||  $request->role == 'lider' ) ? $request->user : '%';
+        $user = ($request->role == 'lider' ) ? $request->user : '%';
 
         return Self::where('prestamos.user_id','like',$user)
                 ->orderBy('prestamos.fecha_prestamo','desc')
@@ -39,7 +54,7 @@ trait PrestamoTrait
     {
         $buscar = mb_strtoupper($request->buscar);
 
-        $user = ($request->role == 'lider-superior' ||  $request->role == 'lider' ) ? $request->user : '%';
+        $user = ($request->role == 'lider' ) ? $request->user : '%';
 
         return Self::where('prestamos.user_id','like',$user)
                 ->orderBy('prestamos.fecha_prestamo','desc')
@@ -53,7 +68,7 @@ trait PrestamoTrait
         try {
 
             $prestamo = new self();
-            $prestamo->fecha_prestamo = $request->fecha_prestamo;
+            $prestamo->fecha_prestamo = $request->fecha_prestamo." ".date('H:i:s');
             $prestamo->cliente_id = $request->cliente_id;
             $prestamo->user_id = $request->user_id;
             $prestamo->frecuencia_pago_id = $request->frecuencia_pago_id;
@@ -61,6 +76,7 @@ trait PrestamoTrait
             $prestamo->capital_inicial = $request->capital_inicial;
             $prestamo->interes = $request->interes;
             $prestamo->numero_cuotas = $request->numero_cuotas;
+            $prestamo->total = $request->total;
             $prestamo->aplicacion_mora_id = $request->aplicacion_mora_id;
             $prestamo->dias_gracia = $request->dias_gracia;
 
@@ -84,6 +100,7 @@ trait PrestamoTrait
                 $cuota = new Cuota();
                 $cuota->prestamo_id =$prestamo->id;
                 $cuota->numero_cuota = $x;
+                $cuota->descripcion = 'CUOTA '.$x;
                 $cuota->fecha_vencimiento = $fechaSiguiente->format('Y-m-d');
                 $cuota->monto_cuota = $cuota_monto;
                 //$cuota->saldo = $monto_inicial - $cuota_monto;

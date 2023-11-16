@@ -12,7 +12,7 @@ class FrecuenciaPago extends Model
     use HasFactory, FrecuenciaPagoTrait;
 
     protected $fillable = [
-        'nombre', 'dias'
+        'nombre', 'dias','valor_interes', 'es_activo'
     ];
 
     /**

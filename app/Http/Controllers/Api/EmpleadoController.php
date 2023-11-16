@@ -106,4 +106,12 @@ class EmpleadoController extends Controller
         return response()->json($success,200);
     }
 
+    public function subirContrato(Request $request)
+    {
+        $empleado = Empleado::uploadContrato($request);
+
+        $success = JWT::encode($empleado,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
+    }
+
 }
