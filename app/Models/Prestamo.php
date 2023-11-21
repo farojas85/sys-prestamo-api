@@ -16,7 +16,7 @@ class Prestamo extends Model
     protected $fillable = [
         'cliente_id', 'user_id', 'fecha_prestamo', 'frecuencia_pago_id', 'aplicacion_interes_id',
         'capital_inicial', 'interes', 'numero_cuotas', 'total', 'aplicacion_mora_id','dias_gracia',
-        'estado_operacion_id', 'deleted_at'
+        'observaciones', 'estado_operacion_id', 'deleted_at'
     ];
 
     /**

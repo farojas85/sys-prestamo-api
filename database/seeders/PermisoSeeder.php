@@ -15,6 +15,10 @@ class PermisoSeeder extends Seeder
     public function run(): void
     {
         $role1 = Role::select('id')->where('slug','super-usuario')->first();
+        $role2 = Role::select('id')->where('slug','gerente')->first();
+        $role3 = Role::select('id')->where('slug','lider-superior')->first();
+        $role4 = Role::select('id')->where('slug','lider')->first();
+
         //Tipo Acceso
         $permiso1 = Permiso::firstOrCreate([
             'nombre' => 'Vista Tipo Acceso','slug' => 'tipo-accesos.inicio'
@@ -271,13 +275,98 @@ class PermisoSeeder extends Seeder
         ])
         ;
 
+        //Préstamos
+        $permiso60 = Permiso::firstOrCreate([
+            'nombre' => 'Vista Prestamo','slug' => 'prestamos.inicio'
+        ])
+        ;
+        $permiso61 = Permiso::firstOrCreate([
+            'nombre' => 'Crear Prestamo','slug' => 'prestamos.crear'
+        ])
+        ;
+        $permiso62 = Permiso::firstOrCreate([
+            'nombre' => 'Editar Prestamo','slug' => 'prestamos.editar'
+        ])
+        ;
+        $permiso63 = Permiso::firstOrCreate([
+            'nombre' => 'Eliminar Prestamo','slug' => 'prestamos.eliminar'
+        ])
+        ;
+        $permiso64 = Permiso::firstOrCreate([
+            'nombre' => 'Restaurar Prestamo','slug' => 'prestamos.restaurar'
+        ])
+        ;
+        $permiso65 = Permiso::firstOrCreate([
+            'nombre' => 'Aceptar Prestamo','slug' => 'prestamos.aceptar'
+        ])
+        ;
+
+        $permiso66 = Permiso::firstOrCreate([
+            'nombre' => 'Rechazar Prestamo','slug' => 'prestamos.rechazar'
+        ])
+        ;
+
+        $permiso67 = Permiso::firstOrCreate([
+            'nombre' => 'Imprimir Contrato Prestamo','slug' => 'prestamos.imprimir-contrato'
+        ])
+        ;
+
+        $permiso68 = Permiso::firstOrCreate([
+            'nombre' => 'Ver Prestamo','slug' => 'prestamos.mostrar'
+        ])
+        ;
+
+        $permiso69 = Permiso::firstOrCreate([
+            'nombre' => 'Ver Cuotas Préstamo','slug' => 'prestamos.ver-cuotas'
+        ])
+        ;
+
+        $permiso70 = Permiso::firstOrCreate([
+            'nombre' => 'Enviar Notificaciones Préstamo','slug' => 'prestamos.enviar-notificaciones'
+        ])
+        ;
+
+        $permiso71 = Permiso::firstOrCreate([
+            'nombre' => 'Anular Préstamo','slug' => 'prestamos.anular'
+        ])
+        ;
+
+        $permiso72 = Permiso::firstOrCreate([
+            'nombre' => 'Mostar Observaciones Préstamo','slug' => 'prestamos.observaciones'
+        ])
+        ;
+
+
         $role1->permisos()->sync([
             $permiso1->id, $permiso2->id,$permiso3->id,$permiso4->id,$permiso5->id,$permiso6->id,$permiso7->id,$permiso8->id,$permiso9->id,$permiso10->id,
             $permiso11->id, $permiso12->id,$permiso13->id,$permiso14->id,$permiso15->id,$permiso16->id,$permiso17->id,$permiso18->id,$permiso19->id,$permiso20->id,
             $permiso21->id, $permiso22->id,$permiso23->id,$permiso24->id,$permiso25->id,$permiso26->id,$permiso27->id,$permiso28->id,$permiso29->id,$permiso30->id,
             $permiso31->id, $permiso32->id,$permiso33->id,$permiso34->id,$permiso35->id,$permiso36->id,$permiso37->id,$permiso38->id,$permiso39->id,$permiso40->id,
             $permiso41->id, $permiso42->id,$permiso43->id,$permiso44->id,$permiso45->id,$permiso46->id,$permiso47->id,$permiso48->id,$permiso49->id,$permiso50->id,
-            $permiso51->id, $permiso52->id,$permiso53->id,$permiso54->id,$permiso55->id,$permiso56->id,$permiso57->id,$permiso58->id,$permiso59->id
+            $permiso51->id, $permiso52->id,$permiso53->id,$permiso54->id,$permiso55->id,$permiso56->id,$permiso57->id,$permiso58->id,$permiso59->id,$permiso60->id,
+            $permiso61->id, $permiso62->id,$permiso63->id,$permiso64->id,$permiso65->id,$permiso66->id,$permiso67->id,$permiso68->id,$permiso69->id,$permiso70->id,
+            $permiso71->id,$permiso72->id
+        ]);
+
+        $role2->permisos()->sync([
+            $permiso1->id, $permiso2->id,$permiso3->id,$permiso4->id,$permiso5->id,$permiso6->id,$permiso7->id,$permiso8->id,$permiso9->id,$permiso10->id,
+            $permiso11->id, $permiso12->id,$permiso13->id,$permiso14->id,$permiso15->id,$permiso16->id,$permiso17->id,$permiso18->id,$permiso19->id,$permiso20->id,
+            $permiso21->id, $permiso22->id,$permiso23->id,$permiso24->id,$permiso25->id,$permiso26->id,$permiso27->id,$permiso28->id,$permiso29->id,$permiso30->id,
+            $permiso31->id, $permiso32->id,$permiso33->id,$permiso34->id,$permiso35->id,$permiso36->id,$permiso37->id,$permiso38->id,$permiso39->id,$permiso40->id,
+            $permiso41->id, $permiso42->id,$permiso43->id,$permiso44->id,$permiso45->id,$permiso46->id,$permiso47->id,$permiso48->id,$permiso49->id,$permiso50->id,
+            $permiso51->id, $permiso52->id,$permiso53->id,$permiso54->id,$permiso55->id,$permiso56->id,$permiso57->id,$permiso58->id,$permiso59->id,$permiso60->id,
+            $permiso61->id, $permiso62->id,$permiso63->id,$permiso64->id,$permiso65->id,$permiso66->id,$permiso67->id,$permiso68->id,$permiso69->id,$permiso70->id,
+            $permiso71->id,$permiso72->id
+        ]);
+
+        $role3->permisos()->sync([
+            $permiso1->id, $permiso55->id,$permiso56->id,$permiso57->id,$permiso58->id,$permiso59->id,$permiso60->id,
+            $permiso61->id, $permiso62->id,$permiso67->id,$permiso68->id,$permiso69->id,$permiso70->id,$permiso72->id
+        ]);
+
+        $role4->permisos()->sync([
+            $permiso1->id, $permiso55->id,$permiso56->id,$permiso57->id,$permiso58->id,$permiso59->id,$permiso60->id,
+            $permiso61->id, $permiso62->id,$permiso67->id,$permiso68->id,$permiso69->id,$permiso70->id,$permiso72->id
         ]);
     }
 }

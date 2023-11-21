@@ -26,9 +26,12 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('deletes',[PrestamoController::class,'eliminados']);
         Route::get('list',[PrestamoController::class,'obtenerLista']);
         Route::post('/',[PrestamoController::class,'store']);
+        Route::post('modify-estado',[PrestamoController::class,'modificarEstado']);
         Route::put('{id}',[PrestamoController::class,'update']);
+        Route::post('delete-record',[PrestamoController::class,'destroy']);
         Route::get('{id}/show',[PrestamoController::class,'show']);
         Route::put('{id}/disable',[PrestamoController::class,'inhabilitar']);
         Route::put('{id}/enable',[PrestamoController::class,'habilitar']);
+
     });
 });

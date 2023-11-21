@@ -18,5 +18,7 @@ class EstadoOperacionSeeder extends Seeder
         $estado = EstadoOperacion::firstOrCreate(['nombre' => 'Pagado' ,'clase'=> 'badge badge-success']);
         $estado = EstadoOperacion::firstOrCreate(['nombre' => 'Anulado' ,'clase'=> 'badge badge-secondary']);
         $estado = EstadoOperacion::firstOrCreate(['nombre' => 'Eliminado' ,'clase'=> 'badge bg-purple']);
+        $estado = EstadoOperacion::firstOrCreate(['nombre' => 'Observado' ,'clase'=> 'badge bg-indigo']);
+        $estado = EstadoOperacion::firstOrCreate(['nombre' => 'Rechazado' ,'clase'=> 'badge bg-maroon']);
     }
 }

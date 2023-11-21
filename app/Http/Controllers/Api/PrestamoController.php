@@ -51,26 +51,50 @@ class PrestamoController extends Controller
     }
 
     /**
+     * Modificar el estado de un préstamo
+     * @param Request $request
+     *
+     * @return [type]
+     */
+    public function modificarEstado(Request $request)
+    {
+        $prestamo = Prestamo::cambiarEstadoPrestamo($request);
+
+        $success = JWT::encode($prestamo,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
+    }
+    /**
      * Display the specified resource.
      */
-    public function show(Prestamo $prestamo)
+    public function show(int $id)
     {
-        //
+        $prestamo = Prestamo::getData($id);
+
+        $success = JWT::encode($prestamo,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Prestamo $prestamo)
+    public function update(Request $request, int $id)
     {
-        //
+        //$request->validated();
+
+        $prestamo = Prestamo::updateData($request,$id);
+
+        $success = JWT::encode($prestamo,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Prestamo $prestamo)
+    public function destroy(Request $request)
     {
-        //
+        $prestamo = Prestamo::deleteRecord($request);
+
+        $success = JWT::encode($prestamo,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
     }
 }
