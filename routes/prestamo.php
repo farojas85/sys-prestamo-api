@@ -32,6 +32,6 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('{id}/show',[PrestamoController::class,'show']);
         Route::put('{id}/disable',[PrestamoController::class,'inhabilitar']);
         Route::put('{id}/enable',[PrestamoController::class,'habilitar']);
-
+        Route::post('subir-contrato',[PrestamoController::class,'subirContrato']);
     });
 });

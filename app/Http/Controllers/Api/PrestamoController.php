@@ -97,4 +97,12 @@ class PrestamoController extends Controller
         $success = JWT::encode($prestamo,env('VITE_SECRET_KEY'),'HS512');
         return response()->json($success,200);
     }
+
+    public function subirContrato(Request $request)
+    {
+        $prestamo = Prestamo::uploadContrato($request);
+
+        $success = JWT::encode($prestamo,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
+    }
 }

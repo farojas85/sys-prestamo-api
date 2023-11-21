@@ -336,6 +336,16 @@ class PermisoSeeder extends Seeder
         ])
         ;
 
+        $permiso73 = Permiso::firstOrCreate([
+            'nombre' => 'Subir Contrato Préstamo','slug' => 'prestamos.subir-contrato'
+        ])
+        ;
+
+        $permiso74 = Permiso::firstOrCreate([
+            'nombre' => 'Ver Contrato Préstamo','slug' => 'prestamos.ver-contrato'
+        ])
+        ;
+
 
         $role1->permisos()->sync([
             $permiso1->id, $permiso2->id,$permiso3->id,$permiso4->id,$permiso5->id,$permiso6->id,$permiso7->id,$permiso8->id,$permiso9->id,$permiso10->id,
@@ -345,7 +355,7 @@ class PermisoSeeder extends Seeder
             $permiso41->id, $permiso42->id,$permiso43->id,$permiso44->id,$permiso45->id,$permiso46->id,$permiso47->id,$permiso48->id,$permiso49->id,$permiso50->id,
             $permiso51->id, $permiso52->id,$permiso53->id,$permiso54->id,$permiso55->id,$permiso56->id,$permiso57->id,$permiso58->id,$permiso59->id,$permiso60->id,
             $permiso61->id, $permiso62->id,$permiso63->id,$permiso64->id,$permiso65->id,$permiso66->id,$permiso67->id,$permiso68->id,$permiso69->id,$permiso70->id,
-            $permiso71->id,$permiso72->id
+            $permiso71->id, $permiso72->id,$permiso73->id,$permiso74->id
         ]);
 
         $role2->permisos()->sync([
@@ -356,17 +366,17 @@ class PermisoSeeder extends Seeder
             $permiso41->id, $permiso42->id,$permiso43->id,$permiso44->id,$permiso45->id,$permiso46->id,$permiso47->id,$permiso48->id,$permiso49->id,$permiso50->id,
             $permiso51->id, $permiso52->id,$permiso53->id,$permiso54->id,$permiso55->id,$permiso56->id,$permiso57->id,$permiso58->id,$permiso59->id,$permiso60->id,
             $permiso61->id, $permiso62->id,$permiso63->id,$permiso64->id,$permiso65->id,$permiso66->id,$permiso67->id,$permiso68->id,$permiso69->id,$permiso70->id,
-            $permiso71->id,$permiso72->id
+            $permiso71->id, $permiso72->id,$permiso73->id,$permiso74->id
         ]);
 
         $role3->permisos()->sync([
             $permiso1->id, $permiso55->id,$permiso56->id,$permiso57->id,$permiso58->id,$permiso59->id,$permiso60->id,
-            $permiso61->id, $permiso62->id,$permiso67->id,$permiso68->id,$permiso69->id,$permiso70->id,$permiso72->id
+            $permiso61->id, $permiso62->id,$permiso67->id,$permiso68->id,$permiso69->id,$permiso70->id,$permiso72->id,$permiso73->id,$permiso74->id
         ]);
 
         $role4->permisos()->sync([
             $permiso1->id, $permiso55->id,$permiso56->id,$permiso57->id,$permiso58->id,$permiso59->id,$permiso60->id,
-            $permiso61->id, $permiso62->id,$permiso67->id,$permiso68->id,$permiso69->id,$permiso70->id,$permiso72->id
+            $permiso61->id, $permiso62->id,$permiso67->id,$permiso68->id,$permiso69->id,$permiso70->id,$permiso72->id,$permiso73->id,$permiso74->id
         ]);
     }
 }

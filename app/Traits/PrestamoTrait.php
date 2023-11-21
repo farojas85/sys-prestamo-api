@@ -2,14 +2,18 @@
 namespace App\Traits;
 
 use App\Models\AplicacionInteres;
+use App\Models\Cliente;
 use App\Models\Cuota;
 use App\Models\EstadoOperacion;
 use App\Models\FrecuenciaPago;
+use App\Models\Persona;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 trait PrestamoTrait
 {
@@ -29,7 +33,7 @@ trait PrestamoTrait
             DB::Raw("concat(per.nombres,' ',per.apellido_paterno,' ',per.apellido_materno) as cliente"),
             'prestamos.capital_inicial','prestamos.total','prestamos.interes',
             'prestamos.estado_operacion_id as estado',
-            'eop.nombre as nombre_operacion'
+            'eop.nombre as nombre_operacion','prestamos.contrato_pdf'
         )
         ->where(function($query) use($request) {
             if($request->role =='lider')
@@ -70,7 +74,15 @@ trait PrestamoTrait
     {
         try {
             $prestamo = Self::with([
-                'estado_operacion:id,nombre'
+                'estado_operacion:id,nombre',
+                'cuotas' => function($query) {
+                    $query->select(
+                        'cuotas.id','cuotas.numero_cuota','cuotas.descripcion','cuotas.monto_cuota',
+                        'cuotas.prestamo_id',
+                        DB::Raw("DATE_FORMAT(cuotas.fecha_vencimiento,'%d/%m/%Y') as fecha_vencimiento")
+                    )
+                    ->orderBy('cuotas.fecha_vencimiento','asc');
+                }
             ])
             ->join('clientes as cli','cli.id','=','prestamos.cliente_id')
             ->join('personas as per','per.id','=','cli.persona_id')
@@ -80,7 +92,7 @@ trait PrestamoTrait
                 'prestamos.cliente_id','prestamos.user_id','prestamos.capital_inicial','prestamos.interes',
                 'prestamos.numero_cuotas','prestamos.aplicacion_interes_id','prestamos.frecuencia_pago_id',
                 'prestamos.total','prestamos.aplicacion_mora_id','prestamos.dias_gracia','prestamos.interes_moratorio',
-                'prestamos.observaciones',
+                'prestamos.observaciones','prestamos.contrato_pdf',
                 'per.nombres','per.numero_documento','per.apellido_paterno','per.apellido_materno','per.telefono','per.direccion'
             )
             ->where('prestamos.id',$id)->first();
@@ -326,6 +338,44 @@ trait PrestamoTrait
                 'mensaje' => $ex->getMessage(),
                 'data' => null
             );
+        }
+    }
+
+     /**
+     * subir contrato pdf
+     * @param Request $request
+     *
+     * @return [type]
+     */
+    public static function  uploadContrato(Request $request)
+    {
+        try {
+            $prestamo  = Self::find($request->id);
+
+            $cliente = Cliente::find($prestamo->cliente_id);
+
+            $persona_dni = Persona::where('id',$cliente->persona_id)->first()->numero_documento;
+
+            $file = $request->file('contrato');
+            $nombre_archivo = "CONTRATO_".date('Ymd').".".$file->extension();
+
+            Storage::disk('clientes')->put($persona_dni."/".$nombre_archivo,File::get($file));
+
+            $prestamo->contrato_pdf = $nombre_archivo;
+            $prestamo->save();
+
+            return [
+                'ok' => 1,
+                'mensaje' => 'Contrato del Empleado fue subido satisfactoriamente',
+                'data' => $nombre_archivo
+            ];
+
+        } catch (Exception $ex) {
+            return [
+                'ok' => $ex->getCode(),
+                'mensaje' => $ex->getMessage(),
+                'data' => null
+            ];
         }
     }
 

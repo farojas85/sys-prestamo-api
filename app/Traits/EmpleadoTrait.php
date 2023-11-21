@@ -432,7 +432,7 @@ trait EmpleadoTrait
 
             return [
                 'ok' => 1,
-                'mensaje' => 'Contrato del Empleadoha fue subido satisfactoriamente',
+                'mensaje' => 'Contrato del Empleado fue subido satisfactoriamente',
                 'data' => $nombre_archivo
             ];
 
