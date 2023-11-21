@@ -67,4 +67,9 @@ class ClienteController extends Controller
 
         return response()->json($success,201);
     }
+
+    public function obtenerPrestamosCliente(Request $request)
+    {
+
+    }
 }

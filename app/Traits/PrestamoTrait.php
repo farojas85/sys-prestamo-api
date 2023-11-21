@@ -112,7 +112,6 @@ trait PrestamoTrait
         }
     }
 
-
     public static function storeData(Request $request)
     {
         try {
@@ -377,6 +376,14 @@ trait PrestamoTrait
                 'data' => null
             ];
         }
+    }
+
+    public static function getByClienteId($cliente_id)
+    {
+        return Self::select('id','fecha_prestamo','capital_inicial','interes')
+                ->where('cliente_id',$cliente_id)
+                ->orderBy('fercha_prestamo','asc')
+                ->get();
     }
 
 }

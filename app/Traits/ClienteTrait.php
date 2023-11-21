@@ -2,6 +2,7 @@
 namespace App\Traits;
 
 use App\Models\Persona;
+use App\Models\Prestamo;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -181,6 +182,46 @@ trait ClienteTrait
                 )
                 ->where('per.numero_documento',$numero_documento)
                 ->first();
+
+    }
+
+    public function getByFiltros(string $busqueda)
+    {
+        $busqueda = mb_strtoupper($busqueda);
+
+        return $this->join('personas as per','per.id','=','clientes.persona_id')
+                ->select(
+                    'clientes.id','per.tipo_documento_id','per.numero_documento',
+                    DB::Raw("upper(CONCAT(per.apellido_paterno,' ',per.apellido_materno,' ',per.nombres)) as cliente"),
+                    'per.nombres','per.apellido_paterno', 'per.apellido_materno', 'per.telefono','per.direccion',
+                    'per.correo_personal'
+                )
+                ->where(function($query) use($busqueda){
+                    $query->where('per.numero_documento','like',$busqueda.'%')
+                        ->orWhere( DB::Raw("upper(CONCAT(per.apellido_paterno,' ',per.apellido_materno))"),'like', '%'.$busqueda.'%')
+                        ->orWhere( DB::Raw("upper(per.nombres)"),'like', '%'.$busqueda.'%');
+                })
+                ->get();
+
+    }
+
+    public function getDataPrestamos(Request $request)
+    {
+        $cliente = $this->with(['persona:id,numero_documento,nombres,apellido_paterno,apellido_materno'])
+                    ->where('clientes.id',$request->cliente)
+                    ->first()
+        ;
+
+        $prestamos = Prestamo::select('id','fecha_prestamo','capital_inicial','interes')
+                    ->where('cliente_id',$cliente->id)
+                    ->orderBy('fercha_prestamo','asc')
+                    ->get()
+        ;
+
+        return [
+            'cliente' => $cliente,
+            'prestamos' => $prestamos
+        ];
 
     }
 }
