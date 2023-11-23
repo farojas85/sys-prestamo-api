@@ -259,9 +259,9 @@ trait EmpleadoTrait
 
             $user = User::find($empleado->user_id);
 
-            $user_name = self::generarUsuario($request);
 
             if(!$user) {
+                //$user_name = self::generarUsuario($request);
                 $user =
                 User::create([
                     'name' => $request->user_name,
