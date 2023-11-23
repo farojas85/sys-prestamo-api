@@ -52,11 +52,11 @@ class EmpleadoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEmpleadoRequest $request, int $id)
+    public function update(Request $request)
     {
-        $request->validated();
+        //$request->validated();
 
-        $empleado = Empleado::updateData($request,$id);
+        $empleado = Empleado::updateData($request,$request->id);
 
         $success = JWT::encode($empleado,env('VITE_SECRET_KEY'),'HS512');
         return response()->json($success,200);
