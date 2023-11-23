@@ -44,4 +44,14 @@ class Cliente extends Model
     {
         return $this->belongsTo(Distrito::class,'distrito_id','id');
     }
+
+    /**
+     * Get all of the cliente_cuentas for the Cliente
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cliente_cuentas(): HasMany
+    {
+        return $this->hasMany(ClienteCuenta::class);
+    }
 }

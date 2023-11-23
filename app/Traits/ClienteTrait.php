@@ -1,8 +1,12 @@
 <?php
 namespace App\Traits;
 
+use App\Models\ClienteCuenta;
+use App\Models\Departamento;
+use App\Models\Distrito;
 use App\Models\Persona;
 use App\Models\Prestamo;
+use App\Models\Provincia;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,8 +21,10 @@ trait ClienteTrait
     public function getAllData(): object
     {
 
+        $cliente = $this;
+
         $persona = $this->persona()->select(
-            'tipo_documento_id','numero_documento','nombres','apellido_paterno','apellido_materno',
+            'id','tipo_documento_id','numero_documento','nombres','apellido_paterno','apellido_materno',
             'sexo_id','direccion','telefono'
         )->first();
 
@@ -26,11 +32,46 @@ trait ClienteTrait
 
         $sexo = $persona->sexo()->select('id','nombre')->first();
 
+        $distrito = $this->distrito()->first();
+
+        $cliente_cuentas  = ClienteCuenta::join('entidad_financieras as ef','ef.id','=','cliente_cuentas.entidad_financiera_id')
+                                ->select(
+                                    'cliente_cuentas.id','cliente_cuentas.cliente_id','cliente_cuentas.entidad_financiera_id',
+                                    'ef.nombre as banco','cliente_cuentas.numero_cuenta','cliente_cuentas.es_activo'
+                                )
+                                ->where('cliente_id',$cliente->id)
+                                ->get();
+
+        $provincia = null;
+        $departamento = null;
+        $provincias = [];
+        $distritos = [];
+
+        if($distrito)
+        {
+            $provincia = $distrito->provincia()->select('id','codigo','nombre','departamento_id')->first();
+
+            $departamento = $provincia->departamento()->select('id','codigo','nombre')->first() ;
+
+            $provincias = Provincia::select('id','codigo','nombre')->where('departamento_id',$departamento->id)->get();
+
+            $distritos = Distrito::select('id','codigo','nombre')->where('provincia_id',$provincia->id)->get();
+        }
+
+        $departamentos = Departamento::select('id','codigo','nombre')->get();
+
         return (object) array(
-            'cliente' => $this,
+            'cliente' => $this->select('clientes.id','persona_id','distrito_id','es_activo')->first(),
             'persona' => $persona,
             'tipo_documento' => $tipo_documento,
-            'sexo' => $sexo
+            'sexo' => $sexo,
+            'distrito' =>  $distrito,
+            'provincia' => $provincia,
+            'departamento' => $departamento,
+            'distritos' => $distritos,
+            'provincias' => $provincias,
+            'departamentos' => $departamentos,
+            'cliente_cuentas' => $cliente_cuentas
         );
     }
 
@@ -95,6 +136,34 @@ trait ClienteTrait
                 ]);
             }
 
+            if($request->cuentas_bancarias)
+            {
+                foreach($request->cuentas_bancarias as $cuenta)
+                {
+                    $cliente_cuenta = ClienteCuenta::where('cliente_id',$cuenta['cliente_id'])
+                                        ->where('entidad_financiera_id',$cuenta['entidad_financiera_id'])
+                                        ->first()
+                    ;
+
+                    if(!$cliente_cuenta)
+                    {
+                        $cliente_cuenta = new ClienteCuenta();
+                        $cliente_cuenta->cliente_id = $cliente->id;
+                        $cliente_cuenta->entidad_financiera_id = $cuenta['entidad_financiera_id'];
+                        $cliente_cuenta->numero_cuenta = $cuenta['numero_cuenta'];
+                        $cliente_cuenta->es_activo =1;
+                        $cliente_cuenta->save();
+                    }
+
+                    if($cliente_cuenta)
+                    {
+                        $cliente_cuenta->numero_cuenta = $cuenta['numero_cuenta'];
+                        $cliente_cuenta->es_activo =1;
+                        $cliente_cuenta->save();
+                    }
+                }
+            }
+
             return array(
                 'ok' => 1,
                 'mensaje' => 'El cliente '.$request->nombres." ha sido registrado satisfactoriamente",
@@ -156,6 +225,34 @@ trait ClienteTrait
                 $cliente->persona_id = $persona->id;
                 $cliente->distrito_id = $request->distrito_id;
                 $cliente->save();
+            }
+
+            if($request->cuentas_bancarias)
+            {
+                foreach($request->cuentas_bancarias as $cuenta)
+                {
+                    $cliente_cuenta = ClienteCuenta::where('cliente_id',$cuenta['cliente_id'])
+                                        ->where('entidad_financiera_id',$cuenta['entidad_financiera_id'])
+                                        ->first()
+                    ;
+
+                    if(!$cliente_cuenta)
+                    {
+                        $cliente_cuenta = new ClienteCuenta();
+                        $cliente_cuenta->cliente_id = $cliente->id;
+                        $cliente_cuenta->entidad_financiera_id = $cuenta['entidad_financiera_id'];
+                        $cliente_cuenta->numero_cuenta = $cuenta['numero_cuenta'];
+                        $cliente_cuenta->es_activo =1;
+                        $cliente_cuenta->save();
+                    }
+
+                    if($cliente_cuenta)
+                    {
+                        $cliente_cuenta->numero_cuenta = $cuenta['numero_cuenta'];
+                        $cliente_cuenta->es_activo =1;
+                        $cliente_cuenta->save();
+                    }
+                }
             }
 
             return array(

@@ -14,7 +14,7 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('list',[ClienteController::class,'obtenerLista']);
         Route::post('/',[ClienteController::class,'store']);
         Route::put('{id}',[ClienteController::class,'update']);
-        Route::get('{id}/show',[ClienteController::class,'show']);
+        Route::get('show',[ClienteController::class,'show']);
         Route::put('{id}/disable',[ClienteController::class,'inhabilitar']);
         Route::put('{id}/enable',[ClienteController::class,'habilitar']);
     });

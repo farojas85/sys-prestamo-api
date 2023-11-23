@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AplicacionInteresController;
 use App\Http\Controllers\Api\AplicacionMoraController;
 use App\Http\Controllers\Api\DepartamentoController;
 use App\Http\Controllers\Api\DistritoController;
+use App\Http\Controllers\Api\EntidadFinancieraController;
 use App\Http\Controllers\Api\MonedaController;
 use App\Http\Controllers\Api\ProvinciaController;
 use App\Http\Controllers\Api\SexoController;
@@ -129,5 +130,19 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         // Route::put('{id}/enable',[TipoDocumentoController::class,'habilitar']);
         Route::get('list',[DistritoController::class,'obtenerLista']);
         Route::get('por-provincia',[DistritoController::class,'obtenerListaPorProvincia']);
+    });
+
+    //CLIENTES
+    Route::group(['prefix' => 'entidad-financieras'], function(){
+        // Route::get('/',[ClienteController::class,'index']);
+        // Route::get('exist',[ClienteController::class,'buscarPorNumeroDocumento']);
+        // Route::get('actives',[ClienteController::class,'obtenerActivos']);
+        // Route::get('inactives',[ClienteController::class,'obtenerInactivos']);
+        Route::get('list',[EntidadFinancieraController::class,'obtenerLista']);
+        // Route::post('/',[ClienteController::class,'store']);
+        // Route::put('{id}',[ClienteController::class,'update']);
+        // Route::get('{id}/show',[ClienteController::class,'show']);
+        // Route::put('{id}/disable',[ClienteController::class,'inhabilitar']);
+        // Route::put('{id}/enable',[ClienteController::class,'habilitar']);
     });
 });

@@ -20,12 +20,13 @@ trait PersonaTrait
      */
     public static function buscarPersonaDni(string $numero_documento)
     {
-        $personaData = Persona::getDataByNumeroDocumento($numero_documento);
+        $personaData = Self::getDataByNumeroDocumento($numero_documento);
 
-        if($personaData) {
-            return json_encode($personaData);
+        $tipo = 1;
+        // if($personaData) {
+        //     return $personaData;
+        // }
 
-        }
         if(!$personaData)
         {
             $apiDniRuc = new ApiDniRuc();
@@ -33,8 +34,15 @@ trait PersonaTrait
             $persona->numero_documento = $numero_documento;
 
             $personaData = $apiDniRuc->buscar('dni',$persona);
-            return $personaData;
+            $tipo = 2;
+            //return $personaData;
         }
+
+        return [
+            'data' => $personaData,
+            'tipo' => $tipo
+        ];
+
 
     }
 }

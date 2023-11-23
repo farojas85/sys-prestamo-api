@@ -7,6 +7,7 @@ use App\Http\Requests\Cliente\StoreClienteRequest;
 use App\Models\Cliente;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class ClienteController extends Controller
 {
@@ -38,17 +39,25 @@ class ClienteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Cliente $cliente)
+    public function show(Request $request)
     {
-        //
+        $cliente = Cliente::find($request->id)->getAllData();
+
+        $success = JWT::encode(['cliente'=>$cliente],env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cliente $cliente)
+    public function update(Request $request, int $id)
     {
-        //
+        //$request->validated();
+
+        $cliente = Cliente::updateData($request,$id);
+
+        $success = JWT::encode($cliente,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
     }
 
     /**

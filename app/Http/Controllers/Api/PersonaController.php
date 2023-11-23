@@ -13,9 +13,18 @@ use function PHPUnit\Framework\isEmpty;
 
 class PersonaController extends Controller
 {
-    public function buscarDatosDni(TipoDocumentoPersonaRequest $request)
+    public function buscarDatosDni(Request $request)
     {
-        $request->validated();
+        // $validar = Validator::make(
+        //     $request->all(),
+        //     [ 'numero_documento' => 'required' ],
+        //     [ 'required' => '* Campo obligatorio' ]
+        // );
+
+        // if($validar->fails())
+        // {
+        //     return response()->json($validar->errors(),422);
+        // }
 
         $personaDni = Persona::buscarPersonaDni($request->numero_documento);
 
@@ -26,7 +35,7 @@ class PersonaController extends Controller
         //     $personaDni = Persona::getDataByNumeroDocumento($numeroDocumento);
         // }
 
-        $success = JWT::encode(['personaDni'=>$personaDni],env('VITE_SECRET_KEY'),'HS512');
+        $success = JWT::encode(['personaDni'=> $personaDni],env('VITE_SECRET_KEY'),'HS512');
         return response()->json($success,200);
     }
 
