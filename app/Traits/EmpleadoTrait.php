@@ -277,6 +277,8 @@ trait EmpleadoTrait
                 $user->save();
             }
 
+            $user->roles()->sync($request->role_id);
+
             $contar_editar = 0;
 
             if($persona->id != $empleado->persona_id)
