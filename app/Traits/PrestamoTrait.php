@@ -141,16 +141,17 @@ trait PrestamoTrait
 
             $monto_inicial =$prestamo->capital_inicial;
 
-            if($request->aplicacion_interes_id == 1)
-            {
-                $monto_inicial =$prestamo->capital_inicial + ($prestamo->capital_inicial*($prestamo->interes/100));
-                $cuota_monto = round($monto_inicial/$prestamo->numero_cuotas,2);
-            }
+            // if($request->aplicacion_interes_id == 1)
+            // {
+            //     $monto_inicial =$prestamo->capital_inicial + ($prestamo->capital_inicial*($prestamo->interes/100));
+            //     $cuota_monto = round($monto_inicial/$prestamo->numero_cuotas,2);
+            // }
 
-            if($request->aplicacion_interes_id == 2)
-            {
-                $cuota_monto = round(($monto_inicial/$prestamo->numero_cuotas)*(1 + ($prestamo->interes/100)),2);
-            }
+            // if($request->aplicacion_interes_id == 2)
+            // {
+            //     $cuota_monto = round(($monto_inicial/$prestamo->numero_cuotas)*(1 + ($prestamo->interes/100)),2);
+            // }
+            $cuota_monto = $request->valor_cuota;
 
             for($x=1;$x<=$prestamo->numero_cuotas;$x++)
             {
@@ -233,16 +234,18 @@ trait PrestamoTrait
 
             $cuota_monto = 0;
 
-            if($request->aplicacion_interes_id == 1)
-            {
-                $monto_inicial =$prestamo->capital_inicial + ($prestamo->capital_inicial*($prestamo->interes/100));
-                $cuota_monto = round($monto_inicial/$prestamo->numero_cuotas,2);
-            }
+            // if($request->aplicacion_interes_id == 1)
+            // {
+            //     $monto_inicial =$prestamo->capital_inicial + ($prestamo->capital_inicial*($prestamo->interes/100));
+            //     $cuota_monto = round($monto_inicial/$prestamo->numero_cuotas,2);
+            // }
 
-            if($request->aplicacion_interes_id == 2)
-            {
-                $cuota_monto = round(($monto_inicial/$prestamo->numero_cuotas)*(1 + ($prestamo->interes/100)),2);
-            }
+            // if($request->aplicacion_interes_id == 2)
+            // {
+            //     $cuota_monto = round(($monto_inicial/$prestamo->numero_cuotas)*(1 + ($prestamo->interes/100)),2);
+            // }
+
+            $cuota_monto = $request->valor_cuota;
 
 
             for($x=1;$x<=$prestamo->numero_cuotas;$x++)
