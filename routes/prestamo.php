@@ -17,6 +17,9 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('show',[ClienteController::class,'show']);
         Route::put('{id}/disable',[ClienteController::class,'inhabilitar']);
         Route::put('{id}/enable',[ClienteController::class,'habilitar']);
+        Route::post('subir-dni-anverso',[ClienteController::class,'subirDniAnverso']);
+        Route::post('subir-dni-reverso',[ClienteController::class,'subirDniReverso']);
+        Route::get('mostrar-documentos',[ClienteController::class,'mostrarDocumentos']);
     });
 
     //PRESTAMOS

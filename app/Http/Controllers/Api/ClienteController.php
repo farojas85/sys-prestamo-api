@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cliente\StoreClienteRequest;
 use App\Models\Cliente;
+use App\Models\Persona;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Storage;
 
 class ClienteController extends Controller
 {
@@ -80,5 +82,44 @@ class ClienteController extends Controller
     public function obtenerPrestamosCliente(Request $request)
     {
 
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return [type]
+     */
+    public function subirDniAnverso(Request $request)
+    {
+        $cliente = Cliente::uploadDniAnverso($request);
+
+        $success = JWT::encode($cliente,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return [type]
+     */
+    public function subirDniReverso(Request $request)
+    {
+        $cliente = Cliente::uploadDniReverso($request);
+
+        $success = JWT::encode($cliente,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
+    }
+
+    public function mostrarDocumentos(Request $request)
+    {
+        $cliente = Cliente::find($request->id);
+
+        $persona_dni = Persona::find($cliente->persona_id)->dni;
+
+        $archivos = Storage::disk('clientes')->allFiles($persona_dni);
+
+        $documentos = JWT::encode($archivos,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($documentos,200);
     }
 }

@@ -10,7 +10,9 @@ use App\Models\Provincia;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 trait ClienteTrait
 {
@@ -320,5 +322,77 @@ trait ClienteTrait
             'prestamos' => $prestamos
         ];
 
+    }
+
+    /**
+     * subir contrato pdf
+     * @param Request $request
+     *
+     * @return [type]
+     */
+    public static function  uploadDniAnverso(Request $request)
+    {
+        try {
+            $cliente  = Self::find($request->cliente_id);
+
+            $persona_dni = Persona::where('id',$cliente->persona_id)->first()->numero_documento;
+
+            $file = $request->file('dni_anverso');
+            $nombre_archivo = "DNI_ANVERSO_".date('Y').".".$file->extension();
+
+            Storage::disk('clientes')->put($persona_dni."/".$nombre_archivo,File::get($file));
+
+            $cliente->dni_anverso = $nombre_archivo;
+            $cliente->save();
+
+            return [
+                'ok' => 1,
+                'mensaje' => 'DNI Anverso del Cliente fue subido satisfactoriamente',
+                'data' => $nombre_archivo
+            ];
+
+        } catch (Exception $ex) {
+            return [
+                'ok' => $ex->getCode(),
+                'mensaje' => $ex->getMessage(),
+                'data' => null
+            ];
+        }
+    }
+
+     /**
+     * subir contrato pdf
+     * @param Request $request
+     *
+     * @return [type]
+     */
+    public static function  uploadDniReverso(Request $request)
+    {
+        try {
+            $cliente  = Self::find($request->cliente_id);
+
+            $persona_dni = Persona::where('id',$cliente->persona_id)->first()->numero_documento;
+
+            $file = $request->file('dni_reverso');
+            $nombre_archivo = "DNI_REVERSO_".date('Y').".".$file->extension();
+
+            Storage::disk('clientes')->put($persona_dni."/".$nombre_archivo,File::get($file));
+
+            $cliente->dni_reverso = $nombre_archivo;
+            $cliente->save();
+
+            return [
+                'ok' => 1,
+                'mensaje' => 'DNI Reverso del Cliente fue subido satisfactoriamente',
+                'data' => $nombre_archivo
+            ];
+
+        } catch (Exception $ex) {
+            return [
+                'ok' => $ex->getCode(),
+                'mensaje' => $ex->getMessage(),
+                'data' => null
+            ];
+        }
     }
 }
