@@ -20,6 +20,7 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::post('subir-dni-anverso',[ClienteController::class,'subirDniAnverso']);
         Route::post('subir-dni-reverso',[ClienteController::class,'subirDniReverso']);
         Route::get('mostrar-documentos',[ClienteController::class,'mostrarDocumentos']);
+        Route::get('cuentas',[ClienteController::class,'listarCuentas']);
     });
 
     //PRESTAMOS

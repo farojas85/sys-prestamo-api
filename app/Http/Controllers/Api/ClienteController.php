@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cliente\StoreClienteRequest;
 use App\Models\Cliente;
+use App\Models\ClienteCuenta;
 use App\Models\Persona;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
@@ -121,5 +122,13 @@ class ClienteController extends Controller
 
         $documentos = JWT::encode($archivos,env('VITE_SECRET_KEY'),'HS512');
         return response()->json($documentos,200);
+    }
+
+    public function listarCuentas(Request $request)
+    {
+        $cliente_cuentas = ClienteCuenta::getListByClienteId($request->cliente_id);
+
+        $jwt = JWT::encode(['cliente_cuentas' =>$cliente_cuentas],env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($jwt,200);
     }
 }
