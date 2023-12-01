@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ClienteController;
+use App\Http\Controllers\Api\CuotaController;
 use App\Http\Controllers\Api\DesembolsoController;
 use App\Http\Controllers\Api\PrestamoController;
-use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' > ['auth:sanctum']],function(){
     //CLIENTES
@@ -39,6 +40,12 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::put('{id}/enable',[PrestamoController::class,'habilitar']);
         Route::post('subir-contrato',[PrestamoController::class,'subirContrato']);
         Route::get('/by-cliente',[PrestamoController::class,'buscarPorCliente']);
+        Route::get('list-by-cliente',[PrestamoController::class,'obtenerPrestamosPorCliente']);
+    });
+
+    //CUOTAS
+    Route::group(['prefix' => 'cuotas'], function(){
+        Route::get('/list-by-prestamo',[CuotaController::class,'obtenerCuotasPorPrestamo']);
     });
 
     //DESEMBOLSOS

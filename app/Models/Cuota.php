@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\CuotaTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Cuota extends Model
 {
-    use HasFactory;
+    use HasFactory, CuotaTrait;
 
     protected $fillable = [
         'prestamo_id', 'numero_cuota', 'descripcion', 'monto_cuota',

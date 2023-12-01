@@ -98,11 +98,24 @@ class PrestamoController extends Controller
         return response()->json($success,200);
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return [type]
+     */
     public function subirContrato(Request $request)
     {
         $prestamo = Prestamo::uploadContrato($request);
 
         $success = JWT::encode($prestamo,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
+    }
+
+    public function obtenerPrestamosPorCliente(Request $request)
+    {
+        $prestamos = Prestamo::getListByClienteId($request->cliente_id);
+
+        $success = JWT::encode(['prestamos' => $prestamos],env('VITE_SECRET_KEY'),'HS512');
         return response()->json($success,200);
     }
 }

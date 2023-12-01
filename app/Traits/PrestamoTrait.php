@@ -394,4 +394,20 @@ trait PrestamoTrait
                 ->get();
     }
 
+    public static function getListByClienteId(int $cliente_id)
+    {
+        return Self::join('estado_operaciones as eo','eo.id','=','prestamos.estado_operacion_id')
+                ->select(
+                    'prestamos.id',
+                    DB::Raw("DATE_FORMAT(fecha_prestamo,'%d/%m/%Y %H:%i:%s') as fecha_prestamo"),
+                    'prestamos.capital_inicial','prestamos.interes','prestamos.numero_cuotas',
+                    'eo.nombre as estado'
+                )
+                ->where('cliente_id',$cliente_id)
+                ->orderBy('fecha_prestamo','desc')
+                ->paginate(10)
+        ;
+
+    }
+
 }
