@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Desembolso\StoreDesembolsoRequest;
 use App\Models\Desembolso;
+use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 
 class DesembolsoController extends Controller
@@ -22,7 +23,13 @@ class DesembolsoController extends Controller
      */
     public function store(StoreDesembolsoRequest $request)
     {
-        $request->validate();
+        $request->validated();
+
+        $desembolso = Desembolso::saveData($request);
+
+        $success = JWT::encode(['desembolso'=> $desembolso],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success,200);
     }
 
     /**

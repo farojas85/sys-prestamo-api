@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Prestamo extends Model
@@ -97,5 +98,15 @@ class Prestamo extends Model
     public function cuotas(): HasMany
     {
         return $this->hasMany(Cuota::class);
+    }
+
+    /**
+     * Get the desembolso associated with the Prestamo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function desembolso(): HasOne
+    {
+        return $this->hasOne(Desembolso::class);
     }
 }

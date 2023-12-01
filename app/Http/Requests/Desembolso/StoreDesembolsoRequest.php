@@ -25,8 +25,7 @@ class StoreDesembolsoRequest extends FormRequest
             'cliente_cuenta_id' => 'required',
             'fecha_desembolso' => 'required',
             'numero_operacion' => 'required',
-            'fecha_deposito' => 'required',
-            'imagen_voucher' => 'required'
+            'imagen_voucher' => 'required|mimes:png,jpg,webp,jpeg'
         ];
     }
 

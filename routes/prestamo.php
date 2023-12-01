@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ClienteController;
+use App\Http\Controllers\Api\DesembolsoController;
 use App\Http\Controllers\Api\PrestamoController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,5 +39,10 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::put('{id}/enable',[PrestamoController::class,'habilitar']);
         Route::post('subir-contrato',[PrestamoController::class,'subirContrato']);
         Route::get('/by-cliente',[PrestamoController::class,'buscarPorCliente']);
+    });
+
+    //DESEMBOLSOS
+    Route::group(['prefix' => 'desembolsos'], function(){
+        Route::post('/',[DesembolsoController::class,'store']);
     });
 });

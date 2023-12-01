@@ -343,7 +343,7 @@ trait PrestamoTrait
         }
     }
 
-     /**
+    /**
      * subir contrato pdf
      * @param Request $request
      *
@@ -381,6 +381,11 @@ trait PrestamoTrait
         }
     }
 
+    /**
+     * @param mixed $cliente_id
+     *
+     * @return Query\Builder
+     */
     public static function getByClienteId($cliente_id)
     {
         return Self::select('id','fecha_prestamo','capital_inicial','interes')
