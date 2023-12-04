@@ -33,4 +33,14 @@ class EstadoOperacion extends Model
     {
         return $this->hasMany(Cuota::class);
     }
+
+    /**
+     * Get all of the registro_pagos for the EstadoOperacion
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function registro_pagos(): HasMany
+    {
+        return $this->hasMany(RegistroPago::class);
+    }
 }

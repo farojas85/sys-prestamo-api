@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\FormaPago;
+use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 
 class FormaPagoController extends Controller
@@ -46,5 +47,18 @@ class FormaPagoController extends Controller
     public function destroy(FormaPago $formaPago)
     {
         //
+    }
+
+     /**
+     * obtener Lista
+     * @return [type]
+     */
+    public function obtenerLista()
+    {
+        $forma_pagos = FormaPago::getList();
+
+        $success = JWT::encode(['forma_pagos'=> $forma_pagos],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success,200);
     }
 }

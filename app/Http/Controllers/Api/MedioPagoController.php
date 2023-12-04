@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\MedioPago;
+use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 
 class MedioPagoController extends Controller
@@ -46,5 +47,15 @@ class MedioPagoController extends Controller
     public function destroy(MedioPago $medioPago)
     {
         //
+    }
+
+    public function listarPorFormaPago(Request $request)
+    {
+        $medio_pagos = MedioPago::getListByFormaPago($request->forma_pago);
+
+        $success = JWT::encode(['medio_pagos'=> $medio_pagos],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success,200);
+
     }
 }

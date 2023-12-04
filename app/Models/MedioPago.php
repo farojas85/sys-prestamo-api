@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\MedioPagoTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class MedioPago extends Model
 {
-    use HasFactory;
+    use HasFactory, MedioPagoTrait;
 
     protected $fillable = [
         'nombre','es_activo'

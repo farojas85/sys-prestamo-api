@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cliente;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
+use App\Models\RegistroPago;
 
 class RegistroPagoController extends Controller
 {

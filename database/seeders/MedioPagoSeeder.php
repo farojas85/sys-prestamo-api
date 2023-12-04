@@ -18,7 +18,7 @@ class MedioPagoSeeder extends Seeder
         $yape = MedioPago::firstOrCreate(['nombre' => 'YAPE']);
         $plin = MedioPago::firstOrCreate(['nombre' => 'PLIN']);
         $tunki = MedioPago::firstOrCreate(['nombre' => 'TUNKI']);
-        $agora = MedioPago::firstOrCreate(['nombre' => 'AGORA']);
+        $agora = MedioPago::firstOrCreate(['nombre' => 'AGORA PAY']);
         $bim = MedioPago::firstOrCreate(['nombre' => 'BIM']);
         $bcp = MedioPago::firstOrCreate(['nombre' => 'BCP']);
         $bbva = MedioPago::firstOrCreate(['nombre' => 'BBVA']);

@@ -109,4 +109,14 @@ class Prestamo extends Model
     {
         return $this->hasOne(Desembolso::class);
     }
+
+    /**
+     * Get all of the registro_pagos for the Prestamo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function registro_pagos(): HasMany
+    {
+        return $this->hasMany(RegistroPago::class);
+    }
 }
