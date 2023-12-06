@@ -134,7 +134,8 @@ trait ClienteTrait
             {
                 $cliente = Self::create([
                     'persona_id' => $persona->id,
-                    'distrito_id' => $request->distrito_id
+                    'distrito_id' => $request->distrito_id,
+                    'empleado_id' => $request->empleado_id,
                 ]);
             }
 

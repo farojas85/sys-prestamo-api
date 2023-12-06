@@ -24,5 +24,6 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::put('{id}/enable',[EmpleadoController::class,'habilitar']);
         Route::get('superiores-por-role',[EmpleadoController::class,'listarSuperioresPorRole']);
         Route::post('subir-contrato',[EmpleadoController::class,'subirContrato']);
+        Route::get('list-for-clientes',[EmpleadoController::class,'listarEmpleados']);
     });
 });

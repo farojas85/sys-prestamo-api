@@ -447,4 +447,36 @@ trait EmpleadoTrait
         }
     }
 
+    public static function listarEmpleados(Request $request)
+    {
+        if(in_array($request->role,['super-usuario','gerente']))
+        {
+            return Self::join('users as usu','usu.id','=','empleados.user_id')
+                    ->join('role_user as ru','ru.user_id','=','usu.id')
+                    ->join('roles as ro','ro.id','=','ru.role_id')
+                    ->join('personas as per','per.id','=','empleados.persona_id')
+                    ->select(
+                        'empleados.id',
+                        DB::Raw("concat(upper(per.apellido_paterno),' ',upper(per.apellido_materno),', ',upper(per.nombres)) as empleado")
+                    )
+                    ->whereIn('ro.slug',['lider','lider-superior'])
+                    ->get();
+        }
+        if($request->role == 'lider-superior')
+        {
+            return Self::join('users as usu','usu.id','=','empleados.user_id')
+                    ->join('role_user as ru','ru.user_id','=','usu.id')
+                    ->join('roles as ro','ro.id','=','ru.role_id')
+                    ->join('personas as per','per.id','=','empleados.persona_id')
+                    ->join('empleados as super','super.id','=','empleados.superior_id')
+                    ->select(
+                        'empleados.id',
+                        DB::Raw("concat(upper(per.apellido_paterno),' ',upper(per.apellido_materno),', ',upper(per.nombres)) as empleado")
+                    )
+                    ->whereIn('ro.slug',['lider'])
+                    ->where('super.user_id',$request->user_id)
+                    ->get();
+        }
+    }
+
 }

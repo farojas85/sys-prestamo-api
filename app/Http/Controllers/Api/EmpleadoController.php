@@ -114,4 +114,13 @@ class EmpleadoController extends Controller
         return response()->json($success,200);
     }
 
+    public function listarEmpleados(Request $request)
+    {
+        $empleados = Empleado::listarEmpleados($request);
+
+        $success = JWT::encode(['empleados' => $empleados],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success,200);
+    }
+
 }
