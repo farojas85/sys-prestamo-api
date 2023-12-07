@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegistroPago\StoreRegistroPagoRequest;
 use App\Models\Cliente;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use App\Models\RegistroPago;
+use Illuminate\Support\Facades\Validator;
 
 class RegistroPagoController extends Controller
 {
@@ -29,7 +31,48 @@ class RegistroPagoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!$request->forma_pago && !$request->medio_pago)
+        {
+            $validar = Validator::make(
+                $request->all(),[
+                    'forma_pago' => 'required',
+                    'medio_pago' => 'required',
+                    'detalles.*' => 'required'
+                ], [
+                    'required' => '* Campo obligatorio'
+                ]
+            );
+
+            if($validar->fails())
+            {
+                return response()->json($validar->errors(),422);
+            }
+        }
+        if($request->forma_pago != 1)
+        {
+            $validar = Validator::make(
+                $request->all(),[
+                    'forma_pago' => 'required',
+                    'medio_pago' => 'required',
+                    'numero_operacion' => 'required',
+                    'fecha_deposito' => 'required',
+                    'imagen_voucher' => 'required|mimes:jpg,png,jpeg,gif,webp',
+
+                ], [
+                    'required' => '* Campo obligatorio'
+                ]
+            );
+
+            if($validar->fails())
+            {
+                return response()->json($validar->errors(),422);
+            }
+        }
+
+        $registro_pago = RegistroPago::saveData($request);
+
+        $success = JWT::encode($registro_pago,env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
     }
 
     /**

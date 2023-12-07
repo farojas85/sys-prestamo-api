@@ -18,6 +18,7 @@ Route::group(['middleware' > ['auth:sanctum']],function() {
 
     //REGISTRO PAGOS
     Route::group(['prefix' => 'registro-pagos'], function(){
+        Route::post('/',[RegistroPagoController::class,'store']);
         Route::get('/buscar-clientes',[RegistroPagoController::class,'buscarClientes']);
     });
 });

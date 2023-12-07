@@ -4,6 +4,7 @@ namespace App\Traits;
 use App\Models\ClienteCuenta;
 use App\Models\Departamento;
 use App\Models\Distrito;
+use App\Models\Empleado;
 use App\Models\Persona;
 use App\Models\Prestamo;
 use App\Models\Provincia;
@@ -86,9 +87,12 @@ trait ClienteTrait
     public static function getEnableds(Request $request) {
         $buscar = mb_strtoupper($request->buscar);
         return Self::join('personas as pe','pe.id','=','clientes.persona_id')
+                    ->leftJoin('empleados as emp','emp.id','=','clientes.empleado_id')
+                    ->leftJoin('personas as perp','perp.id','=','emp.persona_id')
                     ->select(
                         'clientes.id','pe.numero_documento',
                         DB::Raw("upper(concat(pe.apellido_paterno,' ',pe.apellido_materno,', ',pe.nombres)) as apellidos_nombres"),
+                        DB::Raw("upper(concat(perp.apellido_paterno,' ',perp.apellido_materno,', ',perp.nombres)) as lider"),
                         'pe.telefono','clientes.es_activo'
                     )
                     ->where(function($query) use($buscar){
@@ -132,10 +136,18 @@ trait ClienteTrait
 
             if(!$cliente)
             {
+                $empleado_id = $request->empleado_id;
+
+                if($request->role == 'lider')
+                {
+                    $empleado = Empleado::select('id','persona_id','user_id')->where('user_id',$request->user_id)->first();
+
+                    $empleado_id = $empleado->id;
+                }
                 $cliente = Self::create([
                     'persona_id' => $persona->id,
                     'distrito_id' => $request->distrito_id,
-                    'empleado_id' => $request->empleado_id,
+                    'empleado_id' => $empleado_id,
                 ]);
             }
 
@@ -193,6 +205,20 @@ trait ClienteTrait
         try {
 
             $cliente = self::find($request->id);
+
+            if($cliente)
+            {
+                $empleado_id = $request->empleado_id;
+
+                if($request->role == 'lider')
+                {
+                    $empleado = Empleado::select('id','persona_id','user_id')->where('user_id',$request->user_id)->first();
+
+                    $empleado_id = $empleado->id;
+                }
+                $cliente->empleado_id = $empleado_id;
+                $cliente->save();
+            }
 
             $persona = Persona::find($cliente->persona_id);
 

@@ -4,6 +4,7 @@ namespace App\Traits;
 use App\Models\AplicacionInteres;
 use App\Models\Cliente;
 use App\Models\Cuota;
+use App\Models\Empleado;
 use App\Models\EstadoOperacion;
 use App\Models\FrecuenciaPago;
 use App\Models\Persona;
@@ -22,7 +23,11 @@ trait PrestamoTrait
     {
         $buscar = mb_strtoupper($request->buscar);
 
-        $user = ($request->role == 'lider' ) ? $request->user : '%';
+        // $user = ($request->role == 'lider' ) ? $request->user : '%';
+
+        $user = $request->user;
+        $role = $request->role;
+        $empleado_id =  Empleado::where('user_id',$user)->first()->id;
 
         return Self::join('clientes as cli','cli.id','=','prestamos.cliente_id')
             ->join('personas as per','per.id','=','cli.persona_id')
@@ -35,10 +40,18 @@ trait PrestamoTrait
             'prestamos.estado_operacion_id as estado',
             'eop.nombre as nombre_operacion','prestamos.contrato_pdf'
         )
-        ->where(function($query) use($request) {
-            if($request->role =='lider')
+        ->where(function($query) use($user,$role,$empleado_id) {
+            if($role =='lider')
             {
-                $query->where('prestamos.user_id',$request->user);
+               $query->where('cli.empleado_id',$empleado_id);
+            }
+            else if($role == 'lider-superior') {
+                $query->whereIn('cli.empleado_id', function($q) use($user){
+                    $q->select('empleados.id')->from('empleados')
+                            ->join('empleados as super','super.id','=','empleados.superior_id')
+                            ->where('super.user_id',$user);
+                })
+                ->orWhere('cli.empleado_id',$empleado_id);
             }
         })
         ->orderBy('prestamos.fecha_prestamo','desc')
