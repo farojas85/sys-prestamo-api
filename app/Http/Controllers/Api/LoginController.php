@@ -27,4 +27,5 @@ class LoginController extends Controller
     public function logoutSession(Request $request) {
         return User::logout($request);
     }
+
 }

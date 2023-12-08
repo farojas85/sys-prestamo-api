@@ -13,8 +13,8 @@ class RegistroPago extends Model
     use HasFactory,SoftDeletes, RegistroPagoTrait;
 
     protected $fillable = [
-        'fecha', 'prestamo_id', 'forma_pago_medio_pago_id', 'total',
-        'descuento', 'user_id', 'numero_operacion' ,'fecha_deposito',
+        'fecha', 'prestamo_id','serie_id', 'numero', 'forma_pago_medio_pago_id',
+        'total', 'descuento', 'user_id', 'numero_operacion' ,'fecha_deposito',
         'imagen_voucher', 'estado_operacion_id'
     ];
 
@@ -26,6 +26,16 @@ class RegistroPago extends Model
     public function prestamo(): BelongsTo
     {
         return $this->belongsTo(Prestamo::class);
+    }
+
+    /**
+     * Get the serie that owns the RegistroPago
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function serie(): BelongsTo
+    {
+        return $this->belongsTo(Serie::class);
     }
 
     /**

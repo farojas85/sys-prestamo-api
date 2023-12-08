@@ -34,7 +34,8 @@ trait UserTrait
                         'users.id','users.name','users.foto','users.es_activo',
                         'pe.nombres','pe.apellido_paterno','pe.apellido_materno',
                         'pe.telefono','pe.direccion','tipo_documento_id','numero_documento',
-                        'tp.nombre_corto as tipo_documento','sexo_id','se.nombre as sexo'
+                        'tp.nombre_corto as tipo_documento','sexo_id','se.nombre as sexo',
+                        'users.forzar_cambio_clave'
                     )
                     ->where('users.id',$id)
                     ->first()

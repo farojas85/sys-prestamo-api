@@ -70,5 +70,6 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
     //USUARIOS
     Route::group(['prefix' => 'users'], function(){
         Route::get('data',[UserController::class,'mostrarDatosUsuario']);
+        Route::post('forzar-cambio-clave',[UserController::class,'cambiarClave']);
     });
 });

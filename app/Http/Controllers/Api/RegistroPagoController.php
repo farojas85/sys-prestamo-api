@@ -8,6 +8,7 @@ use App\Models\Cliente;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use App\Models\RegistroPago;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class RegistroPagoController extends Controller
@@ -99,6 +100,11 @@ class RegistroPagoController extends Controller
         //
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return [type]
+     */
     public function buscarClientes(Request $request)
     {
         $clientes = $this->cliente_model->getByFiltros($request->buscar);
@@ -107,4 +113,38 @@ class RegistroPagoController extends Controller
 
         return response()->json($success,200);
     }
+
+    public function obtenerTodosPaginacion(Request $request)
+    {
+        $registro_pagos = RegistroPago::historialPagosWithPagination($request);
+
+        $success = JWT::encode(['registro_pagos' =>$registro_pagos],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success,200);
+    }
+
+    public function obtenerDatosRegistroPago(Request $request)
+    {
+        $registro_pago = RegistroPago::getDatabyId($request->id);
+
+        $archivos = Storage::disk('registro-pagos')->allFiles($request->id);
+
+        $jwt = JWT::encode([
+            'registro_pago' =>$registro_pago,
+            'vouchers' => $archivos
+        ],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($jwt,200);
+    }
+
+    public function aceptarPago(Request $request)
+    {
+        $registro_pago = RegistroPago::aceptarPago($request);
+
+        $success = JWT::encode($registro_pago,env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success,200);
+    }
+
+
 }
