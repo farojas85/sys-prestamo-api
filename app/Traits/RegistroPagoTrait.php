@@ -82,7 +82,7 @@ trait RegistroPagoTrait
 
             return [
                 'ok' => 1,
-                'mensaje' => 'El pago fue registrado satisdactoriamente satisfactoriamente',
+                'mensaje' => 'El pago fue registrado satisdactoriamente',
                 'data' => $nombre_archivo
             ];
 

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
@@ -56,5 +57,15 @@ class Role extends Model
     public function permisos(): BelongsToMany
     {
         return $this->belongsToMany(Permiso::class)->withTimestamps();
+    }
+
+    /**
+     * Get all of the notificaciones for the Role
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notificaciones(): HasMany
+    {
+        return $this->hasMany(Notificacion::class);
     }
 }

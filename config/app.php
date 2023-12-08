@@ -126,7 +126,10 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'jwt_secret_key' => env('VITE_SECRET_KEY'),
+
     'url_apis_net' => env('URL_APIS_NET'),
+
     'token_apis_net' => env('TOKEN_APIS_NET'),
 
     /*

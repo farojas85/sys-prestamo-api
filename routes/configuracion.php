@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\DepartamentoController;
 use App\Http\Controllers\Api\DistritoController;
 use App\Http\Controllers\Api\EntidadFinancieraController;
 use App\Http\Controllers\Api\MonedaController;
+use App\Http\Controllers\Api\NotificacionController;
 use App\Http\Controllers\Api\ProvinciaController;
 use App\Http\Controllers\Api\SexoController;
 use App\Http\Controllers\Api\TipoDocumentoController;
@@ -144,5 +145,18 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         // Route::get('{id}/show',[ClienteController::class,'show']);
         // Route::put('{id}/disable',[ClienteController::class,'inhabilitar']);
         // Route::put('{id}/enable',[ClienteController::class,'habilitar']);
+    });
+
+    //NOTIFICACIONES
+    Route::group(['prefix' => 'notificaciones'], function(){
+        Route::get('/',[NotificacionController::class,'index']);
+        Route::post('/',[NotificacionController::class,'store']);
+        Route::get('show',[NotificacionController::class,'show']);
+        Route::post('update',[NotificacionController::class,'update']);
+        Route::post('destroy',[NotificacionController::class,'destroy']);
+        // Route::get('inactives',[NotificacionController::class,'obtenerInactivos']);
+        // Route::put('{id}/disable',[NotificacionController::class,'inhabilitar']);
+        // Route::put('{id}/enable',[NotificacionController::class,'habilitar']);
+        // Route::get('list',[NotificacionController::class,'obtenerLista']);
     });
 });
