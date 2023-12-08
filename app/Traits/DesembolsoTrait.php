@@ -49,8 +49,8 @@ trait DesembolsoTrait
 
             //Actualizamos el estado ABONADO al préstamo
             $prestamo = Prestamo::find($request->prestamo_id);
-            $estado_operacion = EstadoOperacion::select('id')->where('nombre','Abonado')->first()->id;
-            $prestamo->estado_operacion_id = $estado_operacion;
+            $estado_operacion = EstadoOperacion::select('id')->where('nombre','Abonado')->first();
+            $prestamo->estado_operacion_id = $estado_operacion->id;
             $prestamo->save();
 
             DB::commit();
