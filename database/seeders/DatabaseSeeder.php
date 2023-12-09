@@ -37,7 +37,10 @@ class DatabaseSeeder extends Seeder
             EstadoOperacionSeeder::class,
             EstadoHistorialSeeder::class,
             UbigeoSeeder::class,
-            EntidadFinancieraSeeder::class
+            EntidadFinancieraSeeder::class,
+            FormaPagoSeeder::class,
+            MedioPagoSeeder::class,
+            SerieSeeder::class
         ]);
     }
 }
