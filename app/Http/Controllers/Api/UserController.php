@@ -67,14 +67,9 @@ class UserController extends Controller
         $secret = config('auth.auth_secret_key');
 
         $reglas = [
-            'password' => [
-                'required','string', 'confirmed',
-                Password::min(8)->mixedCase()->letters()->numbers()->symbols()
+            'password' => ['required','string', 'confirmed','min:8'
             ],
-            'password_confirmation' => [
-                'required', 'string',
-                Password::min(8)->mixedCase()->letters()->numbers()->symbols()
-            ],
+            'password_confirmation' => ['required', 'string','min:8'],
         ];
 
         $mensajes  = [
