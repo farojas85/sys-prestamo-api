@@ -144,10 +144,11 @@ trait ClienteTrait
 
                     $empleado_id = $empleado->id;
                 }
+
                 $cliente = Self::create([
                     'persona_id' => $persona->id,
                     'distrito_id' => $request->distrito_id,
-                    'empleado_id' => $empleado_id,
+                    'empleado_id' => $empleado_id
                 ]);
             }
 

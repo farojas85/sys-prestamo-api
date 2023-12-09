@@ -13,7 +13,7 @@ class Cliente extends Model
 {
     use HasFactory, SoftDeletes, ClienteTrait;
 
-    protected $fillable = [ 'persona_id', 'distrito_id', 'dni_anverso', 'dni_reverso' ];
+    protected $fillable = [ 'persona_id', 'distrito_id','empleado_id', 'dni_anverso', 'dni_reverso' ];
 
     /**
      * Get the persona that owns the Cliente
