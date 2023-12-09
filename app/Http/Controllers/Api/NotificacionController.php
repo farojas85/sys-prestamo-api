@@ -73,4 +73,17 @@ class NotificacionController extends Controller
 
         return response()->json($success,200);
     }
+
+    /**
+     * @return [type]
+     */
+    public function obtenerNotificacionActiva(Request $request)
+    {
+        $notificacion = Notificacion::getNotificacionActiva($request);
+
+        $success = JWT::encode(['notificacion' => $notificacion],config('app.jwt_secret_key'),'HS512');
+
+        return response()->json($success,200);
+
+    }
 }

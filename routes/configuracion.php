@@ -154,6 +154,7 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('show',[NotificacionController::class,'show']);
         Route::post('update',[NotificacionController::class,'update']);
         Route::post('destroy',[NotificacionController::class,'destroy']);
+        Route::get('last-active',[NotificacionController::class,'obtenerNotificacionActiva']);
         // Route::get('inactives',[NotificacionController::class,'obtenerInactivos']);
         // Route::put('{id}/disable',[NotificacionController::class,'inhabilitar']);
         // Route::put('{id}/enable',[NotificacionController::class,'habilitar']);

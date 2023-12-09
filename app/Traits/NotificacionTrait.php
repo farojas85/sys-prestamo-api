@@ -5,6 +5,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Notificacion\StoreNotificacionRequest;
+use App\Models\Notificacion;
+use App\Models\Role;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -137,5 +139,16 @@ trait NotificacionTrait
                 'data' => null
             );
         }
+    }
+
+    public static function getNotificacionActiva(Request $request)
+    {
+        $fecha_hoy = date('Y-m-d');
+
+        $role = Role::select('id')->where('slug',$request->role)->first();
+
+        return $notificacion = Self::select('id','imagen')
+                ->where('role_id',$role->id)
+                ->first();
     }
 }
