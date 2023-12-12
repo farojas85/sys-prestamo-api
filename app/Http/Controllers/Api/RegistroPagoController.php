@@ -55,7 +55,6 @@ class RegistroPagoController extends Controller
                 $request->all(),[
                     'forma_pago' => 'required',
                     'medio_pago' => 'required',
-                    'numero_operacion' => 'required',
                     'fecha_deposito' => 'required',
                     'imagen_voucher' => 'required|mimes:jpg,png,jpeg,gif,webp',
 

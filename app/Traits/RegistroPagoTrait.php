@@ -114,6 +114,7 @@ trait RegistroPagoTrait
                 ->join('personas as per','per.id','=','cli.persona_id')
                 ->join('empleados as emp','emp.id','=','cli.empleado_id')
                 ->join('personas as pemp','pemp.id','=','emp.persona_id')
+                ->join('users as usp','usp.id','=','emp.user_id')
                 ->join('forma_pago_medio_pago as fpmp','registro_pagos.forma_pago_medio_pago_id','=','fpmp.id')
                 ->join('forma_pagos as fp','fp.id','=','fpmp.forma_pago_id')
                 ->join('medio_pagos as mp','mp.id','=','fpmp.medio_pago_id')
@@ -128,12 +129,12 @@ trait RegistroPagoTrait
                         END as serie_numero
                     "),
                     'cu.descripcion as cuota',
-                    DB::Raw("concat(upper(per.apellido_paterno),' ',upper(per.apellido_materno),', ',upper(per.nombres)) as cliente"),
+                    DB::Raw("substring(concat(upper(per.apellido_paterno),' ',upper(per.apellido_materno),', ',upper(per.nombres)),1,28) as cliente"),
                     'pe.capital_inicial as prestamo_detalle',
                     DB::Raw("concat(upper(pemp.apellido_paterno),' ',upper(pemp.apellido_materno),', ',upper(pemp.nombres)) as lider"),
                     'fp.nombre as forma_pago','mp.nombre as medio_pago',
                     DB::Raw("date_format(registro_pagos.fecha_deposito,'%d/%m/%Y') as fecha_deposito"),
-                    'registro_pagos.numero_operacion','eo.nombre as estado_operacion',
+                    'registro_pagos.numero_operacion','eo.nombre as estado_operacion', 'usp.name as user_name',
                     'rpd.cuota_id','cu.monto_cuota','cu.numero_cuota','pe.numero_cuotas'
                 )
                 ->where(function($query) use($role,$user,$empleado_id){
