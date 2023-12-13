@@ -23,5 +23,6 @@ Route::group(['middleware' > ['auth:sanctum']],function() {
         Route::get('all-pagination',[RegistroPagoController::class,'obtenerTodosPaginacion']);
         Route::get('data',[RegistroPagoController::class,'obtenerDatosRegistroPago']);
         Route::post('aceptar-pago',[RegistroPagoController::class,'aceptarPago']);
+        Route::get('details',[RegistroPagoController::class,'obtenerRegistroPagoDetallado']);
     });
 });

@@ -122,6 +122,25 @@ class RegistroPagoController extends Controller
         return response()->json($success,200);
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return [type]
+     */
+    public function obtenerRegistroPagoDetallado(Request $request)
+    {
+        $registro_pago = RegistroPago::getAllDataById($request->id);
+
+        $jwt = JWT::encode(['registro_pago' =>$registro_pago],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($jwt,200);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return [type]
+     */
     public function obtenerDatosRegistroPago(Request $request)
     {
         $registro_pago = RegistroPago::getDatabyId($request->id);

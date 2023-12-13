@@ -166,6 +166,67 @@ trait RegistroPagoTrait
         return Self::find($id);
     }
 
+    /**
+     * @param int $id
+     *
+     * @return [type]
+     */
+    public static function getAllDataById(int $id)
+    {
+        $registro_pago = Self::join('series as ser','ser.id','=','registro_pagos.serie_id')
+                ->join('prestamos as pre','pre.id','=','registro_pagos.prestamo_id')
+                ->join('clientes as cli','cli.id','=','pre.cliente_id')
+                ->join('personas as per','per.id','=','cli.persona_id')
+                ->join('empleados as emp','emp.id','=','cli.empleado_id')
+                ->join('personas as pemp','pemp.id','=','emp.persona_id')
+                ->join('users as usp','usp.id','=','emp.user_id')
+                ->select(
+                    'registro_pagos.id','registro_pagos.total as monto_pagado',
+                    DB::Raw("date_format(registro_pagos.fecha,'%d/%m/%Y') as fecha"),
+                    DB::Raw("
+                        CASE
+                            WHEN registro_pagos.serie_id IS NOT NULL THEN concat(ser.nombre,'-',numero)
+                            ELSE '--'
+                        END as serie_numero
+                    "),
+                    DB::Raw("
+                        (   SELECT COUNT(rpd.registro_pago_id)
+                            FROM registro_pago_detalles as rpd
+                            where rpd.registro_pago_id = registro_pagos.id
+                        ) as cuotas_abonadas
+                    "),
+                    'registro_pagos.prestamo_id','pre.total','pre.numero_cuotas',
+                    DB::Raw("substring(concat(upper(per.apellido_paterno),' ',upper(per.apellido_materno),', ',upper(per.nombres)),1,28) as cliente"),
+                    'usp.name as user_name',
+                    DB::Raw("date_format(pre.fecha_prestamo,'%d/%m/%Y') as fecha_prestamo"),
+                )
+                ->where('registro_pagos.id',$id)
+                ->first()
+        ;
+
+        $monto_pagado = Self::join('registro_pago_detalles as rpd','rpd.registro_pago_id','=','registro_pagos.id')
+                    ->where('registro_pagos.prestamo_id',$registro_pago->prestamo_id)
+                    ->where('registro_pagos.estado_operacion_id',3)
+                    ->sum('rpd.monto_pagado')
+        ;
+
+        $cuotas_pagadas = Self::join('registro_pago_detalles as rpd','rpd.registro_pago_id','=','registro_pagos.id')
+                    ->where('registro_pagos.prestamo_id',$registro_pago->prestamo_id)
+                    ->where('registro_pagos.estado_operacion_id',3)
+                    ->count('rpd.cuota_id')
+        ;
+
+        $saldo = $registro_pago->total - ( ($monto_pagado == null ) ? 0 : $monto_pagado );
+
+        //$registro_pago['monto_pagado'] = $monto_pagado ?? 0.00;
+        $registro_pago['saldo'] = $saldo;
+        $registro_pago['cuotas_pagadas'] = $cuotas_pagadas;
+        $registro_pago['mora'] = 0;
+
+        return $registro_pago;
+
+    }
+
     public static function aceptarPago(Request $request)
     {
         DB::beginTransaction();
