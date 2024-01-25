@@ -18,6 +18,7 @@ class PermisoSeeder extends Seeder
         $role2 = Role::select('id')->where('slug','gerente')->first();
         $role3 = Role::select('id')->where('slug','lider-superior')->first();
         $role4 = Role::select('id')->where('slug','lider')->first();
+        $role5 = Role::select('id')->where('slug','inversionista')->first();
 
         //Tipo Acceso
         $permiso1 = Permiso::firstOrCreate([
@@ -415,6 +416,34 @@ class PermisoSeeder extends Seeder
         ])
         ;
 
+        $permiso89 = Permiso::firstOrCreate([
+            'nombre' => 'Configuraciones Empresa','slug' => 'configuraciones-empresa.inicio'
+        ])
+        ;
+
+        //Inversionistas
+        $permiso90 = Permiso::firstOrCreate([
+            'nombre' => 'Vista Inversionista','slug' => 'inversionistas.inicio'
+        ])
+        ;
+        $permiso91 = Permiso::firstOrCreate([
+            'nombre' => 'Crear Inversionista','slug' => 'inversionistas.crear'
+        ])
+        ;
+        $permiso92 = Permiso::firstOrCreate([
+            'nombre' => 'Editar Inversionista','slug' => 'inversionistas.editar'
+        ])
+        ;
+        $permiso93 = Permiso::firstOrCreate([
+            'nombre' => 'Eliminar Inversionista','slug' => 'inversionistas.eliminar'
+        ])
+        ;
+        $permiso94 = Permiso::firstOrCreate([
+            'nombre' => 'Restaurar Inversionista','slug' => 'inversionistas.restaurar'
+        ])
+        ;
+
+
         $role1->permisos()->sync([
             $permiso1->id, $permiso2->id,$permiso3->id,$permiso4->id,$permiso5->id,$permiso6->id,$permiso7->id,$permiso8->id,$permiso9->id,$permiso10->id,
             $permiso11->id, $permiso12->id,$permiso13->id,$permiso14->id,$permiso15->id,$permiso16->id,$permiso17->id,$permiso18->id,$permiso19->id,$permiso20->id,
@@ -424,7 +453,8 @@ class PermisoSeeder extends Seeder
             $permiso51->id, $permiso52->id,$permiso53->id,$permiso54->id,$permiso55->id,$permiso56->id,$permiso57->id,$permiso58->id,$permiso59->id,$permiso60->id,
             $permiso61->id, $permiso62->id,$permiso63->id,$permiso64->id,$permiso65->id,$permiso66->id,$permiso67->id,$permiso68->id,$permiso69->id,$permiso70->id,
             $permiso71->id, $permiso72->id,$permiso73->id,$permiso74->id,$permiso75->id,$permiso76->id,$permiso77->id,$permiso78->id,$permiso79->id,$permiso80->id,
-            $permiso81->id, $permiso82->id,$permiso83->id,$permiso84->id,$permiso85->id,$permiso86->id,$permiso87->id,$permiso88->id
+            $permiso81->id, $permiso82->id,$permiso83->id,$permiso84->id,$permiso85->id,$permiso86->id,$permiso87->id,$permiso88->id,$permiso89->id,$permiso90->id,
+            $permiso91->id, $permiso92->id,$permiso93->id,$permiso94->id
         ]);
 
         $role2->permisos()->sync([
@@ -436,7 +466,8 @@ class PermisoSeeder extends Seeder
             $permiso51->id, $permiso52->id,$permiso53->id,$permiso54->id,$permiso55->id,$permiso56->id,$permiso57->id,$permiso58->id,$permiso59->id,$permiso60->id,
             $permiso61->id, $permiso62->id,$permiso63->id,$permiso64->id,$permiso65->id,$permiso66->id,$permiso67->id,$permiso68->id,$permiso69->id,$permiso70->id,
             $permiso71->id, $permiso72->id,$permiso73->id,$permiso74->id,$permiso75->id,$permiso76->id,$permiso77->id,$permiso78->id,$permiso79->id,$permiso80->id,
-            $permiso81->id, $permiso82->id,$permiso83->id,$permiso84->id,$permiso85->id,$permiso86->id,$permiso87->id,$permiso88->id
+            $permiso81->id, $permiso82->id,$permiso83->id,$permiso84->id,$permiso85->id,$permiso86->id,$permiso87->id,$permiso88->id,$permiso89->id,$permiso90->id,
+            $permiso91->id, $permiso92->id,$permiso93->id,$permiso94->id
         ]);
 
         $role3->permisos()->sync([

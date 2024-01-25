@@ -40,6 +40,26 @@ trait UserTrait
                     ->where('users.id',$id)
                     ->first()
         ;
+        if(is_null($usuario))
+        {
+            $usuario = self::with(['roles' => function($query) {
+                            $query->select('roles.id','roles.nombre','roles.slug');
+                        }])
+                        ->join('inversionistas as emp','emp.user_id','=','users.id')
+                        ->join('personas as pe','pe.id','=','emp.persona_id')
+                        ->join('tipo_documentos as tp','tp.id','=','pe.tipo_documento_id')
+                        ->join('sexos as se','se.id','=','pe.sexo_id')
+                        ->select(
+                            'users.id','users.name','users.foto','users.es_activo',
+                            'pe.nombres','pe.apellido_paterno','pe.apellido_materno',
+                            'pe.telefono','pe.direccion','tipo_documento_id','numero_documento',
+                            'tp.nombre_corto as tipo_documento','sexo_id','se.nombre as sexo',
+                            'users.forzar_cambio_clave'
+                        )
+                        ->where('users.id',$id)
+                        ->first()
+            ;
+        }
 
         $permisos = [];
         $menus = [];

@@ -21,6 +21,7 @@ class ConfiguracionSeeder extends Seeder
         $dia_cobro = TipoConfiguracion::select('id')->where(['nombre' => 'Días de cobros'])->first()->id;
         $pagos = TipoConfiguracion::select('id')->where(['nombre' => 'Pagos'])->first()->id;
         $cantidad_dias = TipoConfiguracion::select('id')->where(['nombre' => 'Cantidad de días'])->first()->id;
+        $interes_inversion = TipoConfiguracion::select('id')->where(['nombre' => 'Interés Inversión'])->first()->id;
 
         $configuracion1 = Configuracion::firstOrCreate([ 'nombre' => 'Frecuencia de Pago' , 'tipo_configuracion_id' => $tipo_prestamo]);
 
@@ -108,5 +109,15 @@ class ConfiguracionSeeder extends Seeder
         $configuracion20 = Configuracion::firstOrCreate([ 'nombre' => 'Cantidad de días para quincenas', 'tipo_configuracion_id' => $cantidad_dias ]);
 
         $prestamo20 = ConfiguracionPrestamo::firstOrCreate([ 'configuracion_id' => $configuracion20->id, 'estado' => null, 'valor' => 15]);
+
+        $configuracion21 = Configuracion::firstOrCreate([
+            'nombre' => 'Interés por defecto', 'tipo_configuracion_id' => $interes_inversion,
+            'descripcion' => 'Se aplica un interés mensual para la inversión',
+            'observacion' => 'En el dashboard el valor de ganancia de inversión se mostrará en días'
+        ]);
+
+        $prestamo21 = ConfiguracionPrestamo::firstOrCreate([ 'configuracion_id' => $configuracion21->id, 'estado' => null, 'valor' => 4.5]);
+
+
     }
 }

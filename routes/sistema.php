@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\InversionistaController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\PermisoController;
 use App\Http\Controllers\Api\RoleController;
@@ -71,5 +72,21 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
     Route::group(['prefix' => 'users'], function(){
         Route::get('data',[UserController::class,'mostrarDatosUsuario']);
         Route::post('forzar-cambio-clave',[UserController::class,'cambiarClave']);
+    });
+
+    //INVERSIONISTAS
+    Route::group(['prefix' => 'inversionistas'], function(){
+        Route::get('/',[InversionistaController::class,'index']);
+        Route::get('actives',[InversionistaController::class,'obtenerActivos']);
+        Route::get('inactives',[InversionistaController::class,'obtenerInactivos']);
+        Route::get('list',[InversionistaController::class,'obtenerLista']);
+        Route::post('/',[InversionistaController::class,'store']);
+        Route::post('update',[InversionistaController::class,'update']);
+        Route::get('show',[InversionistaController::class,'show']);
+        Route::put('{id}/disable',[InversionistaController::class,'inhabilitar']);
+        Route::put('{id}/enable',[InversionistaController::class,'habilitar']);
+        Route::get('superiores-por-role',[InversionistaController::class,'listarSuperioresPorRole']);
+        Route::post('subir-contrato',[InversionistaController::class,'subirContrato']);
+        Route::get('list-for-clientes',[InversionistaController::class,'listarEmpleados']);
     });
 });

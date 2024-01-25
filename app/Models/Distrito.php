@@ -45,4 +45,14 @@ class Distrito extends Model
         return $this->hasMany(Empleado::class);
     }
 
+    /**
+     * Get all of the inversionistas for the Distrito
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function inversionistas(): HasMany
+    {
+        return $this->hasMany(Inversionista::class);
+    }
+
 }

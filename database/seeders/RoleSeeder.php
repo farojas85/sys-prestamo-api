@@ -23,5 +23,6 @@ class RoleSeeder extends Seeder
         Role::firstOrCreate([ 'nombre' => 'Lider Superior', 'slug' => 'lider-superior','tipo_acceso_id'=> $acceso_parcial ]);
         Role::firstOrCreate([ 'nombre' => 'Lider', 'slug' => 'lider','tipo_acceso_id'=> $acceso_parcial ]);
         Role::firstOrCreate([ 'nombre' => 'Invitado', 'slug' => 'invitado','tipo_acceso_id'=> $acceso_denegado, 'es_activo' => 0 ]);
+        Role::firstOrCreate([ 'nombre' => 'Inversionista','slug' => 'inversionista','tipo_acceso_id'=> $acceso_parcial]);
     }
 }

@@ -19,5 +19,6 @@ class TipoConfiguracionSeeder extends Seeder
         TipoConfiguracion::firstOrCreate(['nombre' => 'Días de cobros']);
         TipoConfiguracion::firstOrCreate(['nombre' => 'Pagos']);
         TipoConfiguracion::firstOrCreate(['nombre' => 'Cantidad de días']);
+        TipoConfiguracion::firstOrCreate(['nombre' => 'Interés Inversión']);
     }
 }

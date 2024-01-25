@@ -93,4 +93,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(RegistroPago::class);
     }
+
+    /**
+     * Get the inversionista associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function inversionista(): HasOne
+    {
+        return $this->hasOne(Inversionista::class);
+    }
+
 }

@@ -39,14 +39,14 @@ class Persona extends Model
         return $this->belongsTo(TipoDocumento::class);
     }
 
-     /**
+    /**
      * Get the empleado associated with the Persona
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function empleado(): HasOne
     {
-        return $this->hasOne(Personal::class);
+        return $this->hasOne(Empleado::class);
     }
 
     /**
@@ -57,5 +57,15 @@ class Persona extends Model
     public function cliente(): HasOne
     {
         return $this->hasOne(Cliente::class);
+    }
+
+    /**
+     * Get the inversionista associated with the Persona
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function inversionista(): HasOne
+    {
+        return $this->hasOne(Inversionista::class);
     }
 }

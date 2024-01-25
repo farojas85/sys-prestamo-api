@@ -40,6 +40,10 @@ class MenuSeeder extends Seeder
             'icono' => 'fas fa-money-check-dollar', 'padre_id' => null,'orden' => 4
         ]);
 
+        $menu11 = Menu::firstOrCreate(['nombre' => 'Inversión','slug' => 'inversion',
+            'icono' => 'fas fa-money-bill-wheat', 'padre_id' => null,'orden' => 5
+        ]);
+
         $role1->menus()->sync([
             $menu1->id,$menu6->id, $menu7->id, $menu8->id, $menu9->id,$menu10->id
         ]);
@@ -47,7 +51,7 @@ class MenuSeeder extends Seeder
         $role2 = Role::select('id')->where('slug','gerente')->first();
 
         $role2->menus()->sync([
-            $menu1->id,$menu6->id, $menu7->id, $menu8->id, $menu9->id, $menu10->id
+            $menu1->id, $menu6->id, $menu7->id, $menu8->id, $menu9->id, $menu10->id
         ]);
 
         $role3 = Role::select('id')->where('slug','lider-superior')->first();
@@ -61,6 +65,13 @@ class MenuSeeder extends Seeder
         $role4->menus()->sync([
             $menu1->id, $menu9->id,$menu10->id
         ]);
+
+        $role5 = Role::select('id')->where('slug','inversionista')->first();
+
+        $role5->menus()->sync([
+            $menu1->id, $menu11->id
+        ]);
+
 
     }
 }
