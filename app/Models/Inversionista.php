@@ -6,6 +6,7 @@ use App\Traits\InversionistaTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Inversionista extends Model
@@ -45,6 +46,16 @@ class Inversionista extends Model
     public function distrito(): BelongsTo
     {
         return $this->belongsTo(Distrito::class);
+    }
+
+    /**
+     * Get all of the registro_inversiones for the Inversionista
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function registro_inversiones(): HasMany
+    {
+        return $this->hasMany(Inversionista::class);
     }
 
 }

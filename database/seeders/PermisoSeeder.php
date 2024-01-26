@@ -443,6 +443,21 @@ class PermisoSeeder extends Seeder
         ])
         ;
 
+        //REGISTRO INVERSIONES
+        $permiso95 = Permiso::firstOrCreate([
+            'nombre' => 'Nuevo Registro de Inversión','slug' => 'registro-inversiones.nuevo'
+        ])
+        ;
+        $permiso96 = Permiso::firstOrCreate([
+            'nombre' => 'Editar Registro de Inversión','slug' => 'registro-inversiones.editar'
+        ])
+        ;
+        $permiso97 = Permiso::firstOrCreate([
+            'nombre' => 'Historial de Registro de Inversión','slug' => 'registro-inversiones.historial'
+        ])
+        ;
+
+
 
         $role1->permisos()->sync([
             $permiso1->id, $permiso2->id,$permiso3->id,$permiso4->id,$permiso5->id,$permiso6->id,$permiso7->id,$permiso8->id,$permiso9->id,$permiso10->id,
@@ -481,7 +496,11 @@ class PermisoSeeder extends Seeder
             $permiso1->id, $permiso55->id,$permiso56->id,$permiso57->id,$permiso58->id,$permiso59->id,$permiso60->id,
             $permiso61->id, $permiso62->id,$permiso67->id,$permiso68->id,$permiso69->id,$permiso70->id,
             $permiso72->id,$permiso73->id,$permiso74->id,$permiso75->id,$permiso76->id,$permiso77->id,$permiso78->id,
-            $permiso81->id
+            $permiso81->id,
+        ]);
+
+        $role5->permisos()->sync([
+            $permiso95->id, $permiso96->id,$permiso97->id
         ]);
     }
 }
