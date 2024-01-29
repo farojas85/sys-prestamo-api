@@ -17,7 +17,7 @@ class RegistroInversionController extends Controller
     {
         $registroInversion = RegistroInversion::getAllPagination($request);
 
-        $success = JWT::encode($registroInversion,env('VITE_SECRET_KEY'),'HS512');
+        $success = JWT::encode(['inversiones' => $registroInversion],env('VITE_SECRET_KEY'),'HS512');
         return response()->json($success,200);
     }
 

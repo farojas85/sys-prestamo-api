@@ -142,8 +142,9 @@ trait InversionistaTrait
                     'password' =>Hash::make($request->numero_documento)
                 ]);
             }
+            $inversion = Role::where('slug','inversionista')->first();
 
-            $user->roles()->sync($request->role_id);
+            $user->roles()->sync($inversion->id);
 
             $inversionista = Self::where('persona_id',$persona->id)->first();
 
