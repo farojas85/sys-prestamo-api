@@ -15,6 +15,7 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
     //CONFIGURACION PRESTAMOS
     Route::group(['prefix' => 'configuracion-prestamos'], function(){
         Route::post('/',[ConfiguracionPrestamoController::class,'store']);
+        Route::get('/by-tipo-configuracion',[ConfiguracionPrestamoController::class,'obtenerConfiguracion']);
     });
 
     //CONFIGURACION EMPRESAS

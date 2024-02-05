@@ -21,4 +21,19 @@ trait MedioPagoTrait
                 ->where('medio_pagos.es_activo',1)->get()
         ;
     }
+
+    /**
+     * @param int $forma_pago
+     *
+     * @return App\Models\MedioPago
+     */
+    public function precio_minimo()
+    {
+        return $this->conversiones()->min('precio');
+    }
+
+    public function stock_minimo()
+    {
+        return $this->conversiones()->min('cantidad');
+    }
 }

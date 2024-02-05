@@ -45,7 +45,8 @@ class MenuSeeder extends Seeder
         ]);
 
         $role1->menus()->sync([
-            $menu1->id,$menu6->id, $menu7->id, $menu8->id, $menu9->id,$menu10->id
+            $menu1->id,$menu6->id, $menu7->id, $menu8->id, $menu9->id,$menu10->id,
+            $menu11->id
         ]);
 
         $role2 = Role::select('id')->where('slug','gerente')->first();

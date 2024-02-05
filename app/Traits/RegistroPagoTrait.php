@@ -16,7 +16,12 @@ use Illuminate\Support\Facades\Storage;
 
 trait RegistroPagoTrait
 {
-    public static function saveData(Request $request)
+    /**
+     * @param Request $request
+     *
+     * @return array
+     */
+    public static function saveData(Request $request): array
     {
 
         try {

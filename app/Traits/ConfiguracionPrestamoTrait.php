@@ -1,12 +1,21 @@
 <?php
 namespace App\Traits;
 
+use App\Models\ConfiguracionPrestamo;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 trait ConfiguracionPrestamoTrait
 {
+    public static function getDataConfiguracion(string $tipo_configuracion)
+    {
+        return ConfiguracionPrestamo::join('configuraciones as conf','conf.id','=','configuracion_prestamos.configuracion_id')
+                    ->join('tipo_configuraciones as tc','tc.id','=','conf.tipo_configuracion_id')
+                    ->select('conf.nombre','valor')
+                    ->where('tc.nombre',$tipo_configuracion)
+                    ->get();
+    }
     /**
      * Store data
      * @param Request $request

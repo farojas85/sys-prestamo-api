@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Inversion\StoreRegistroInversionRequest;
 use App\Models\RegistroInversion;
 use Firebase\JWT\JWT;
 use Illuminate\Http\JsonResponse;
@@ -17,16 +18,22 @@ class RegistroInversionController extends Controller
     {
         $registroInversion = RegistroInversion::getAllPagination($request);
 
-        $success = JWT::encode(['inversiones' => $registroInversion],env('VITE_SECRET_KEY'),'HS512');
-        return response()->json($success,200);
+        $success = JWT::encode(['registro_inversiones' => $registroInversion],env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRegistroInversionRequest $request)
     {
-        //
+        $request->validated();
+
+        $registro_inversion = RegistroInversion::saveData($request);
+
+        $success = JWT::encode(['registro_inversion' => $registro_inversion],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success,201);
     }
 
     /**
