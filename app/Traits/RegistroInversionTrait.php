@@ -31,6 +31,9 @@ trait RegistroInversionTrait
                             'registro_inversiones.monto','registro_inversiones.tasa_interes',
                             DB::Raw("concat(upper(per.apellido_paterno),' ',upper(per.apellido_materno),', ',per.nombres) as inversionista"),
                             DB::Raw("
+                                (registro_inversiones.fecha - CURRENT_DATE)*-1 as dias_transcurridos
+                            "),
+                            DB::Raw("
                                 CASE
                                     WHEN (registro_inversiones.fecha - CURRENT_DATE)*-1 = 0 THEN
                                         ROUND(registro_inversiones.monto,2)
@@ -51,12 +54,7 @@ trait RegistroInversionTrait
                     'registro_inversiones.monto','registro_inversiones.tasa_interes',
                     DB::Raw("concat(upper(per.apellido_paterno),' ',upper(per.apellido_materno),', ',per.nombres) as inversionista"),
                     DB::Raw("
-                        CASE
-                            WHEN (registro_inversiones.fecha - CURRENT_DATE)*-1 = 0 THEN
-                                ROUND(registro_inversiones.monto,2)
-                            WHEN (registro_inversiones.fecha - CURRENT_DATE)*-1 > 0 THEN
-                                ROUND(registro_inversiones.monto*ROUND((registro_inversiones.tasa_interes/30)/100,4)*((registro_inversiones.fecha - CURRENT_DATE)*-1),2)
-                        END as rentabilidad_diaria
+                        (registro_inversiones.fecha - CURRENT_DATE)*-1 as dias_transcurridos
                     "),
                     DB::Raw("
                         CASE
@@ -74,6 +72,9 @@ trait RegistroInversionTrait
                 ->select(
                     'registro_inversiones.id','registro_inversiones.fecha','registro_inversiones.monto',
                     'registro_inversiones.tasa_interes',
+                    DB::Raw("
+                        (registro_inversiones.fecha - CURRENT_DATE)*-1 as dias_transcurridos
+                    "),
                     DB::Raw("
                         CASE
                             WHEN (registro_inversiones.fecha - CURRENT_DATE)*-1 = 0 THEN
