@@ -18,7 +18,7 @@ trait RegistroInversionTrait
      */
     public static function getAllPagination(Request $request)
     {
-        if($request->role == 'gerente')
+        if(in_array($request->role,['gerente','super-usuario']) )
         {
             $user = User::where('id',$request->user)->first();
 
@@ -29,7 +29,15 @@ trait RegistroInversionTrait
                         ->select(
                             'registro_inversiones.id','registro_inversiones.fecha',
                             'registro_inversiones.monto','registro_inversiones.tasa_interes',
-                            DB::Raw("concat(upper(per.apellido_paterno),' ',upper(per.apellido_materno),', ',per.nombres) as inversionista")
+                            DB::Raw("concat(upper(per.apellido_paterno),' ',upper(per.apellido_materno),', ',per.nombres) as inversionista"),
+                            DB::Raw("
+                                CASE
+                                    WHEN (registro_inversiones.fecha - CURRENT_DATE)*-1 = 0 THEN
+                                        ROUND(registro_inversiones.monto,2)
+                                    WHEN (registro_inversiones.fecha - CURRENT_DATE)*-1 > 0 THEN
+                                        ROUND(registro_inversiones.monto*ROUND((registro_inversiones.tasa_interes/30)/100,4)*((registro_inversiones.fecha - CURRENT_DATE)*-1),2)
+                                END as rentabilidad_diaria
+                            ")
                         )
                         ->orderBy('registro_inversiones.created_at','desc')
                         ->where('inv.user_id',$request->user)
@@ -41,13 +49,40 @@ trait RegistroInversionTrait
                 ->select(
                     'registro_inversiones.id','registro_inversiones.fecha',
                     'registro_inversiones.monto','registro_inversiones.tasa_interes',
-                    DB::Raw("concat(upper(per.apellido_paterno),' ',upper(per.apellido_materno),', ',per.nombres) as inversionista")
+                    DB::Raw("concat(upper(per.apellido_paterno),' ',upper(per.apellido_materno),', ',per.nombres) as inversionista"),
+                    DB::Raw("
+                        CASE
+                            WHEN (registro_inversiones.fecha - CURRENT_DATE)*-1 = 0 THEN
+                                ROUND(registro_inversiones.monto,2)
+                            WHEN (registro_inversiones.fecha - CURRENT_DATE)*-1 > 0 THEN
+                                ROUND(registro_inversiones.monto*ROUND((registro_inversiones.tasa_interes/30)/100,4)*((registro_inversiones.fecha - CURRENT_DATE)*-1),2)
+                        END as rentabilidad_diaria
+                    "),
+                    DB::Raw("
+                        CASE
+                            WHEN (registro_inversiones.fecha - CURRENT_DATE)*-1 = 0 THEN
+                                ROUND(registro_inversiones.monto,2)
+                            WHEN (registro_inversiones.fecha - CURRENT_DATE)*-1 > 0 THEN
+                                ROUND(registro_inversiones.monto*ROUND((registro_inversiones.tasa_interes/30)/100,4)*((registro_inversiones.fecha - CURRENT_DATE)*-1),2)
+                        END as rentabilidad_diaria
+                    ")
                 )
                 ->orderBy('registro_inversiones.created_at','desc')
                 ->paginate($request->paginacion);
         }
         return Self::join('inversionistas as inv','inv.id','=','registro_inversiones.inversionista_id')
-                ->select('registro_inversiones.id','registro_inversiones.fecha','registro_inversiones.monto','registro_inversiones.tasa_interes')
+                ->select(
+                    'registro_inversiones.id','registro_inversiones.fecha','registro_inversiones.monto',
+                    'registro_inversiones.tasa_interes',
+                    DB::Raw("
+                        CASE
+                            WHEN (registro_inversiones.fecha - CURRENT_DATE)*-1 = 0 THEN
+                                ROUND(registro_inversiones.monto,2)
+                            WHEN (registro_inversiones.fecha - CURRENT_DATE)*-1 > 0 THEN
+                                ROUND(registro_inversiones.monto*ROUND((registro_inversiones.tasa_interes/30)/100,4)*((registro_inversiones.fecha - CURRENT_DATE)*-1),2)
+                        END as rentabilidad_diaria
+                    ")
+                )
                 ->orderBy('registro_inversiones.created_at','desc')
                 ->where('inv.user_id',$request->user)
                 ->paginate($request->paginacion);
