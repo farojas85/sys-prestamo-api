@@ -85,8 +85,6 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('show',[InversionistaController::class,'show']);
         Route::put('{id}/disable',[InversionistaController::class,'inhabilitar']);
         Route::put('{id}/enable',[InversionistaController::class,'habilitar']);
-        Route::get('superiores-por-role',[InversionistaController::class,'listarSuperioresPorRole']);
-        Route::post('subir-contrato',[InversionistaController::class,'subirContrato']);
-        Route::get('list-for-clientes',[InversionistaController::class,'listarEmpleados']);
+        Route::get('list',[InversionistaController::class,'listar']);
     });
 });

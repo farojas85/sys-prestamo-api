@@ -22,6 +22,8 @@ class StoreRegistroInversionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'fecha' => 'required',
+            'inversionista_id' => 'required',
             'monto' => 'required|numeric',
             'tasa_interes' => 'required|numeric'
         ];

@@ -29,8 +29,7 @@ class UpdateInversionistaRequest extends FormRequest
             'apellido_materno' => 'required|string|max:191',
             'sexo_id' => 'required',
             'name' => 'required',
-            'email' => 'email:filter',
-            'role_id' => 'required'
+            'email' => 'email:filter'
         ];
     }
 

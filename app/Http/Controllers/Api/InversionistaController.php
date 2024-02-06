@@ -98,4 +98,12 @@ class InversionistaController extends Controller
         $success = JWT::encode($inversionista,env('VITE_SECRET_KEY'),'HS512');
         return response()->json($success,200);
     }
+
+    public function listar()
+    {
+        $inversionistas = Inversionista::getList();
+
+        $success = JWT::encode(['inversionistas' => $inversionistas],env('VITE_SECRET_KEY'),'HS512');
+        return response()->json($success,200);
+    }
 }

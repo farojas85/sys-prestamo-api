@@ -11,18 +11,33 @@ class UpdateRegistroInversionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
-
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
-    public function rules(): array
-    {
-        return [
-            //
-        ];
-    }
+    * Get the validation rules that apply to the request.
+    *
+    * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+    */
+   public function rules(): array
+   {
+       return [
+           'fecha' => 'required',
+           'inversionista_id' => 'required',
+           'monto' => 'required|numeric',
+           'tasa_interes' => 'required|numeric'
+       ];
+   }
+
+   /**
+    * Get the validation rules that apply to the request.
+    *
+    * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+    */
+   public function messages(): array
+   {
+       return [
+           'required' => '* Campo obligatorio',
+           'numeric' => 'Ingrese solo números'
+       ];
+   }
 }

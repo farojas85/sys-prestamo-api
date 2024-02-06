@@ -29,8 +29,7 @@ class StoreInversionistaRequest extends FormRequest
             'apellido_materno' => 'required|string|max:191',
             'sexo_id' => 'required',
             'name' => 'unique:users,name',
-            'email' => 'email:filter|unique:users,email',
-            'role_id' => 'required'
+            'email' => 'email:filter|unique:users,email'
         ];
     }
 

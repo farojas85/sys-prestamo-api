@@ -11,6 +11,9 @@ Route::group(['middleware' > ['auth:sanctum']],function() {
     Route::group(['prefix' => 'registro-inversiones'], function(){
         Route::get('/',[RegistroInversionController::class,'index']);
         Route::post('/',[RegistroInversionController::class,'store']);
+        Route::get('show',[RegistroInversionController::class,'show']);
+        Route::post('update',[RegistroInversionController::class,'update']);
+        Route::post('delete',[RegistroInversionController::class,'destroy']);
     });
 
 });

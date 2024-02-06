@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Inversion\StoreRegistroInversionRequest;
+use App\Http\Requests\Inversion\UpdateRegistroInversionRequest;
 use App\Models\RegistroInversion;
 use Firebase\JWT\JWT;
 use Illuminate\Http\JsonResponse;
@@ -33,30 +34,44 @@ class RegistroInversionController extends Controller
 
         $success = JWT::encode(['registro_inversion' => $registro_inversion],env('VITE_SECRET_KEY'),'HS512');
 
-        return response()->json($success,201);
+        return response()->json($success);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(RegistroInversion $registroInversion)
+    public function show(Request $request)
     {
-        //
+        $registro_inversion =  RegistroInversion::getData($request);
+
+        $success = JWT::encode(['registro_inversion' => $registro_inversion],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, RegistroInversion $registroInversion)
+    public function update(UpdateRegistroInversionRequest $request)
     {
-        //
+        $request->validated();
+
+        $registro_inversion = RegistroInversion::updateData($request);
+
+        $success = JWT::encode(['registro_inversion' => $registro_inversion],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(RegistroInversion $registroInversion)
+    public function destroy(Request $request)
     {
-        //
+        $registro_inversion = RegistroInversion::deleteData($request);
+
+        $success = JWT::encode(['registro_inversion' => $registro_inversion],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success);
     }
 }

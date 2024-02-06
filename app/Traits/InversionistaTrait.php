@@ -3,6 +3,7 @@ namespace App\Traits;
 
 use App\Models\Departamento;
 use App\Models\Distrito;
+use App\Models\Inversionista;
 use App\Models\Persona;
 use App\Models\Provincia;
 use App\Models\Role;
@@ -76,7 +77,19 @@ trait InversionistaTrait
         );
     }
 
-    public static function getData() {
+    /**
+     * @return Query\Builder
+     */
+    public static function getList() {
+        return Inversionista::join('personas as per','per.id','=','inversionistas.persona_id')
+                    ->select(
+                        'inversionistas.id',
+                        DB::Raw("concat(upper(per.apellido_paterno),' ',upper(per.apellido_materno),', ',upper(per.nombres)) as apellidos_nombres")
+                    )
+                    ->orderBy('per.apellido_paterno','asc')
+                    ->orderBy('per.apellido_materno','asc')
+                    ->orderBy('per.nombres','asc')
+                    ->get();
     }
     /**
      * To get enableds pagination listing
@@ -233,7 +246,9 @@ trait InversionistaTrait
                 $user->save();
             }
 
-            $user->roles()->sync($request->role_id);
+            $inversion = Role::where('slug','inversionista')->first();
+
+            $user->roles()->sync($inversion->id );
 
             $contar_editar = 0;
 
