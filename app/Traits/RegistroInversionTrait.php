@@ -155,4 +155,40 @@ trait RegistroInversionTrait
             );
         }
     }
+
+    /**
+     * @param Request $request
+     *
+     * @return array
+     */
+    public static function getDataDashboard(Request $request): array
+    {
+        $inversionista = Inversionista::select('id')->where('user_id',$request->user)->first();
+
+        $total_inversiones = RegistroInversion::leftJoin('retiro_inversiones as riv','riv.inversionista_id','=','registro_inversiones.inversionista_id')
+                            ->where('registro_inversiones.inversionista_id',$inversionista->id)
+                            ->select(DB::Raw("(sum(registro_inversiones.monto) - COALESCE(sum(riv.monto),0)) as total_inversiones"))
+                            ->first()
+        ;
+
+        $ganancia_inversion = RegistroInversion::leftJoin('retiro_inversiones as riv','riv.inversionista_id','=','registro_inversiones.inversionista_id')
+                                ->where('registro_inversiones.inversionista_id',$inversionista->id)
+                                ->select(
+                                    DB::Raw("
+                                        SUM(CASE
+                                            WHEN (registro_inversiones.fecha - CURRENT_DATE)*-1 = 0 THEN
+                                                ROUND(registro_inversiones.monto,2)*0
+                                            WHEN (registro_inversiones.fecha - CURRENT_DATE)*-1 > 0 THEN
+                                                ROUND((registro_inversiones.monto - COALESCE(riv.monto,0))*ROUND((registro_inversiones.tasa_interes/30)/100,4)*((registro_inversiones.fecha - CURRENT_DATE)*-1),2)
+                                        END) as total_rentabilidad
+                                    ")
+                                )
+                                ->first()
+        ;
+
+        return [
+            'total_inversiones' => $total_inversiones->total_inversiones,
+            'total_ganancia' => $ganancia_inversion->total_rentabilidad
+        ];
+    }
 }

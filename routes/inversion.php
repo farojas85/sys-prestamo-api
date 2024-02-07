@@ -14,6 +14,7 @@ Route::group(['middleware' > ['auth:sanctum']],function() {
         Route::get('show',[RegistroInversionController::class,'show']);
         Route::post('update',[RegistroInversionController::class,'update']);
         Route::post('delete',[RegistroInversionController::class,'destroy']);
+        Route::get('data-dashboard',[RegistroInversionController::class,'obtenerDatosInversionesUsuario']);
     });
 
 });
