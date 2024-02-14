@@ -2,7 +2,7 @@
 
 namespace App\Services\PermissionRole\Contracts;
 
-interface RoleContrat
+interface RoleContract
 {
     /**
      * Find a role by its name and guard name.
