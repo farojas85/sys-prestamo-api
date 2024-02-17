@@ -8,11 +8,18 @@ use App\Http\Requests\Empleado\UpdateEmpleadoRequest;
 use App\Models\Empleado;
 use App\Models\Persona;
 use App\Models\TipoDocumento;
+use App\Repositories\EmpleadoRepository;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 
 class EmpleadoController extends Controller
 {
+    protected $empleadoRepository;
+
+    public function __construct(EmpleadoRepository $repository)
+    {
+        $this->empleadoRepository = $repository;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -119,6 +126,15 @@ class EmpleadoController extends Controller
         $empleados = Empleado::listarEmpleados($request);
 
         $success = JWT::encode(['empleados' => $empleados],env('VITE_SECRET_KEY'),'HS512');
+
+        return response()->json($success,200);
+    }
+
+    public function listarLideres(Request $request)
+    {
+        $lideres = $this->empleadoRepository->listarLideres($request);
+
+        $success = JWT::encode(['lideres' => $lideres],env('VITE_SECRET_KEY'),'HS512');
 
         return response()->json($success,200);
     }

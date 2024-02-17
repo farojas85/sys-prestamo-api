@@ -25,5 +25,6 @@ Route::group(['middleware' > ['auth:sanctum']],function(){
         Route::get('superiores-por-role',[EmpleadoController::class,'listarSuperioresPorRole']);
         Route::post('subir-contrato',[EmpleadoController::class,'subirContrato']);
         Route::get('list-for-clientes',[EmpleadoController::class,'listarEmpleados']);
+        Route::get('lideres',[EmpleadoController::class,'listarLideres']);
     });
 });

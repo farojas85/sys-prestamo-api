@@ -7,19 +7,26 @@ use App\Http\Requests\Cliente\StoreClienteRequest;
 use App\Models\Cliente;
 use App\Models\ClienteCuenta;
 use App\Models\Persona;
+use App\Repositories\ClienteRepository;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
+
 use Illuminate\Support\Facades\Storage;
 
 class ClienteController extends Controller
 {
+    protected $clienteRepository;
+
+    public function __construct(ClienteRepository $repository)
+    {
+        $this->clienteRepository = $repository;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $clientes = Cliente::getEnableds($request);
+        $clientes = $this->clienteRepository->getEnableds($request);
 
         $success = JWT::encode(['clientes'=> $clientes],env('VITE_SECRET_KEY'),'HS512');
 
