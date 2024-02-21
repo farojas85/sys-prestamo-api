@@ -119,12 +119,14 @@ class ClienteRepository  extends Repository
 
         if(in_array($request->role, ['super-usuario','gerente'] )) {
             if($request->lider != '%') {
-                $lideresQuery = DB::table('empleados')->where('superior_id','like',$request->lider)->pluck('id');
+                $lideresQuery = DB::table('empleados')->where('superior_id','like',$request->lider)->pluck('id')->toArray();
+                array_push($lideresQuery, $empleadoId);
                 $clientesQuery->whereIn('empleado_id',$lideresQuery);
             }
         }
         else if ($request->role == 'lider-superior') {
-            $lideresQuery = DB::table('empleados')->where('superior_id',$empleadoId)->where('id','like',$request->lider)->pluck('id');
+            $lideresQuery = DB::table('empleados')->where('superior_id',$empleadoId)->where('id','like',$request->lider)->pluck('id')->toArray();
+            array_push($lideresQuery,$empleadoId);
             $clientesQuery->whereIn('empleado_id', $lideresQuery);
         } else {
             $clientesQuery->where('empleado_id', $empleadoId);
